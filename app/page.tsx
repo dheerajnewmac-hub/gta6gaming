@@ -2,12 +2,14 @@
 
 import React, { useState } from "react";
 import { Navbar } from "@/components/navbar";
+import { LiveActivityTicker } from "@/components/live-activity-ticker";
 import { HeroSplitScreen } from "@/components/hero-split-screen";
 import { FleetLiveStatus } from "@/components/fleet-live-status";
 import { HowItWorks } from "@/components/how-it-works";
 import { LivePingTester } from "@/components/live-ping-tester";
 import { PricingSection } from "@/components/pricing-section";
 import { ControllerMapper } from "@/components/controller-mapper";
+import { InteractiveGamepadVisualizer } from "@/components/interactive-gamepad-visualizer";
 import { FAQSection } from "@/components/faq-section";
 import { Footer } from "@/components/footer";
 import { SessionModal } from "@/components/session-modal";
@@ -53,7 +55,12 @@ export default function HomePage() {
         onLaunchDemo={handleLaunchDemo}
       />
 
-      {/* Hero with Signature Split Screen Animation */}
+      {/* Global Live Gamer Session Ticker */}
+      <div className="pt-20">
+        <LiveActivityTicker />
+      </div>
+
+      {/* Hero with High-Quality Canvas Split Screen Animation */}
       <HeroSplitScreen
         onOpenPingTest={handleOpenPing}
         onOpenPlans={handleOpenPlans}
@@ -74,6 +81,13 @@ export default function HomePage() {
 
       {/* Interactive Keybind & Controller Mapper */}
       <ControllerMapper />
+
+      {/* Live Hardware Physical Keypress Visualizer */}
+      <section className="py-12 bg-[#07070f] border-t border-white/5">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <InteractiveGamepadVisualizer />
+        </div>
+      </section>
 
       {/* Frequently Asked Questions */}
       <FAQSection />
