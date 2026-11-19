@@ -114,3 +114,12 @@
   3. Upgraded `context/auth-context.tsx` with Supabase session management and real-time auth state listener.
   4. Redesigned `components/login-form.tsx` with seamless "Sign In" vs "Create Account" tab toggle, Zod validation, auto-confirmation, and instant redirection to checkout.
   5. Verified real user creation in Supabase (`testgamer@vicecloud.gg`) with 100% verified credentials.
+
+
+## Decision 16: Custom Domain DNS Binding (`gta6gaming.store`)
+- **Date**: 2026-11-20
+- **Context**: Successfully routed user's official Hostinger domain `gta6gaming.store` through Vercel's Anycast Edge Network with automated SSL certification.
+- **Implementations**:
+  1. Configured Hostinger DNS A record (`@` -> `76.76.21.21`) and CNAME record (`www` -> `cname.vercel-dns.com`).
+  2. Verified Vercel domain validation and Let's Encrypt SSL provisioning.
+  3. Verified HTTP 200 OK production responses live on `https://www.gta6gaming.store` and `https://www.gta6gaming.store/login`.
