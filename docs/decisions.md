@@ -37,3 +37,10 @@
   1. `components/global-server-map.tsx`: Added an interactive real-time Edge Latency Tester, Equinix Tier-4 Datacenter Blade racks with live occupancy gauges (93%), online LED beacons, and Tier-1 peering info.
   2. `components/compatibility-section.tsx`: Added an interactive 1-Click Browser Hardware Diagnostic Scanner and an eye-opening side-by-side "Local PC Build ($1,500+) vs ViceCloud ($1.99)" cost & hardware reality check comparison card.
   3. `components/how-to-play-guide.tsx`: Upgraded Step 01 to a realistic dark browser chrome window with WebRTC SDP handshake simulator (`Simulate Stream Connect`), and detailed input/save visualizers.
+
+## Decision 8: Interactive Animated Holographic World Map Canvas with Moving Fiber Laser Packets
+- **Date**: 2026-11-19
+- **Context**: User noted that the 4 datacenter cards still looked plain without visual motion, and requested real world map animations.
+- **Implementations**:
+  1. Built `components/server-map-canvas.tsx`: A lightweight SVG cybernetic world map with radar sweep, concentric animated pulsing rings on all 4 continent datacenter nodes, and continuous SVG `<animateMotion>` laser data packets streaming between US, Europe, Latin America, and Asia.
+  2. Integrated two-way interactive state linking: Clicking any node pin on the map dynamically highlights and scales the corresponding server rack card below.

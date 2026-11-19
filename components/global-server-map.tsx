@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { Globe, Wifi, Activity, Server, Radio, ArrowRight, Zap, CheckCircle2 } from "lucide-react";
+import { Activity, Radio, CheckCircle2 } from "lucide-react";
+import { ServerMapCanvas } from "./server-map-canvas";
 
 interface Cluster {
   id: string;
@@ -120,6 +121,14 @@ export function GlobalServerMap() {
               </div>
             )}
           </div>
+        </div>
+
+        {/* Animated Holographic World Map with Fiber Arcs & Radar */}
+        <div className="mb-8">
+          <ServerMapCanvas
+            selectedCluster={selectedCluster}
+            onSelectCluster={(id) => setSelectedCluster(id)}
+          />
         </div>
 
         {/* Datacenter Blade Racks Grid */}
