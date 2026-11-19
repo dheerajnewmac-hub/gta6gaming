@@ -1,158 +1,131 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useState } from "react";
+import { Play, Pause, Radio, Activity, Eye, Zap } from "lucide-react";
 
 interface ServerMapProps {
   selectedCluster: string;
   onSelectCluster: (id: string) => void;
 }
 
-interface MapNode {
+interface NodeBadge {
   id: string;
-  name: string;
+  label: string;
   code: string;
-  cx: number;
-  cy: number;
   ping: string;
   color: string;
-  units: number;
+  left: string;
+  top: string;
 }
 
-const NODES: MapNode[] = [
-  { id: "us", name: "North America", code: "US-EAST", cx: 240, cy: 160, ping: "14ms", color: "#06b6d4", units: 420 },
-  { id: "eu", name: "Europe", code: "EU-CENTRAL", cx: 510, cy: 140, ping: "18ms", color: "#3b82f6", units: 310 },
-  { id: "latam", name: "Latin America", code: "LATAM-SOUTH", cx: 340, cy: 330, ping: "27ms", color: "#a855f7", units: 150 },
-  { id: "apac", name: "Asia-Pacific", code: "APAC-EAST", cx: 820, cy: 190, ping: "24ms", color: "#ec4899", units: 120 },
+const NODES: NodeBadge[] = [
+  { id: "us", label: "US-East", code: "Equinix NY5", ping: "10-14ms", color: "#06b6d4", left: "22%", top: "36%" },
+  { id: "eu", label: "EU-Central", code: "Equinix FR2", ping: "16-20ms", color: "#3b82f6", left: "50%", top: "32%" },
+  { id: "latam", label: "LATAM-South", code: "Equinix SP4", ping: "24-28ms", color: "#a855f7", left: "32%", top: "70%" },
+  { id: "apac", label: "APAC-East", code: "Equinix TY8", ping: "22-26ms", color: "#ec4899", left: "85%", top: "42%" },
 ];
 
 export function ServerMapCanvas({ selectedCluster, onSelectCluster }: ServerMapProps) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isPlaying, setIsPlaying] = useState(true);
+
+  const togglePlay = () => {
+    if (!videoRef.current) return;
+    if (isPlaying) {
+      videoRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      videoRef.current.play().catch(() => {});
+      setIsPlaying(true);
+    }
+  };
+
   return (
-    <div className="relative w-full rounded-3xl bg-[#03040c] border border-cyan-500/20 p-4 sm:p-6 shadow-[0_0_50px_rgba(6,182,212,0.12)] overflow-hidden">
-      {/* Background Grid & Radar Sweep */}
-      <div className="absolute inset-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:24px_24px] opacity-40" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-cyan-500/5 via-blue-500/5 to-transparent rounded-full pointer-events-none animate-spin-slow opacity-60" />
+    <div className="relative w-full rounded-3xl bg-[#03040c] border border-cyan-500/30 p-2 sm:p-3 shadow-[0_0_60px_rgba(6,182,212,0.18)] overflow-hidden">
+      
+      {/* 3D Map Video Container */}
+      <div className="relative w-full aspect-[16/9] sm:aspect-[21/9] rounded-2xl overflow-hidden bg-black">
+        <video
+          ref={videoRef}
+          src="/global-map-animation.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover select-none"
+        />
 
-      {/* SVG Map Canvas */}
-      <svg
-        viewBox="0 0 1000 460"
-        className="w-full h-auto max-h-[380px] relative z-10 select-none"
-        preserveAspectRatio="xMidYMid meet"
-      >
-        <defs>
-          <linearGradient id="laserGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#06b6d4" stopOpacity="0.8" />
-            <stop offset="50%" stopColor="#818cf8" stopOpacity="1" />
-            <stop offset="100%" stopColor="#ec4899" stopOpacity="0.8" />
-          </linearGradient>
-          <filter id="laserGlow" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="3" result="blur" />
-            <feComposite in="SourceGraphic" in2="blur" operator="over" />
-          </filter>
-        </defs>
+        {/* Cinematic Gradient Vignette */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#03040c] via-transparent to-[#03040c]/40 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#03040c]/60 via-transparent to-[#03040c]/60 pointer-events-none" />
 
-        {/* Stylized World Continents Outlines */}
-        <g fill="none" stroke="#1e2942" strokeWidth="1.5" strokeDasharray="2,3" opacity="0.6">
-          {/* North America */}
-          <path d="M 120 70 L 260 60 L 310 110 L 290 190 L 250 210 L 220 230 L 190 200 L 150 160 L 110 120 Z" />
-          {/* South America */}
-          <path d="M 270 250 L 370 270 L 380 340 L 340 430 L 300 420 L 280 320 Z" />
-          {/* Europe */}
-          <path d="M 450 80 L 560 70 L 580 130 L 530 180 L 460 170 L 440 120 Z" />
-          {/* Africa */}
-          <path d="M 460 190 L 570 190 L 600 270 L 550 380 L 480 360 L 450 250 Z" />
-          {/* Asia */}
-          <path d="M 590 70 L 880 70 L 920 160 L 860 250 L 730 240 L 660 180 L 600 140 Z" />
-          {/* Australia */}
-          <path d="M 780 300 L 890 290 L 910 380 L 810 390 Z" />
-        </g>
+        {/* Telemetry Header HUD */}
+        <div className="absolute top-3 left-3 sm:top-5 sm:left-5 flex flex-wrap items-center gap-2 z-20">
+          <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-cyan-500/40 text-cyan-300 text-[10px] sm:text-xs font-mono font-bold shadow-lg">
+            <Radio className="w-3 h-3 text-cyan-400 animate-pulse" />
+            <span>GLOBAL FIBER TELEMETRY • LIVE</span>
+          </div>
+          <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-emerald-400 text-[10px] sm:text-xs font-mono">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+            <span>SUB-30MS SPEED ACTIVE</span>
+          </div>
+        </div>
 
-        {/* Animated Laser Fiber Arcs between Data Centers */}
-        <g filter="url(#laserGlow)">
-          {/* US -> EU */}
-          <path
-            d="M 240 160 Q 375 80 510 140"
-            fill="none"
-            stroke="url(#laserGrad)"
-            strokeWidth="2"
-            strokeDasharray="8 6"
-            className="animate-pulse"
-          />
-          {/* US -> LATAM */}
-          <path
-            d="M 240 160 Q 280 240 340 330"
-            fill="none"
-            stroke="url(#laserGrad)"
-            strokeWidth="2"
-            strokeDasharray="8 6"
-            className="animate-pulse"
-          />
-          {/* EU -> APAC */}
-          <path
-            d="M 510 140 Q 665 80 820 190"
-            fill="none"
-            stroke="url(#laserGrad)"
-            strokeWidth="2"
-            strokeDasharray="8 6"
-            className="animate-pulse"
-          />
-        </g>
+        {/* Video Control Toggle */}
+        <div className="absolute top-3 right-3 sm:top-5 sm:right-5 z-20">
+          <button
+            onClick={togglePlay}
+            aria-label={isPlaying ? "Pause Map Animation" : "Play Map Animation"}
+            className="w-8 h-8 rounded-full bg-black/70 backdrop-blur-md border border-white/20 text-white flex items-center justify-center hover:bg-white/20 transition-all shadow-md"
+          >
+            {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 ml-0.5" />}
+          </button>
+        </div>
 
-        {/* Dynamic Moving Laser Data Packets */}
-        <circle r="4" fill="#22d3ee" filter="url(#laserGlow)">
-          <animateMotion path="M 240 160 Q 375 80 510 140" dur="2.4s" repeatCount="indefinite" />
-        </circle>
-        <circle r="4" fill="#a855f7" filter="url(#laserGlow)">
-          <animateMotion path="M 240 160 Q 280 240 340 330" dur="2.8s" repeatCount="indefinite" />
-        </circle>
-        <circle r="4" fill="#ec4899" filter="url(#laserGlow)">
-          <animateMotion path="M 510 140 Q 665 80 820 190" dur="3.2s" repeatCount="indefinite" />
-        </circle>
-
-        {/* Datacenter Hotspot Pins */}
+        {/* Interactive Clickable Node Hotspots */}
         {NODES.map((node) => {
           const isSelected = selectedCluster === node.id;
           return (
-            <g
+            <button
               key={node.id}
               onClick={() => onSelectCluster(node.id)}
-              className="cursor-pointer group"
-              transform={`translate(${node.cx}, ${node.cy})`}
+              style={{ left: node.left, top: node.top }}
+              className={`absolute -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center group transition-all ${
+                isSelected ? "scale-110" : "hover:scale-105"
+              }`}
             >
-              {/* Concentric Pulsing Radar Rings */}
-              <circle r="22" fill={node.color} opacity="0.15" className="animate-ping" />
-              <circle r="14" fill={node.color} opacity="0.3" />
-              <circle
-                r="7"
-                fill={isSelected ? "#ffffff" : node.color}
-                stroke={node.color}
-                strokeWidth="3"
-                filter="url(#laserGlow)"
-              />
-
-              {/* Node Badge Card */}
-              <g transform="translate(15, -15)">
-                <rect
-                  x="0"
-                  y="-12"
-                  width="110"
-                  height="34"
-                  rx="8"
-                  fill="#080c20"
-                  stroke={isSelected ? node.color : "#273152"}
-                  strokeWidth={isSelected ? "1.5" : "1"}
-                  filter="drop-shadow(0 4px 10px rgba(0,0,0,0.6))"
-                />
-                <text x="8" y="3" fill="#ffffff" fontSize="10" fontWeight="bold" fontFamily="monospace">
-                  {node.code}
-                </text>
-                <text x="8" y="16" fill={node.color} fontSize="9" fontWeight="bold" fontFamily="monospace">
-                  {node.ping} • {node.units} Rigs
-                </text>
-              </g>
-            </g>
+              <div
+                className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center border transition-all ${
+                  isSelected
+                    ? "bg-white text-black border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.8)] scale-110"
+                    : "bg-black/60 backdrop-blur-md text-white border-white/30 hover:border-cyan-400"
+                }`}
+              >
+                <span className="w-2 h-2 rounded-full" style={{ backgroundColor: node.color }} />
+              </div>
+              <div
+                className={`mt-1 px-2 py-0.5 rounded-md font-mono text-[9px] sm:text-[10px] font-bold backdrop-blur-md border whitespace-nowrap shadow-lg transition-all ${
+                  isSelected
+                    ? "bg-cyan-950/90 text-cyan-200 border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.4)]"
+                    : "bg-black/70 text-gray-300 border-white/10 group-hover:border-cyan-500/50"
+                }`}
+              >
+                {node.label} • {node.ping}
+              </div>
+            </button>
           );
         })}
-      </svg>
+
+        {/* Bottom Banner Status Bar */}
+        <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-6 sm:right-6 flex items-center justify-between z-20 px-4 py-2 rounded-xl bg-black/70 backdrop-blur-md border border-white/10 font-mono text-[10px] sm:text-xs">
+          <div className="flex items-center gap-2 text-gray-300">
+            <span className="text-cyan-400 font-bold">1,000 PS5 HARDWARE UNITS:</span>
+            <span className="hidden sm:inline text-gray-400">Direct 10Gbps Edge Peering via Equinix Datacenters</span>
+          </div>
+          <span className="text-emerald-400 font-bold">ZERO VPN NEEDED</span>
+        </div>
+
+      </div>
     </div>
   );
 }

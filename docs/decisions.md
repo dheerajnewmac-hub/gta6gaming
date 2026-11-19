@@ -44,3 +44,14 @@
 - **Implementations**:
   1. Built `components/server-map-canvas.tsx`: A lightweight SVG cybernetic world map with radar sweep, concentric animated pulsing rings on all 4 continent datacenter nodes, and continuous SVG `<animateMotion>` laser data packets streaming between US, Europe, Latin America, and Asia.
   2. Integrated two-way interactive state linking: Clicking any node pin on the map dynamically highlights and scales the corresponding server rack card below.
+
+## Decision 9: Integration of High-Definition 3D Relief World Map Animation Video & Supported Countries Listing
+- **Date**: 2026-11-19
+- **Context**: User provided an ultra-high-definition 3D relief global map animation video (`1795102589125259.mp4`) and requested the actual video animation and supported country lists to be integrated for maximum international credibility.
+- **Implementations**:
+  1. Copied video asset to `public/global-map-animation.mp4` and updated `components/server-map-canvas.tsx` with a responsive 21:9 cinematic video player, telemetry HUD (`GLOBAL FIBER TELEMETRY • LIVE`), play/pause toggle, and interactive geolocation hotspot pins.
+  2. Enhanced `components/global-server-map.tsx` with categorized Supported Countries & Cities badges per cluster:
+     - 🇺🇸 North America: United States, Canada, Mexico (Virginia, Oregon, Texas, Toronto, CDMX)
+     - 🇪🇺 Europe: UK, Germany, France, Netherlands, Spain (London, Frankfurt, Paris, Amsterdam, Madrid)
+     - 🌎 Latin America: Brazil, Chile, Argentina, Colombia (São Paulo, Santiago, Buenos Aires, Bogotá)
+     - 🌏 Asia-Pacific: Japan, South Korea, Singapore, Australia (Tokyo, Seoul, Singapore, Sydney, Melbourne)
