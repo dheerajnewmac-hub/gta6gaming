@@ -29,3 +29,11 @@
   3. Weekend Marathon: Reduced from $34.99 to **$14.99** (12 hours).
   4. NEW Vice Syndicate (Unlimited Pass): **$24.99 (15 Days)** or **$39.99 (30 Days Unlimited)**.
   5. NEW Interactive Custom Rig Builder: Interactive sliders (Hours: 2-80 hrs, Validity: 7-60 days) with real-time volume discount calculation ($1.40/hr down to $0.60/hr).
+
+## Decision 7: Enterprise-Grade Visual & Interactive Redesign of Cluster, Hardware, and Walkthrough Sections
+- **Date**: 2026-11-19
+- **Context**: User uploaded screenshots showing that the Global Server Map, Hardware Compatibility, and How-to-Play guide looked too flat/plain and requested them to be made significantly more professional and impressive.
+- **Implementations**:
+  1. `components/global-server-map.tsx`: Added an interactive real-time Edge Latency Tester, Equinix Tier-4 Datacenter Blade racks with live occupancy gauges (93%), online LED beacons, and Tier-1 peering info.
+  2. `components/compatibility-section.tsx`: Added an interactive 1-Click Browser Hardware Diagnostic Scanner and an eye-opening side-by-side "Local PC Build ($1,500+) vs ViceCloud ($1.99)" cost & hardware reality check comparison card.
+  3. `components/how-to-play-guide.tsx`: Upgraded Step 01 to a realistic dark browser chrome window with WebRTC SDP handshake simulator (`Simulate Stream Connect`), and detailed input/save visualizers.
