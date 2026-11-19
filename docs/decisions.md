@@ -11,9 +11,8 @@
 ## Decision 3: Exact Design Implementation from Provided Mockup
 - **Date**: 2026-11-19
 - **Reference Artwork**: `Neon Remote Play Gaming Landing Page.png`
-- **Key Visual Elements**:
-  1. Navbar: `REMOTE / PLAY` + `LIVE` green pill, navigation links (`Home` active with cyan glow, `How It Works`, `Plans`, `Compatibility`, `FAQ`), and violet `View Plans ->` pill.
-  2. Hero Setup: Dual desk setup with illuminated PS5 console on circular neon platform + DualSense on the left with `1K+ PS5 POWERED SERVERS` badge; Center with `Remote Console Gaming` pill, `Play GTA VI on Your PC` headline, dual CTAs, and 4 feature badges; Right side with PC gaming monitor running GTA 6, RGB keyboard/mouse, tower, and `YOUR PC = GTA VI READY! ✅` badge.
-  3. Middle Flow: Glassmorphic 3-step pipeline (`01 Our PS5 Runs the Game` -> `02 Stream to Your PC` -> `03 Play GTA VI Instantly`) + `⚡ No Downloads No Hassle`.
-  4. Pricing: `Solo Pass ($4.99)`, `Starter Pack ($19.99 - Most Popular)` with cyan neon glow, `Weekend Pack ($34.99)`, and right-side perks with cursive *"Your Game. Our Power."*
-  5. Notice Banner: `⚠️ Service restricted to operator-enabled regions. Notice: India is not supported.` | `Check Your Region ->`.
+
+## Decision 4: Rockstar-Grade Hero Stage with Live Animation Video
+- **Date**: 2026-11-19
+- **Context**: User provided an animation video (`gemini_generated_video_8322584a_clean_1795094009896.mp4`) showing the physical PS5 beaming glowing fiber-optic stream pulses into a gamer's PC monitor.
+- **Decision**: Integrated the 720p HD animation video as a seamless looping hero player (`/gta6-animation.mp4`), overlaid with real-time stream telemetry (`● LIVE PS5 CLOUD STREAM (60.0 FPS)`), interactive play/pause and sound toggles, and Rockstar Games-level typography.
