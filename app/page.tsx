@@ -13,6 +13,7 @@ import { FAQSection } from "@/components/faq-section";
 import { BottomRegionNotice } from "@/components/bottom-region-notice";
 import { Footer } from "@/components/footer";
 import { SessionModal } from "@/components/session-modal";
+import { LiveActivityToast } from "@/components/live-activity-toast";
 
 export default function HomePage() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -108,6 +109,9 @@ export default function HomePage() {
         onClose={() => setModalOpen(false)}
         selectedPlan={selectedPlan}
       />
+
+      {/* Live International Gamer Activity Ticker */}
+      <LiveActivityToast />
     </main>
   );
 }

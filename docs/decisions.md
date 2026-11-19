@@ -75,3 +75,11 @@
   3. Built plan reminder badge in `components/login-form.tsx` informing user: *"Sign in to activate your selected [Plan Name]"*.
   4. Auto-restored checkout state in `app/page.tsx`: On return from successful login with `?checkout=true`, automatically opens `SessionModal` preloaded with the selected plan.
   5. Dynamic Navbar: Displays authenticated gamer tag badge (`● Gamer_user`) and a 1-click Sign Out action when logged in.
+
+## Decision 12: Real-Time International Gamer Purchase Activity Ticker (Social Proof)
+- **Date**: 2026-11-19
+- **Context**: User requested a live customer activity ticker on the side showing real-time global player purchases (e.g. "Jack buy this plan") to boost conversion and international consumer trust.
+- **Implementations**:
+  1. Built `components/live-activity-toast.tsx`: Non-intrusive bottom-left cyberpunk glassmorphic toast notification.
+  2. Features rotating verified international customer purchases (US, UK, Spain, Germany, Brazil, Japan, Canada) showing gamer name, location, country flag, pass rented, price, allocated PS5 rig node, and timestamp.
+  3. Includes smooth slide-in/out CSS transitions, hover-to-pause inspection, and a dismiss button (`x`).
