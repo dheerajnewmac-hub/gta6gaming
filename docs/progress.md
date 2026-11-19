@@ -1,18 +1,17 @@
 # Project Progress
 
 ## Status
-- **Current Phase**: Global Architecture Audit & A-to-Z "How to Play" Module
+- **Current Phase**: Pricing Restructure, Unlimited Passes & Interactive Custom Rig Calculator
 
-## What is Being Added
-1. **Interactive A-to-Z "How to Play" Guide (`components/how-to-play-guide.tsx`)**:
-   - Tab 1: Instant Browser Play (Chrome, Edge, Safari, Brave — zero download).
-   - Tab 2: Keyboard & Mouse Setup (WASD + raw mouse aim calibration).
-   - Tab 3: Controller Plug & Play (Xbox, DualSense, DualShock 4, generic USB).
-   - Tab 4: Cloud Saves & Session Resuming (automatic isolated slot backup).
-2. **Global Edge Infrastructure & Server Cluster Map (`components/global-server-map.tsx`)**:
-   - Real-time latency and ping monitors for US East (Virginia), US West (Oregon), Europe (Frankfurt, London), Latin America (São Paulo), and Asia (Tokyo, Singapore).
-3. **Cross-Platform Compatibility Grid (`components/cross-platform-grid.tsx`)**:
-   - Demonstrating support on Windows PCs, Mac (M1-M4), Chromebook, iOS, Android, and Steam Deck.
-4. **International Payment & Trust Signals**:
-   - Stripe, Apple Pay, Google Pay, Visa/Mastercard, and Crypto (USDT, BTC, Solana) badges.
-   - 15-minute satisfaction or instant rig re-allocation guarantee.
+## What is Being Updated
+1. **Lowered Base Pricing in `components/pricing-plans.tsx`**:
+   - Solo Pass: **$1.99** (was $4.99).
+   - Starter Pack: **$8.99** (was $19.99).
+   - Weekend Pack: **$14.99** (was $34.99).
+   - Added Unlimited 15D/30D Syndicate Pass: **$24.99 / $39.99**.
+2. **Interactive Custom Plan Calculator (`components/custom-plan-builder.tsx`)**:
+   - Gamers can slide hours (2 to 80 hrs) and days (7 to 60 days).
+   - Real-time rate calculator showing cost per hour and savings.
+   - 1-click checkout with the customized package.
+3. **Session Modal Checkout Update (`components/session-modal.tsx`)**:
+   - Seamlessly accepts custom calculated plan hours and prices.

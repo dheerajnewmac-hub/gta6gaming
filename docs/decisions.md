@@ -18,9 +18,14 @@
 
 ## Decision 5: Global Expansion & A-to-Z "How to Play" Onboarding Architecture
 - **Date**: 2026-11-19
-- **Context**: Website targets a worldwide audience. Users require an end-to-end "A to Z How to Play" walkthrough, cross-platform compatibility specs, global latency map, and international checkout trust signals.
-- **Decision**:
-  1. Add an interactive **"A to Z How to Play Guide"** component with tabs for Web Browser, Controller Setup, Keyboard & Mouse, and Cloud Saves.
-  2. Add a **"Global Server Clusters & Live Latency"** map section covering North America, Europe, Latin America, and Asia-Pacific.
-  3. Add a **Cross-Platform Device Grid** (Windows, Mac M-series, Chromebook, iOS Safari, Android).
-  4. Add International Trust & Payment Badges (Stripe, Apple Pay, Google Pay, Crypto, 15-min trial guarantee).
+- **Decision**: Added interactive 4-tab "How to Play" guide, worldwide server clusters, and international trust bar.
+
+## Decision 6: Price Optimization, Unlimited 15D/30D Passes, and Interactive Custom Plan Builder
+- **Date**: 2026-11-19
+- **Context**: User requested lower entry prices, an Unlimited 15-day / 30-day Campaign pass, and an interactive Custom Plan Calculator where gamers choose their exact hours and days.
+- **Pricing Adjustments**:
+  1. Solo Trial Pass: Reduced from $4.99 to **$1.99** (1 hour).
+  2. Starter Pack: Reduced from $19.99 to **$8.99** (5 hours).
+  3. Weekend Marathon: Reduced from $34.99 to **$14.99** (12 hours).
+  4. NEW Vice Syndicate (Unlimited Pass): **$24.99 (15 Days)** or **$39.99 (30 Days Unlimited)**.
+  5. NEW Interactive Custom Rig Builder: Interactive sliders (Hours: 2-80 hrs, Validity: 7-60 days) with real-time volume discount calculation ($1.40/hr down to $0.60/hr).
