@@ -94,3 +94,12 @@
   2. Integrated 2-stage verification inside `components/session-modal.tsx`:
      - Checks blockchain mempool and unlocks the `"ACTIVATED"` stage.
      - Displays the gamer's allocated PS5 Blade Node (`PS5-RIG-0xxx`), Session Passcode (`VICE-8842-PS5X`), and 1-click Fullscreen GTA VI stream launcher.
+
+
+## Decision 14: Production Deployment on Vercel with GitHub Synchronization
+- **Date**: 2026-11-19
+- **Context**: Operator deployed the ViceCloud GTA 6 platform from GitHub to Vercel for global CDN acceleration and custom domain linking (`gta6gaming.store`).
+- **Implementations**:
+  1. Synchronized local repo with GitHub remote `dheerajnewmac-hub/gta6gaming` on branches `main` and `master`.
+  2. Injected `vercel.json` with explicit `nextjs` framework schema to prevent edge routing misconfiguration.
+  3. Verified production endpoints returning HTTP 200 OK across `/` and `/login`.

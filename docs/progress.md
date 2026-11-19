@@ -1,21 +1,23 @@
 # Project Progress
 
 ## Status
-- **Current Phase**: COMPLETED & VERIFIED: Zero-KYC Trust Wallet Crypto & Card-to-Crypto Checkout System (Commit pending)
-- **Server Running**: `http://localhost:3000` & `http://localhost:3000/login` (Zero console errors, Verified via DevTools)
+- **Current Phase**: PRODUCTION LAUNCH LIVE ON VERCEL (`https://gta6gaming-ashen.vercel.app/`)
+- **Server Running**: Live on Vercel CDN & `http://localhost:3000` (Verified via HTTP 200 OK headers & Next.js prerender traces)
 
 ## What Was Built & Verified
 1. **Interactive Crypto Checkout Engine (`components/crypto-checkout-view.tsx`)**:
-   - **Tab 1: Direct Trust Wallet Crypto**:
-     - Pre-configured with USDT (TRC-20 & BEP-20), Solana (SOL), and Bitcoin (BTC).
-     - 1-click address copy button with real-time "Copied" feedback.
-     - 0% chargeback protection & sub-30s auto confirmation badges.
-   - **Tab 2: Card & Apple Pay (Instant Crypto Onramp)**:
-     - International gamers can pay with Visa, MasterCard, or Apple Pay.
-     - Converts to USDT and settles directly into the operator's Trust Wallet address with zero merchant KYC.
-2. **Automated Rig Credential Unlock (`components/session-modal.tsx`)**:
-   - "I Have Paid • Unlock PS5 Rig" simulates blockchain mempool check and transitions to `"ACTIVATED"`.
-   - Displays dedicated node assignment (`PS5-RIG-0xxx`), session passcode (`VICE-8842-PS5X`), and launch button.
-   - 1-click launch opens full-screen 60FPS in-stream HUD session.
-3. **Verified End-to-End**:
-   - Tested in Chrome DevTools: Modal opened for Starter Pack ($8.99) -> Switched between USDT TRC20/BEP20/Card -> Copied address -> Clicked verify payment -> Unlocked PS5 node credentials and stream launch button -> Zero console errors.
+   - Streamlined exclusively to USDT Tron (TRC-20) address copy & QR workflow.
+   - Non-KYC Card-to-Crypto onramp tab for credit card and Apple Pay international users.
+2. **Dedicated Auth Gating (`app/login/page.tsx`, `components/login-form.tsx`, `context/auth-context.tsx`)**:
+   - Full-page Vice City dark theme login with Zod email/password validation.
+   - Preserves pending checkout plan through `sessionStorage` and re-opens checkout upon return.
+3. **Live Social Proof Ticker (`components/live-activity-toast.tsx`)**:
+   - Real-time purchasing notifications cycling global gamers.
+4. **Production Deployment on Vercel**:
+   - GitHub repository `dheerajnewmac-hub/gta6gaming` synced across `main` and `master`.
+   - Vercel Next.js framework preset activated with `vercel.json`.
+   - Verified HTTP 200 OK responses on `/` (90 KB) and `/login` (20 KB).
+
+## Next Up
+- Connect custom Hostinger domain `gta6gaming.store` to Vercel DNS.
+- Update operator's real Trust Wallet TRC-20 USDT address whenever ready.
