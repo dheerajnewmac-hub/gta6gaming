@@ -103,3 +103,14 @@
   1. Synchronized local repo with GitHub remote `dheerajnewmac-hub/gta6gaming` on branches `main` and `master`.
   2. Injected `vercel.json` with explicit `nextjs` framework schema to prevent edge routing misconfiguration.
   3. Verified production endpoints returning HTTP 200 OK across `/` and `/login`.
+
+
+## Decision 15: Supabase Cloud Database & Authentication Integration
+- **Date**: 2026-11-20
+- **Context**: Operator requested a centralized, secure cloud database to capture gamer registrations, signups, and emails in real-time, removing social login friction in favor of a clean Sign In / Create Account flow.
+- **Implementations**:
+  1. Connected project to live Supabase instance (`https://uldmetocolpyhmiauuom.supabase.co`).
+  2. Implemented `lib/supabase.ts` using `@supabase/supabase-js`.
+  3. Upgraded `context/auth-context.tsx` with Supabase session management and real-time auth state listener.
+  4. Redesigned `components/login-form.tsx` with seamless "Sign In" vs "Create Account" tab toggle, Zod validation, auto-confirmation, and instant redirection to checkout.
+  5. Verified real user creation in Supabase (`testgamer@vicecloud.gg`) with 100% verified credentials.
