@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Copy, Check, QrCode, CreditCard, ShieldCheck, Zap, ArrowRight, ExternalLink } from "lucide-react";
+import { Copy, Check, QrCode, CreditCard, ShieldCheck, Zap } from "lucide-react";
 
 interface CryptoCheckoutProps {
   planName: string;
@@ -9,33 +9,15 @@ interface CryptoCheckoutProps {
   onPaymentSuccess: () => void;
 }
 
-type CoinType = "USDT_TRC20" | "USDT_BEP20" | "SOL" | "BTC";
-
-interface CoinDetail {
-  id: CoinType;
-  label: string;
-  network: string;
-  address: string;
-  symbol: string;
-}
-
-const COINS: CoinDetail[] = [
-  { id: "USDT_TRC20", label: "USDT", network: "Tron (TRC-20)", address: "TYdNG28hDqZk7vXn6V4zF1Qx9W8pLmC3kJ", symbol: "₮" },
-  { id: "USDT_BEP20", label: "USDT", network: "BNB Smart Chain (BEP-20)", address: "0x742d35Cc6634C0532925a3b844Bc454e4438f44e", symbol: "₮" },
-  { id: "SOL", label: "SOL", network: "Solana Network", address: "7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU", symbol: "◎" },
-  { id: "BTC", label: "BTC", network: "Bitcoin Core", address: "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh", symbol: "₿" },
-];
+const TRC20_ADDRESS = process.env.NEXT_PUBLIC_USDT_TRC20_WALLET || "TYdNG28hDqZk7vXn6V4zF1Qx9W8pLmC3kJ";
 
 export function CryptoCheckoutView({ planName, price, onPaymentSuccess }: CryptoCheckoutProps) {
   const [tab, setTab] = useState<"CRYPTO" | "CARD">("CRYPTO");
-  const [selectedCoin, setSelectedCoin] = useState<CoinType>("USDT_TRC20");
   const [copied, setCopied] = useState(false);
   const [verifying, setVerifying] = useState(false);
 
-  const activeCoin = COINS.find((c) => c.id === selectedCoin) || COINS[0];
-
   const handleCopy = () => {
-    navigator.clipboard.writeText(activeCoin.address);
+    navigator.clipboard.writeText(TRC20_ADDRESS);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -59,7 +41,7 @@ export function CryptoCheckoutView({ planName, price, onPaymentSuccess }: Crypto
           }`}
         >
           <QrCode className="w-3.5 h-3.5" />
-          <span>Trust Wallet / Crypto</span>
+          <span>USDT (TRC-20)</span>
         </button>
         <button
           onClick={() => setTab("CARD")}
@@ -72,38 +54,28 @@ export function CryptoCheckoutView({ planName, price, onPaymentSuccess }: Crypto
         </button>
       </div>
 
-      {/* TAB 1: DIRECT TRUST WALLET CRYPTO */}
+      {/* TAB 1: DIRECT TRC-20 CRYPTO */}
       {tab === "CRYPTO" && (
         <div className="space-y-3.5">
-          {/* Coin Select Buttons */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-            {COINS.map((c) => (
-              <button
-                key={c.id}
-                onClick={() => setSelectedCoin(c.id)}
-                className={`p-2 rounded-xl text-center border transition-all ${
-                  selectedCoin === c.id
-                    ? "bg-[#0f1738] border-cyan-400 text-white shadow-[0_0_15px_rgba(6,182,212,0.3)]"
-                    : "bg-[#080a1c] border-white/10 text-gray-400 hover:text-white hover:border-white/20"
-                }`}
-              >
-                <span className="block font-bold text-xs">{c.label}</span>
-                <span className="block text-[10px] text-gray-500 truncate">{c.network.split(" ")[0]}</span>
-              </button>
-            ))}
-          </div>
-
-          {/* Deposit Info Card */}
           <div className="p-4 rounded-2xl bg-[#070919] border border-cyan-500/30 space-y-3 text-xs">
             <div className="flex items-center justify-between border-b border-white/5 pb-2">
-              <span className="text-gray-400">Total Due:</span>
-              <span className="text-base font-black text-cyan-400 font-mono">{price}</span>
+              <div>
+                <span className="text-gray-400 block text-[11px]">Accepted Currency:</span>
+                <span className="font-bold text-white text-xs flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                  Tether USD • Tron TRC-20 Network
+                </span>
+              </div>
+              <div className="text-right">
+                <span className="text-gray-400 block text-[11px]">Total Due:</span>
+                <span className="text-base font-black text-cyan-400 font-mono">{price}</span>
+              </div>
             </div>
 
             <div className="space-y-1">
-              <span className="text-[11px] text-gray-400 font-mono">Send to Deposit Address ({activeCoin.network}):</span>
+              <span className="text-[11px] text-gray-400 font-mono">Send USDT (TRC-20) to this Address:</span>
               <div className="flex items-center gap-2 bg-[#0c112e] p-2 rounded-xl border border-white/10 font-mono text-[11px] text-gray-200">
-                <span className="truncate flex-1">{activeCoin.address}</span>
+                <span className="truncate flex-1">{TRC20_ADDRESS}</span>
                 <button
                   onClick={handleCopy}
                   className="px-2.5 py-1 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 font-bold border border-cyan-500/40 flex items-center gap-1 transition-all shrink-0"
@@ -115,8 +87,8 @@ export function CryptoCheckoutView({ planName, price, onPaymentSuccess }: Crypto
             </div>
 
             <div className="flex items-center justify-between text-[10px] font-mono text-gray-500 pt-1">
-              <span className="text-emerald-400">● 0% Chargeback Protection</span>
-              <span>Sub-30s Auto Confirmation</span>
+              <span className="text-emerald-400">● Zero Network Delays</span>
+              <span>15-Sec Instant Confirmation</span>
             </div>
           </div>
         </div>
@@ -146,7 +118,7 @@ export function CryptoCheckoutView({ planName, price, onPaymentSuccess }: Crypto
         className="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 hover:brightness-110 text-white font-extrabold text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(0,210,255,0.4)] active:scale-[0.99] transition-all flex items-center justify-center gap-2 disabled:opacity-50"
       >
         <Zap className={`w-4 h-4 ${verifying ? "animate-spin text-cyan-200" : ""}`} />
-        <span>{verifying ? "Checking Blockchain Mempool..." : "I Have Paid • Unlock PS5 Rig"}</span>
+        <span>{verifying ? "Checking Tron Blockchain..." : "I Have Paid USDT • Unlock PS5 Rig"}</span>
       </button>
     </div>
   );
