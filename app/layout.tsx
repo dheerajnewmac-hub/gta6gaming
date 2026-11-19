@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { AuthProvider } from "@/context/auth-context";
 
 export const metadata: Metadata = {
   title: "ViceCloud | Play GTA VI on Any Low-End PC & Laptop (4K 60FPS)",
@@ -22,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark scroll-smooth">
       <body className="min-h-screen bg-[#08080f] text-slate-100 antialiased selection:bg-pink-500 selection:text-white">
-        {children}
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Navbar } from "@/components/navbar";
 import { HeroNeonDesk } from "@/components/hero-neon-desk";
 import { HowItWorksFlow } from "@/components/how-it-works-flow";
@@ -21,6 +21,23 @@ export default function HomePage() {
     price: string;
     hours: string;
   } | null>(null);
+
+  useEffect(() => {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get("checkout") === "true") {
+        const stored = sessionStorage.getItem("vicecloud_pending_plan");
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          setSelectedPlan(parsed);
+          setModalOpen(true);
+          sessionStorage.removeItem("vicecloud_pending_plan");
+        }
+      }
+    } catch {
+      // Ignore URL or storage errors
+    }
+  }, []);
 
   const handleOpenPlans = () => {
     const el = document.getElementById("plans");

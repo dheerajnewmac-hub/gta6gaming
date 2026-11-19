@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { Gamepad2, Home, ArrowRight, Menu, X } from "lucide-react";
+import { Gamepad2, Home, ArrowRight, Menu, X, User } from "lucide-react";
+import { useAuth } from "@/context/auth-context";
 
 interface NavbarProps {
   onOpenPlans: () => void;
@@ -10,6 +11,7 @@ interface NavbarProps {
 
 export function Navbar({ onOpenPlans, onOpenHowItWorks }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user, isLoggedIn, logout } = useAuth();
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 py-4 px-4 sm:px-8 bg-[#060714]/75 backdrop-blur-md border-b border-white/5">
@@ -70,14 +72,29 @@ export function Navbar({ onOpenPlans, onOpenHowItWorks }: NavbarProps) {
           </a>
         </nav>
 
-        {/* Right Buttons: Sign In + View Plans -> */}
+        {/* Right Buttons: Sign In / User Badge + View Plans -> */}
         <div className="hidden sm:flex items-center gap-4">
-          <a
-            href="/login"
-            className="text-xs font-bold uppercase tracking-wider text-gray-300 hover:text-cyan-400 transition-colors"
-          >
-            Sign In
-          </a>
+          {isLoggedIn ? (
+            <div className="flex items-center gap-2.5">
+              <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-950/60 border border-cyan-500/40 text-cyan-300 text-xs font-mono font-bold shadow-[0_0_10px_rgba(6,182,212,0.3)]">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span>{user?.gamerTag}</span>
+              </div>
+              <button
+                onClick={logout}
+                className="text-[11px] text-gray-400 hover:text-red-400 font-mono transition-colors"
+              >
+                Sign Out
+              </button>
+            </div>
+          ) : (
+            <a
+              href="/login"
+              className="text-xs font-bold uppercase tracking-wider text-gray-300 hover:text-cyan-400 transition-colors"
+            >
+              Sign In
+            </a>
+          )}
           <button
             onClick={onOpenPlans}
             className="px-6 py-2.5 rounded-full font-bold text-xs uppercase tracking-wider text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 shadow-[0_0_20px_rgba(147,51,234,0.4)] transition-all flex items-center gap-1.5 hover:scale-105 active:scale-95"
@@ -144,13 +161,28 @@ export function Navbar({ onOpenPlans, onOpenHowItWorks }: NavbarProps) {
           >
             FAQ
           </a>
-          <a
-            href="/login"
-            onClick={() => setMobileMenuOpen(false)}
-            className="block text-cyan-400 font-bold py-1 border-t border-white/5 pt-2"
-          >
-            Sign In to Rig &rarr;
-          </a>
+          {isLoggedIn ? (
+            <div className="pt-2 border-t border-white/10 flex items-center justify-between">
+              <span className="text-cyan-300 font-mono text-xs">{user?.gamerTag}</span>
+              <button
+                onClick={() => {
+                  logout();
+                  setMobileMenuOpen(false);
+                }}
+                className="text-xs text-red-400 font-mono"
+              >
+                Sign Out
+              </button>
+            </div>
+          ) : (
+            <a
+              href="/login"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block text-cyan-400 font-bold py-1 border-t border-white/5 pt-2"
+            >
+              Sign In to Rig &rarr;
+            </a>
+          )}
         </div>
       )}
     </header>

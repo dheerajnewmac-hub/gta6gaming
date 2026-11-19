@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Check, Crown, Rocket, ShieldCheck, Flame, Infinity } from "lucide-react";
 import { CustomPlanBuilder } from "@/components/custom-plan-builder";
+import { useAuth } from "@/context/auth-context";
 
 interface PricingPlansProps {
   onSelectPlan: (plan: { name: string; price: string; hours: string }) => void;
@@ -10,6 +11,20 @@ interface PricingPlansProps {
 
 export function PricingPlans({ onSelectPlan }: PricingPlansProps) {
   const [passType, setPassType] = useState<"HOURLY" | "UNLIMITED">("HOURLY");
+  const { isLoggedIn } = useAuth();
+
+  const handlePlanSelect = (plan: { name: string; price: string; hours: string }) => {
+    if (!isLoggedIn) {
+      try {
+        sessionStorage.setItem("vicecloud_pending_plan", JSON.stringify(plan));
+      } catch {
+        // Ignore session storage error
+      }
+      window.location.href = `/login?plan=${encodeURIComponent(plan.name)}`;
+      return;
+    }
+    onSelectPlan(plan);
+  };
 
   const hourlyPlans = [
     {
@@ -180,7 +195,7 @@ export function PricingPlans({ onSelectPlan }: PricingPlansProps) {
                   {/* Button */}
                   <button
                     onClick={() =>
-                      onSelectPlan({
+                      handlePlanSelect({
                         name: plan.name,
                         price: plan.price,
                         hours: plan.hours,
@@ -263,7 +278,7 @@ export function PricingPlans({ onSelectPlan }: PricingPlansProps) {
         {/* ========================================================================= */}
         {/* INTERACTIVE CUSTOM PLAN CALCULATOR (Pick exact hours and days) */}
         {/* ========================================================================= */}
-        <CustomPlanBuilder onSelectCustomPlan={onSelectPlan} />
+        <CustomPlanBuilder onSelectCustomPlan={handlePlanSelect} />
 
       </div>
     </section>

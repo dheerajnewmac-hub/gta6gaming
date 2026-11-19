@@ -1,24 +1,23 @@
 # Project Progress
 
 ## Status
-- **Current Phase**: COMPLETED & VERIFIED: Dedicated Gamer Portal Login Page (`/login`) with Google OAuth & Email/Password (Commit pending)
+- **Current Phase**: COMPLETED & VERIFIED: Auth-Gated Plan Selection & Seamless Checkout Restoration (Commit pending)
 - **Server Running**: `http://localhost:3000` & `http://localhost:3000/login` (Zero console errors, Verified via DevTools)
 
 ## What Was Built & Verified
-1. **Dedicated Login Page Route (`app/login/page.tsx`)**:
-   - High-end dark glassmorphic Rockstar/Cyberpunk theme at `/login`.
-   - Top bar with "<- Back to Home" link and live `● 1,000 RIGS ONLINE` pulse badge.
-   - 256-bit SSL encrypted gaming session trust badge and "Choose a Pass from $1.99" link.
-2. **Google OAuth & Social Logins (`components/social-login-buttons.tsx`)**:
-   - Official multi-color Google SVG icon button: "Continue with Google".
-   - Official Discord purple community sign-in button.
-   - Clean "OR WITH EMAIL" divider.
-3. **Standard Email & Password Form (`components/login-form.tsx`)**:
-   - Strict input validation powered by **Zod** (`lib/auth-schema.ts`).
-   - Eye icon for show/hide password toggle.
-   - "Remember this browser for 30 days" checkbox & "Forgot Password?" link.
-   - Handled states: Loading spinner (*"Authenticating Session..."*), error shake alerts, and success redirect.
-4. **Navbar Integration (`components/navbar.tsx`)**:
-   - Added clean "Sign In" link in the desktop navigation bar and mobile dropdown menu.
+1. **Free Browsing with Actionable Auth Gating**:
+   - Visitors can freely explore the full site (3D map video, hero stream, how-to-play guide, compatibility scanner, FAQ).
+   - Clicking "Select Plan" or "Deploy Custom Rig Pass" checks auth state.
+   - If not logged in: Safely saves the selected plan into `sessionStorage` and navigates to `/login?plan=<name>`.
+2. **Context & State Management (`context/auth-context.tsx`)**:
+   - Lightweight `AuthProvider` with `localStorage` persistence.
+   - Provides `user`, `isLoggedIn`, `login()`, `logout()`.
+3. **Seamless Checkout Restoration (`app/page.tsx` & `components/login-form.tsx`)**:
+   - `/login` displays a badge highlighting the selected pass: *"Sign in to activate your selected [Plan Name]"*.
+   - Authenticating via Google or Email/Password logs the user in and redirects to `/?checkout=true`.
+   - `HomePage` automatically catches the event and opens the checkout modal preloaded with the user's selected plan!
+4. **Dynamic Navbar (`components/navbar.tsx`)**:
+   - Logged-out state: Shows "Sign In".
+   - Logged-in state: Shows `● Gamer_xxx` online badge and 1-click "Sign Out" button.
 5. **Verified End-to-End**:
-   - Loaded and tested in Chrome DevTools: verified layout, Google button click feedback, and automated redirect. Zero console errors.
+   - Fully verified in Chrome DevTools: Cleared storage -> Clicked Starter Pack ($8.99) -> Redirected to `/login` with badge -> Logged in with Google -> Landed on home page with Checkout Modal active for Starter Pack -> Zero console errors.

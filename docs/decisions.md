@@ -65,3 +65,13 @@
   3. Built `components/login-form.tsx`: Comprehensive form featuring password visibility toggle (eye icon), "Remember me for 30 days" checkbox, "Forgot password?" recovery link, loading state, error alert, and success redirect.
   4. Built `app/login/page.tsx`: Dedicated dark glassmorphic page layout with live rigs online beacon, 256-bit SSL encryption badge, and seamless navigation back to home.
   5. Updated `components/navbar.tsx`: Integrated a prominent "Sign In" button in desktop and mobile navigation menus.
+
+## Decision 11: Seamless Auth Gate & Post-Login Checkout Restoration
+- **Date**: 2026-11-19
+- **Context**: User required that visitors can freely browse the full landing page initially, but when they click on any plan or actionable rig deployment, they must be gated by the Login page. Once authenticated, the exact plan they selected should be seamlessly restored in the checkout modal.
+- **Implementations**:
+  1. Built `context/auth-context.tsx`: Lightweight, persistent React Auth Context storing user profile and gamerTag in `localStorage`.
+  2. Gated all plan selections in `components/pricing-plans.tsx` & `components/custom-plan-builder.tsx`: If unauthenticated, saves plan in `sessionStorage` and navigates to `/login?plan=<name>`.
+  3. Built plan reminder badge in `components/login-form.tsx` informing user: *"Sign in to activate your selected [Plan Name]"*.
+  4. Auto-restored checkout state in `app/page.tsx`: On return from successful login with `?checkout=true`, automatically opens `SessionModal` preloaded with the selected plan.
+  5. Dynamic Navbar: Displays authenticated gamer tag badge (`● Gamer_user`) and a 1-click Sign Out action when logged in.

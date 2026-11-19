@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
-import { Mail, Lock, Eye, EyeOff, AlertCircle, CheckCircle2, ArrowRight } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Mail, Lock, Eye, EyeOff, AlertCircle, CheckCircle2, ArrowRight, Sparkles } from "lucide-react";
 import { loginSchema } from "@/lib/auth-schema";
 import { SocialLoginButtons } from "./social-login-buttons";
+import { useAuth } from "@/context/auth-context";
 
 export function LoginForm() {
   const [email, setEmail] = useState("");
@@ -13,6 +14,30 @@ export function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
+  const [pendingPlanName, setPendingPlanName] = useState<string | null>(null);
+
+  const { login } = useAuth();
+
+  useEffect(() => {
+    try {
+      const stored = sessionStorage.getItem("vicecloud_pending_plan");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed?.name) {
+          setPendingPlanName(parsed.name);
+        }
+      }
+    } catch {
+      // Ignore sessionStorage errors
+    }
+  }, []);
+
+  const finishLoginAndRedirect = (gamerEmail: string) => {
+    login(gamerEmail);
+    setTimeout(() => {
+      window.location.href = "/?checkout=true";
+    }, 1200);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,11 +53,9 @@ export function LoginForm() {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      setSuccessMsg("Credentials Verified! Handshaking with PS5 Blade Node #408...");
-      setTimeout(() => {
-        window.location.href = "/#plans";
-      }, 1500);
-    }, 1200);
+      setSuccessMsg("Credentials Verified! Reserving your PS5 Blade Node...");
+      finishLoginAndRedirect(email);
+    }, 1000);
   };
 
   const handleSocialLogin = (provider: string) => {
@@ -40,33 +63,39 @@ export function LoginForm() {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      setSuccessMsg(`Authenticated via ${provider}! Redirecting to active rig...`);
-      setTimeout(() => {
-        window.location.href = "/#plans";
-      }, 1500);
-    }, 1200);
+      setSuccessMsg(`Authenticated via ${provider}! Reserving your PS5 Blade Node...`);
+      finishLoginAndRedirect(`${provider.toLowerCase()}gamer@vicecloud.gg`);
+    }, 1000);
   };
 
   return (
     <div className="w-full">
+      {pendingPlanName && (
+        <div className="mb-5 p-3 rounded-xl bg-cyan-950/60 border border-cyan-500/40 text-cyan-300 text-xs flex items-center gap-2 shadow-[0_0_15px_rgba(6,182,212,0.25)]">
+          <Sparkles className="w-4 h-4 text-cyan-400 shrink-0" />
+          <span>
+            Sign in to activate your selected <strong>{pendingPlanName}</strong>
+          </span>
+        </div>
+      )}
+
       <SocialLoginButtons onSocialLogin={handleSocialLogin} disabled={loading} />
 
       {errorMsg && (
-        <div className="mb-4 p-3 rounded-xl bg-red-950/40 border border-red-500/40 text-red-300 text-xs flex items-center gap-2 animate-shake">
+        <div className="mb-4 p-3 rounded-xl bg-red-950/40 border border-red-500/40 text-red-300 text-xs flex items-center gap-2">
           <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
           <span>{errorMsg}</span>
         </div>
       )}
 
       {successMsg && (
-        <div className="mb-4 p-3 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 text-xs flex items-center gap-2 animate-fade-in">
+        <div className="mb-4 p-3 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 text-xs flex items-center gap-2">
           <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
           <span>{successMsg}</span>
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Email Field */}
         <div>
           <label htmlFor="login-email" className="block text-xs font-semibold text-gray-300 mb-1.5">
             Email Address
@@ -77,6 +106,7 @@ export function LoginForm() {
               id="login-email"
               type="email"
               required
+              autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="gamer@example.com"
@@ -85,13 +115,12 @@ export function LoginForm() {
           </div>
         </div>
 
-        {/* Password Field */}
         <div>
           <div className="flex items-center justify-between mb-1.5">
             <label htmlFor="login-password" className="text-xs font-semibold text-gray-300">
               Password
             </label>
-            <a href="#plans" className="text-[11px] text-cyan-400 hover:underline">
+            <a href="/#plans" className="text-[11px] text-cyan-400 hover:underline">
               Forgot Password?
             </a>
           </div>
@@ -101,6 +130,7 @@ export function LoginForm() {
               id="login-password"
               type={showPassword ? "text" : "password"}
               required
+              autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
@@ -117,7 +147,6 @@ export function LoginForm() {
           </div>
         </div>
 
-        {/* Remember Me */}
         <div className="flex items-center gap-2">
           <input
             id="remember-me"
@@ -131,13 +160,12 @@ export function LoginForm() {
           </label>
         </div>
 
-        {/* Submit Button */}
         <button
           type="submit"
           disabled={loading}
           className="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-600 hover:brightness-110 text-white text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(6,182,212,0.4)] active:scale-[0.99] transition-all disabled:opacity-50"
         >
-          <span>{loading ? "Authenticating Session..." : "Sign In to Your Rig"}</span>
+          <span>{loading ? "Authenticating Session..." : "Sign In & Launch Rig"}</span>
           <ArrowRight className="w-4 h-4" />
         </button>
       </form>
