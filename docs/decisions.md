@@ -14,5 +14,13 @@
 
 ## Decision 4: Rockstar-Grade Hero Stage with Live Animation Video
 - **Date**: 2026-11-19
-- **Context**: User provided an animation video (`gemini_generated_video_8322584a_clean_1795094009896.mp4`) showing the physical PS5 beaming glowing fiber-optic stream pulses into a gamer's PC monitor.
-- **Decision**: Integrated the 720p HD animation video as a seamless looping hero player (`/gta6-animation.mp4`), overlaid with real-time stream telemetry (`● LIVE PS5 CLOUD STREAM (60.0 FPS)`), interactive play/pause and sound toggles, and Rockstar Games-level typography.
+- **Implementation**: Real looping 720p HD animation video showing PS5 data stream into PC with Rockstar-style telemetry HUD.
+
+## Decision 5: Global Expansion & A-to-Z "How to Play" Onboarding Architecture
+- **Date**: 2026-11-19
+- **Context**: Website targets a worldwide audience. Users require an end-to-end "A to Z How to Play" walkthrough, cross-platform compatibility specs, global latency map, and international checkout trust signals.
+- **Decision**:
+  1. Add an interactive **"A to Z How to Play Guide"** component with tabs for Web Browser, Controller Setup, Keyboard & Mouse, and Cloud Saves.
+  2. Add a **"Global Server Clusters & Live Latency"** map section covering North America, Europe, Latin America, and Asia-Pacific.
+  3. Add a **Cross-Platform Device Grid** (Windows, Mac M-series, Chromebook, iOS Safari, Android).
+  4. Add International Trust & Payment Badges (Stripe, Apple Pay, Google Pay, Crypto, 15-min trial guarantee).

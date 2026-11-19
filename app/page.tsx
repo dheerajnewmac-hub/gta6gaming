@@ -4,7 +4,10 @@ import React, { useState } from "react";
 import { Navbar } from "@/components/navbar";
 import { HeroNeonDesk } from "@/components/hero-neon-desk";
 import { HowItWorksFlow } from "@/components/how-it-works-flow";
+import { HowToPlayGuide } from "@/components/how-to-play-guide";
 import { PricingPlans } from "@/components/pricing-plans";
+import { GlobalServerMap } from "@/components/global-server-map";
+import { InternationalTrustBar } from "@/components/international-trust-bar";
 import { CompatibilitySection } from "@/components/compatibility-section";
 import { FAQSection } from "@/components/faq-section";
 import { BottomRegionNotice } from "@/components/bottom-region-notice";
@@ -27,9 +30,12 @@ export default function HomePage() {
   };
 
   const handleOpenHowItWorks = () => {
-    const el = document.getElementById("how-it-works");
+    const el = document.getElementById("how-to-play");
     if (el) {
       el.scrollIntoView({ behavior: "smooth" });
+    } else {
+      const fallback = document.getElementById("how-it-works");
+      if (fallback) fallback.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -46,7 +52,7 @@ export default function HomePage() {
         onOpenHowItWorks={handleOpenHowItWorks}
       />
 
-      {/* Hero Section Matching Uploaded Mockup */}
+      {/* Hero Section with Looping HD Animation Video */}
       <HeroNeonDesk
         onOpenPlans={handleOpenPlans}
         onOpenHowItWorks={handleOpenHowItWorks}
@@ -55,8 +61,17 @@ export default function HomePage() {
       {/* Middle 3-Step "How It Works?" Flow Bar */}
       <HowItWorksFlow />
 
+      {/* Complete A to Z "How to Play" Interactive Guide */}
+      <HowToPlayGuide />
+
       {/* Pricing Section: Solo Pass, Starter Pack (Most Popular), Weekend Pack + "Your Game. Our Power." */}
       <PricingPlans onSelectPlan={handleSelectPlan} />
+
+      {/* Worldwide PS5 Cloud Clusters & Latency Map */}
+      <GlobalServerMap />
+
+      {/* Global Payments, Guarantee & Security Trust Bar */}
+      <InternationalTrustBar />
 
       {/* Hardware & Regional Compatibility Section */}
       <CompatibilitySection />
