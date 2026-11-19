@@ -83,3 +83,14 @@
   1. Built `components/live-activity-toast.tsx`: Non-intrusive bottom-left cyberpunk glassmorphic toast notification.
   2. Features rotating verified international customer purchases (US, UK, Spain, Germany, Brazil, Japan, Canada) showing gamer name, location, country flag, pass rented, price, allocated PS5 rig node, and timestamp.
   3. Includes smooth slide-in/out CSS transitions, hover-to-pause inspection, and a dismiss button (`x`).
+
+## Decision 13: Zero-KYC Trust Wallet Crypto & Fiat Card-to-Crypto Checkout Integration
+- **Date**: 2026-11-19
+- **Context**: Operator has a private decentralized Trust Wallet and wants to accept payments worldwide without KYC or banking friction.
+- **Implementations**:
+  1. Built `components/crypto-checkout-view.tsx`:
+     - **Direct Crypto Tab (Trust Wallet)**: Supports USDT (TRC-20 & BEP-20), Solana (SOL), and Bitcoin (BTC) with 1-click address copy and 0% chargeback protection.
+     - **Card-to-Crypto Tab (MoonPay/Changelly Onramp)**: Allows international gamers with Visa, MasterCard, and Apple Pay to buy crypto and settle directly into the operator's Trust Wallet address with zero merchant KYC.
+  2. Integrated 2-stage verification inside `components/session-modal.tsx`:
+     - Checks blockchain mempool and unlocks the `"ACTIVATED"` stage.
+     - Displays the gamer's allocated PS5 Blade Node (`PS5-RIG-0xxx`), Session Passcode (`VICE-8842-PS5X`), and 1-click Fullscreen GTA VI stream launcher.

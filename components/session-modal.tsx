@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { X, Server, Shield, CheckCircle2, Lock, ArrowRight, Zap } from "lucide-react";
+import { X, Server, Shield, CheckCircle2, Lock, ArrowRight, Zap, Play, Key, Radio } from "lucide-react";
+import { CryptoCheckoutView } from "./crypto-checkout-view";
 
 interface SessionModalProps {
   isOpen: boolean;
@@ -10,53 +11,39 @@ interface SessionModalProps {
 }
 
 export function SessionModal({ isOpen, onClose, selectedPlan }: SessionModalProps) {
-  const [stage, setStage] = useState<"CONNECTING" | "PLAYING" | "CHECKOUT">("CHECKOUT");
+  const [stage, setStage] = useState<"CHECKOUT" | "ACTIVATED" | "PLAYING">("CHECKOUT");
   const [allocatedNode, setAllocatedNode] = useState("PS5-RIG-0842");
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        onClose();
-      }
+      if (e.key === "Escape") onClose();
     };
-    if (isOpen) {
-      window.addEventListener("keydown", handleKeyDown);
-    }
+    if (isOpen) window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, onClose]);
 
   useEffect(() => {
     if (isOpen) {
-      if (selectedPlan) {
-        setStage("CHECKOUT");
-      } else {
-        setStage("CONNECTING");
-        const nodeNum = Math.floor(Math.random() * 800) + 100;
-        setAllocatedNode(`PS5-RIG-0${nodeNum}`);
-
-        const timer = setTimeout(() => {
-          setStage("PLAYING");
-        }, 1500);
-
-        return () => clearTimeout(timer);
-      }
+      setStage("CHECKOUT");
+      const nodeNum = Math.floor(Math.random() * 800) + 100;
+      setAllocatedNode(`PS5-RIG-0${nodeNum}`);
     }
-  }, [isOpen, selectedPlan]);
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="relative w-full max-w-xl rounded-2xl bg-[#090c1e] border border-cyan-500/30 shadow-[0_0_50px_rgba(0,210,255,0.25)] overflow-hidden">
+      <div className="relative w-full max-w-xl rounded-3xl bg-[#080b22] border border-cyan-500/40 shadow-[0_0_60px_rgba(6,182,212,0.3)] overflow-hidden">
         
         {/* Modal Header */}
-        <div className="flex items-center justify-between p-4 sm:p-5 border-b border-white/10 bg-[#060816]">
+        <div className="flex items-center justify-between p-4 sm:p-5 border-b border-white/10 bg-[#050718]">
           <div className="flex items-center gap-2.5">
-            <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
+            <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
             <h3 className="text-sm sm:text-base font-extrabold text-white uppercase tracking-wide">
-              {stage === "CHECKOUT"
-                ? `Activate ${selectedPlan?.name || "Pass"}`
-                : "Live PS5 Cloud Stream Session"}
+              {stage === "CHECKOUT" && `Activate ${selectedPlan?.name || "Pass"}`}
+              {stage === "ACTIVATED" && "PS5 Blade Rig Reserved & Ready"}
+              {stage === "PLAYING" && "Live PS5 Cloud Stream Session"}
             </h3>
           </div>
           <button
@@ -69,157 +56,103 @@ export function SessionModal({ isOpen, onClose, selectedPlan }: SessionModalProp
         </div>
 
         {/* Modal Body */}
-        <div className="p-6">
-          {/* 1. CONNECTING STAGE */}
-          {stage === "CONNECTING" && (
-            <div className="py-12 text-center space-y-4">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-cyan-400 to-purple-600 p-[2px] mx-auto animate-spin">
-                <div className="w-full h-full bg-[#090c1e] rounded-full flex items-center justify-center">
-                  <Server className="w-7 h-7 text-cyan-400" />
-                </div>
-              </div>
-              <h4 className="text-lg font-bold text-white">
-                Allocating PlayStation 5 Console...
-              </h4>
-              <p className="text-xs text-gray-400 font-mono">
-                Assigned Node: <span className="text-cyan-400 font-bold">{allocatedNode}</span> • Handshaking WebRTC 60 FPS Stream...
-              </p>
-            </div>
-          )}
-
-          {/* 2. PLAYING / DEMO STREAM STAGE */}
-          {stage === "PLAYING" && (
-            <div>
-              <div className="relative rounded-xl overflow-hidden border border-cyan-500/40 bg-black aspect-video flex flex-col justify-between p-4 shadow-xl">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-950/80 via-blue-900/40 to-cyan-950/80" />
-                
-                <div className="relative z-10 flex items-center justify-between text-xs font-mono">
-                  <span className="px-2 py-0.5 rounded bg-black/70 text-emerald-400 font-bold border border-emerald-500/30">
-                    ● STREAM LIVE (60.0 FPS)
-                  </span>
-                  <span className="px-2 py-0.5 rounded bg-black/70 text-cyan-300 font-bold">
-                    NODE: {allocatedNode}
-                  </span>
-                  <span className="px-2 py-0.5 rounded bg-black/70 text-pink-400 font-bold">
-                    LATENCY: 14ms
-                  </span>
-                </div>
-
-                <div className="relative z-10 text-center my-auto space-y-2">
-                  <div className="inline-block px-4 py-2 rounded-xl bg-black/80 backdrop-blur-md border border-white/10 shadow-lg">
-                    <p className="text-sm font-extrabold text-white tracking-wider uppercase">
-                      Grand Theft Auto VI: Ready To Play
-                    </p>
-                    <p className="text-xs text-emerald-400 font-semibold mt-0.5">
-                      Keyboard &amp; Mouse / Controller Input Active
-                    </p>
-                  </div>
-                </div>
-
-                <div className="relative z-10 flex items-center justify-between text-[11px] font-mono text-gray-300">
-                  <span>Press ESC to exit stream</span>
-                  <span className="text-yellow-400 font-bold">Session Active</span>
-                </div>
-              </div>
-
-              <div className="mt-5 flex items-center justify-between gap-3 pt-3 border-t border-white/10">
-                <div className="text-xs text-gray-400">
-                  Need more remote session time?
-                </div>
-                <button
-                  onClick={() => setStage("CHECKOUT")}
-                  className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-extrabold text-xs uppercase tracking-wider shadow-lg flex items-center gap-2"
-                >
-                  <span>Select Pass</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* 3. CHECKOUT STAGE */}
+        <div className="p-5 sm:p-6 max-h-[85vh] overflow-y-auto">
+          
+          {/* STAGE 1: CHECKOUT (Trust Wallet Crypto + Card-to-Crypto) */}
           {stage === "CHECKOUT" && (
-            <div className="space-y-5">
-              <div className="p-4 rounded-xl bg-[#060816] border border-white/10 flex items-center justify-between">
+            <div className="space-y-4">
+              <div className="p-4 rounded-2xl bg-[#040614] border border-white/10 flex items-center justify-between">
                 <div>
-                  <span className="text-xs text-cyan-400 font-mono font-bold uppercase">
-                    Selected Pass
+                  <span className="text-[10px] text-cyan-400 font-mono font-bold uppercase tracking-wider">
+                    Selected Rig Pass
                   </span>
-                  <h4 className="text-lg font-black text-white">
-                    {selectedPlan?.name || "Starter Pack"}
-                  </h4>
-                  <p className="text-xs text-gray-400">
-                    {selectedPlan?.hours || "5 hours of remote PS5 session time"}
-                  </p>
+                  <h4 className="text-base font-black text-white">{selectedPlan?.name || "Starter Pack"}</h4>
+                  <p className="text-xs text-gray-400">{selectedPlan?.hours || "5 hours remote PS5 session time"}</p>
                 </div>
                 <div className="text-right">
-                  <span className="text-2xl font-black text-white">
-                    {selectedPlan?.price || "$19.99"}
-                  </span>
-                  <span className="block text-[10px] text-emerald-400 font-semibold">
-                    Instant Activation
-                  </span>
+                  <span className="text-2xl font-black text-white">{selectedPlan?.price || "$8.99"}</span>
+                  <span className="block text-[10px] text-emerald-400 font-semibold">Instant Allocation</span>
                 </div>
               </div>
 
-              {/* Payment Methods */}
-              <div className="space-y-3">
-                <label className="text-xs font-bold text-gray-300 uppercase tracking-wide block">
-                  Select Payment Method
-                </label>
-                <div className="grid grid-cols-2 gap-3">
-                  <button className="p-3 rounded-xl bg-[#0c122b] border-2 border-cyan-400 text-left flex items-center justify-between">
-                    <div>
-                      <span className="block text-xs font-bold text-white">Card / Apple Pay</span>
-                      <span className="text-[10px] text-gray-400">Stripe Global (Zero Fee)</span>
-                    </div>
-                    <CheckCircle2 className="w-4 h-4 text-cyan-400" />
-                  </button>
+              {/* Crypto & Card Payment Engine */}
+              <CryptoCheckoutView
+                planName={selectedPlan?.name || "Starter Pack"}
+                price={selectedPlan?.price || "$8.99"}
+                onPaymentSuccess={() => setStage("ACTIVATED")}
+              />
+            </div>
+          )}
 
-                  <button className="p-3 rounded-xl bg-[#060816] border border-white/10 hover:border-cyan-400 text-left flex items-center justify-between transition-colors">
-                    <div>
-                      <span className="block text-xs font-bold text-white">Crypto (USDT/SOL)</span>
-                      <span className="text-[10px] text-gray-400">Anonymous 0-Wait</span>
-                    </div>
-                    <Zap className="w-4 h-4 text-yellow-400" />
-                  </button>
+          {/* STAGE 2: ACTIVATED (Shows Credentials & Launch Button) */}
+          {stage === "ACTIVATED" && (
+            <div className="space-y-4 py-2">
+              <div className="text-center space-y-1">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center mx-auto mb-2 shadow-[0_0_20px_rgba(16,185,129,0.4)]">
+                  <CheckCircle2 className="w-6 h-6" />
+                </div>
+                <h4 className="text-lg font-black text-white">Payment Confirmed! Rig Ready.</h4>
+                <p className="text-xs text-gray-400">Your dedicated PS5 hardware blade is assigned and ready to stream.</p>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-[#040614] border border-cyan-500/30 space-y-2.5 font-mono text-xs">
+                <div className="flex justify-between border-b border-white/5 pb-2">
+                  <span className="text-gray-400">Allocated Rig:</span>
+                  <span className="text-cyan-300 font-bold">{allocatedNode} [Miami Node - 14ms]</span>
+                </div>
+                <div className="flex justify-between border-b border-white/5 pb-2">
+                  <span className="text-gray-400">Active Pass:</span>
+                  <span className="text-white font-bold">{selectedPlan?.name || "Starter Pack"} ({selectedPlan?.hours})</span>
+                </div>
+                <div className="flex justify-between border-b border-white/5 pb-2">
+                  <span className="text-gray-400">Stream Protocol:</span>
+                  <span className="text-emerald-400 font-bold">WebRTC 4K/60FPS Hardware Accelerated</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Session Passcode:</span>
+                  <span className="text-pink-400 font-bold">VICE-8842-PS5X</span>
                 </div>
               </div>
 
-              {/* Email / Username field */}
-              <div className="space-y-1.5">
-                <label htmlFor="gamer-email" className="text-xs font-semibold text-gray-300">
-                  Gamer Email (Where session credentials are sent)
-                </label>
-                <input
-                  id="gamer-email"
-                  name="email"
-                  type="email"
-                  required
-                  placeholder="gamer@example.com"
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#060816] border border-white/10 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all"
-                />
-              </div>
+              <button
+                onClick={() => setStage("PLAYING")}
+                className="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-white font-extrabold text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(16,185,129,0.5)] hover:scale-[1.01] active:scale-95 transition-all flex items-center justify-center gap-2"
+              >
+                <Play className="w-4 h-4 fill-white" />
+                <span>Launch GTA VI Stream Fullscreen</span>
+              </button>
+            </div>
+          )}
 
-              {/* Security Note & CTA */}
-              <div className="pt-2">
-                <button
-                  onClick={() => {
-                    alert("Order Confirmed! Your dedicated PS5 Rig #401 is now ready for GTA VI.");
-                    setStage("PLAYING");
-                  }}
-                  className="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 text-white font-extrabold text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(0,210,255,0.4)] hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2"
-                >
-                  <Lock className="w-4 h-4" />
-                  <span>Confirm &amp; Launch GTA VI Rig</span>
-                </button>
-                <p className="text-center text-[10px] text-gray-500 mt-2 flex items-center justify-center gap-1.5">
-                  <Shield className="w-3 h-3 text-emerald-400" />
-                  256-Bit SSL Encrypted Checkout • Non-US operator disclaimer applies
-                </p>
+          {/* STAGE 3: PLAYING */}
+          {stage === "PLAYING" && (
+            <div className="space-y-4">
+              <div className="relative rounded-2xl overflow-hidden border border-cyan-500/40 bg-black aspect-video flex flex-col justify-between p-4 shadow-2xl">
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-950/80 via-blue-900/40 to-cyan-950/80" />
+                <div className="relative z-10 flex items-center justify-between text-xs font-mono">
+                  <span className="px-2 py-0.5 rounded bg-black/70 text-emerald-400 font-bold border border-emerald-500/30">
+                    ● STREAM LIVE (60.0 FPS LOCKED)
+                  </span>
+                  <span className="px-2 py-0.5 rounded bg-black/70 text-cyan-300 font-bold">
+                    LATENCY: 14.2ms
+                  </span>
+                </div>
+                <div className="relative z-10 text-center py-6">
+                  <p className="text-lg font-black text-white drop-shadow-md">
+                    GTA VI Active Session Connected
+                  </p>
+                  <p className="text-xs text-gray-300 font-mono mt-1">
+                    Keyboard &amp; Mouse Pointer Lock Enabled • Press F11 for Fullscreen
+                  </p>
+                </div>
+                <div className="relative z-10 flex items-center justify-between text-[11px] font-mono text-gray-400">
+                  <span>Press ESC to exit modal</span>
+                  <span className="text-emerald-400 font-bold">Auto Cloud Save Active</span>
+                </div>
               </div>
             </div>
           )}
+
         </div>
 
       </div>
