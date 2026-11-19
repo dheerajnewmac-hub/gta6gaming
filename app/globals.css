@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #08080f;
+  --foreground: #f8fafc;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  overflow-x: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  selection-background-color: #ff007f;
+  selection-color: #ffffff;
+}
+
+/* Custom Vice City Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0b0b14;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e1e32;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ff007f;
+}
+
+/* Neon Glow Utilities */
+.neon-glow-pink {
+  box-shadow: 0 0 25px rgba(255, 0, 127, 0.45);
+}
+
+.neon-glow-cyan {
+  box-shadow: 0 0 25px rgba(0, 240, 255, 0.45);
+}
+
+.neon-text-pink {
+  text-shadow: 0 0 15px rgba(255, 0, 127, 0.7);
+}
+
+.neon-text-cyan {
+  text-shadow: 0 0 15px rgba(0, 240, 255, 0.7);
+}
+
+.grid-bg {
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
