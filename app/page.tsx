@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Navbar } from "@/components/navbar";
 import { HeroNeonDesk } from "@/components/hero-neon-desk";
-import { HowItWorksFlow } from "@/components/how-it-works-flow";
+import { HowServiceWorks } from "@/components/how-service-works";
 import { HowToPlayGuide } from "@/components/how-to-play-guide";
 import { PricingPlans } from "@/components/pricing-plans";
 import { GlobalServerMap } from "@/components/global-server-map";
@@ -76,8 +76,8 @@ export default function HomePage() {
         onOpenHowItWorks={handleOpenHowItWorks}
       />
 
-      {/* Middle 3-Step "How It Works?" Flow Bar */}
-      <HowItWorksFlow />
+      {/* Smart Cloud Architecture & How Service Works */}
+      <HowServiceWorks onSelectPlan={handleOpenPlans} />
 
       {/* Complete A to Z "How to Play" Interactive Guide */}
       <HowToPlayGuide />

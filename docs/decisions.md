@@ -123,3 +123,12 @@
   1. Configured Hostinger DNS A record (`@` -> `76.76.21.21`) and CNAME record (`www` -> `cname.vercel-dns.com`).
   2. Verified Vercel domain validation and Let's Encrypt SSL provisioning.
   3. Verified HTTP 200 OK production responses live on `https://www.gta6gaming.store` and `https://www.gta6gaming.store/login`.
+
+
+## Decision 17: Smart Cloud Architecture & 4-Step Player Journey Explainer
+- **Date**: 2026-11-20
+- **Context**: Operator requested a smart, high-tech, yet concise section directly beneath the Hero to clearly educate international visitors on how the service works behind the scenes (PS5 Fleet ➔ WebRTC ➔ In-Browser Stream) and the 4-step frictionless player journey.
+- **Implementations**:
+  1. Built `components/service-pipeline-cards.tsx`: 3-pillar cyberpunk glass cards detailing Data Center PS5 fleet, Sub-30ms WebRTC UDP pipeline, and In-browser low-end PC immersion.
+  2. Built `components/player-journey-roadmap.tsx`: 4-step onboarding timeline (Pick Pass ➔ Zero-KYC Pay ➔ Node Unlock in 10s ➔ Launch 60FPS Stream) with an interactive "Traditional $600 Console vs ViceCloud Instant Browser" toggle.
+  3. Composed in `components/how-service-works.tsx` and placed prominently on `app/page.tsx`.
