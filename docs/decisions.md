@@ -55,3 +55,13 @@
      - 🇪🇺 Europe: UK, Germany, France, Netherlands, Spain (London, Frankfurt, Paris, Amsterdam, Madrid)
      - 🌎 Latin America: Brazil, Chile, Argentina, Colombia (São Paulo, Santiago, Buenos Aires, Bogotá)
      - 🌏 Asia-Pacific: Japan, South Korea, Singapore, Australia (Tokyo, Seoul, Singapore, Sydney, Melbourne)
+
+## Decision 10: Dedicated Gamer Portal Login Route (/login) with Google OAuth and Email/Password
+- **Date**: 2026-11-19
+- **Context**: User requested a dedicated, professional login page supporting both standard email/password credentials and 1-click Google Sign-In to give users a high-trust experience when logging into their rented PS5 cloud rigs.
+- **Implementations**:
+  1. Built `lib/auth-schema.ts`: Strict Zod schema validating gamer email addresses and minimum 6-character passwords.
+  2. Built `components/social-login-buttons.tsx`: High-converting Google sign-in button with official Google SVG logo and Discord community sign-in.
+  3. Built `components/login-form.tsx`: Comprehensive form featuring password visibility toggle (eye icon), "Remember me for 30 days" checkbox, "Forgot password?" recovery link, loading state, error alert, and success redirect.
+  4. Built `app/login/page.tsx`: Dedicated dark glassmorphic page layout with live rigs online beacon, 256-bit SSL encryption badge, and seamless navigation back to home.
+  5. Updated `components/navbar.tsx`: Integrated a prominent "Sign In" button in desktop and mobile navigation menus.

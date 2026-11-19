@@ -70,8 +70,14 @@ export function Navbar({ onOpenPlans, onOpenHowItWorks }: NavbarProps) {
           </a>
         </nav>
 
-        {/* Right Button: View Plans -> */}
-        <div className="hidden sm:flex items-center">
+        {/* Right Buttons: Sign In + View Plans -> */}
+        <div className="hidden sm:flex items-center gap-4">
+          <a
+            href="/login"
+            className="text-xs font-bold uppercase tracking-wider text-gray-300 hover:text-cyan-400 transition-colors"
+          >
+            Sign In
+          </a>
           <button
             onClick={onOpenPlans}
             className="px-6 py-2.5 rounded-full font-bold text-xs uppercase tracking-wider text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 shadow-[0_0_20px_rgba(147,51,234,0.4)] transition-all flex items-center gap-1.5 hover:scale-105 active:scale-95"
@@ -137,6 +143,13 @@ export function Navbar({ onOpenPlans, onOpenHowItWorks }: NavbarProps) {
             className="block text-gray-300 hover:text-white py-1"
           >
             FAQ
+          </a>
+          <a
+            href="/login"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block text-cyan-400 font-bold py-1 border-t border-white/5 pt-2"
+          >
+            Sign In to Rig &rarr;
           </a>
         </div>
       )}
