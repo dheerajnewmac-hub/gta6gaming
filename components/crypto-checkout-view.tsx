@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import { Copy, Check, QrCode, CreditCard, UploadCloud, X, AlertCircle, ArrowRight } from "lucide-react";
+import { Copy, Check, QrCode, CreditCard, UploadCloud, X, AlertCircle, ArrowRight, Loader2 } from "lucide-react";
 import { useAuth } from "@/context/auth-context";
+import { compressImage } from "@/lib/image-compress";
 
 interface CryptoCheckoutProps {
   planName: string;
@@ -27,6 +28,7 @@ export function CryptoCheckoutView({
   const [email, setEmail] = useState(user?.email || "");
   const [txid, setTxid] = useState("");
   const [screenshot, setScreenshot] = useState<string | null>(null);
+  const [compressing, setCompressing] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
@@ -36,17 +38,21 @@ export function CryptoCheckoutView({
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (file.size > 8 * 1024 * 1024) {
-      setErrorMsg("File is too large (max 8MB).");
-      return;
-    }
+
     setErrorMsg(null);
-    const reader = new FileReader();
-    reader.onload = () => setScreenshot(reader.result as string);
-    reader.readAsDataURL(file);
+    setCompressing(true);
+
+    try {
+      const compressedDataUrl = await compressImage(file);
+      setScreenshot(compressedDataUrl);
+    } catch {
+      setErrorMsg("Failed to read image. Please try a different photo format.");
+    } finally {
+      setCompressing(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -78,6 +84,18 @@ export function CryptoCheckoutView({
           screenshotUrl: screenshot,
         }),
       });
+
+      if (!res.ok) {
+        const errText = await res.text();
+        let parsed = "Failed to submit payment verification.";
+        try {
+          const j = JSON.parse(errText);
+          parsed = j.error || parsed;
+        } catch {
+          if (res.status === 413) parsed = "Image file is too large. Please select a smaller photo.";
+        }
+        throw new Error(parsed);
+      }
 
       const data = await res.json();
       if (!data.success) {
@@ -210,12 +228,20 @@ export function CryptoCheckoutView({
             <label className="block text-[11px] text-gray-400 mb-1">
               Upload Payment Screenshot (Proof) <span className="text-pink-400">*</span>
             </label>
-            {screenshot ? (
+            {compressing ? (
+              <div className="p-3 rounded-xl border border-cyan-500/40 bg-[#070919] flex items-center justify-center gap-2 text-cyan-300 text-xs">
+                <Loader2 className="w-4 h-4 animate-spin" />
+                <span>Optimizing photo...</span>
+              </div>
+            ) : screenshot ? (
               <div className="relative rounded-xl overflow-hidden border border-emerald-500/40 p-2 bg-[#0c132c] flex items-center justify-between">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2.5">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={screenshot} alt="Payment proof preview" className="w-12 h-12 object-cover rounded-lg border border-white/10" />
-                  <span className="text-xs text-emerald-400 font-mono">Screenshot attached</span>
+                  <div>
+                    <span className="text-xs text-emerald-400 font-mono font-bold block">Screenshot attached</span>
+                    <span className="text-[10px] text-slate-400">Ready to verify</span>
+                  </div>
                 </div>
                 <button
                   type="button"
@@ -229,8 +255,13 @@ export function CryptoCheckoutView({
               <label className="border-2 border-dashed border-white/15 hover:border-cyan-500/50 rounded-xl p-3 flex flex-col items-center justify-center cursor-pointer bg-[#070919]/60 transition-colors">
                 <UploadCloud className="w-5 h-5 text-cyan-400 mb-1" />
                 <span className="text-xs text-slate-300 font-medium">Click to upload screenshot</span>
-                <span className="text-[10px] text-slate-500">PNG, JPG, WEBP up to 8MB</span>
-                <input type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
+                <span className="text-[10px] text-slate-500">Supports all image formats (PNG, JPG, HEIC, WEBP, etc.)</span>
+                <input
+                  type="file"
+                  accept="image/*,.png,.jpg,.jpeg,.webp,.heic,.heif,.bmp,.svg"
+                  onChange={handleFileChange}
+                  className="hidden"
+                />
               </label>
             )}
           </div>
@@ -245,11 +276,11 @@ export function CryptoCheckoutView({
           {/* Verify / Submit Button */}
           <button
             type="submit"
-            disabled={submitting}
+            disabled={submitting || compressing}
             className="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 hover:brightness-110 text-white font-extrabold text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(0,210,255,0.4)] active:scale-[0.99] transition-all flex items-center justify-center gap-2 disabled:opacity-50"
           >
             {submitting ? (
-              <span>Uploading Proof...</span>
+              <span>Submitting Verification...</span>
             ) : (
               <span>Submit Screenshot &amp; Verify Payment</span>
             )}
