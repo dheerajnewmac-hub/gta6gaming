@@ -72,41 +72,6 @@ export function NeonHero({ onStartPlaying }: NeonHeroProps) {
               </button>
             </div>
 
-            {/* Bottom 4 Spec Pills */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-4">
-              <div className="p-2.5 rounded-2xl bg-[#0f0928]/90 border border-purple-500/20 flex items-center gap-2 text-xs">
-                <Zap className="w-4 h-4 text-purple-400 shrink-0" />
-                <div className="leading-tight">
-                  <span className="font-bold text-white block text-[11px]">Ultra Low Latency</span>
-                  <span className="text-[10px] text-slate-400 font-mono">(14ms)</span>
-                </div>
-              </div>
-
-              <div className="p-2.5 rounded-2xl bg-[#0f0928]/90 border border-pink-500/20 flex items-center gap-2 text-xs">
-                <span className="px-1.5 py-0.5 rounded bg-pink-500/20 text-pink-400 text-[10px] font-mono font-bold shrink-0">4K</span>
-                <div className="leading-tight">
-                  <span className="font-bold text-white block text-[11px]">4K 60FPS</span>
-                  <span className="text-[10px] text-slate-400">Streaming</span>
-                </div>
-              </div>
-
-              <div className="p-2.5 rounded-2xl bg-[#0f0928]/90 border border-cyan-500/20 flex items-center gap-2 text-xs">
-                <Cloud className="w-4 h-4 text-cyan-400 shrink-0" />
-                <div className="leading-tight">
-                  <span className="font-bold text-white block text-[11px]">Play Anywhere</span>
-                  <span className="text-[10px] text-slate-400">On Any Device</span>
-                </div>
-              </div>
-
-              <div className="p-2.5 rounded-2xl bg-[#0f0928]/90 border border-emerald-500/20 flex items-center gap-2 text-xs">
-                <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-                <div className="leading-tight">
-                  <span className="font-bold text-white block text-[11px]">Secure &amp; Reliable</span>
-                  <span className="text-[10px] text-slate-400">PS5 Cloud</span>
-                </div>
-              </div>
-            </div>
-
           </div>
 
           {/* Right Column: Exact Graphic Art (Jason, Lucia, GTA VI logo, Car) */}
@@ -125,6 +90,50 @@ export function NeonHero({ onStartPlaying }: NeonHeroProps) {
           </div>
 
         </div>
+
+        {/* Bottom 4 Spec Pills Spanning Full Width */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 pt-10">
+          <div className="p-3.5 rounded-2xl bg-[#0e0726]/90 border border-purple-500/20 flex items-center gap-3 text-xs shadow-lg">
+            <div className="p-2 rounded-xl bg-purple-500/15 border border-purple-500/30">
+              <Zap className="w-4 h-4 text-purple-400 shrink-0" />
+            </div>
+            <div className="leading-tight">
+              <span className="font-bold text-white block text-xs">Ultra Low Latency</span>
+              <span className="text-[11px] text-slate-400 font-mono">(14ms)</span>
+            </div>
+          </div>
+
+          <div className="p-3.5 rounded-2xl bg-[#0e0726]/90 border border-pink-500/20 flex items-center gap-3 text-xs shadow-lg">
+            <div className="p-2 rounded-xl bg-pink-500/15 border border-pink-500/30">
+              <span className="text-pink-400 text-xs font-mono font-bold block">4K</span>
+            </div>
+            <div className="leading-tight">
+              <span className="font-bold text-white block text-xs">4K 60FPS</span>
+              <span className="text-[11px] text-slate-400">Streaming</span>
+            </div>
+          </div>
+
+          <div className="p-3.5 rounded-2xl bg-[#0e0726]/90 border border-cyan-500/20 flex items-center gap-3 text-xs shadow-lg">
+            <div className="p-2 rounded-xl bg-cyan-500/15 border border-cyan-500/30">
+              <Cloud className="w-4 h-4 text-cyan-400 shrink-0" />
+            </div>
+            <div className="leading-tight">
+              <span className="font-bold text-white block text-xs">Play Anywhere</span>
+              <span className="text-[11px] text-slate-400">On Any Device</span>
+            </div>
+          </div>
+
+          <div className="p-3.5 rounded-2xl bg-[#0e0726]/90 border border-emerald-500/20 flex items-center gap-3 text-xs shadow-lg">
+            <div className="p-2 rounded-xl bg-emerald-500/15 border border-emerald-500/30">
+              <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+            </div>
+            <div className="leading-tight">
+              <span className="font-bold text-white block text-xs">Secure &amp; Reliable</span>
+              <span className="text-[11px] text-slate-400">PS5 Cloud</span>
+            </div>
+          </div>
+        </div>
+
       </div>
 
       {/* Trailer Video Lightbox */}
