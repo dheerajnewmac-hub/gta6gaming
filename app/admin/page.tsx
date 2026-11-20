@@ -5,15 +5,17 @@ import { AdminHeader } from "@/components/admin/admin-header";
 import { AdminStatsBar } from "@/components/admin/admin-stats-bar";
 import { PaymentsTable } from "@/components/admin/payments-table";
 import { UsersTable } from "@/components/admin/users-table";
+import { PaymentMethodsManager } from "@/components/admin/payment-methods-manager";
 import { ScreenshotModal } from "@/components/admin/screenshot-modal";
-import { PaymentSubmission, UserProfile, AdminStats } from "@/lib/types";
+import { PaymentSubmission, UserProfile, AdminStats, PaymentMethodConfig } from "@/lib/types";
 import { RefreshCw, CheckCircle2 } from "lucide-react";
 
 export default function AdminDashboardPage() {
-  const [activeTab, setActiveTab] = useState<"payments" | "users">("payments");
+  const [activeTab, setActiveTab] = useState<"payments" | "users" | "methods">("payments");
   const [stats, setStats] = useState<AdminStats | null>(null);
   const [payments, setPayments] = useState<PaymentSubmission[]>([]);
   const [users, setUsers] = useState<UserProfile[]>([]);
+  const [methods, setMethods] = useState<PaymentMethodConfig[]>([]);
   const [loading, setLoading] = useState(true);
   const [inspectModal, setInspectModal] = useState<{ isOpen: boolean; img: string | null; id: string }>({
     isOpen: false,
@@ -24,19 +26,22 @@ export default function AdminDashboardPage() {
 
   const fetchData = useCallback(async () => {
     try {
-      const [sRes, pRes, uRes] = await Promise.all([
+      const [sRes, pRes, uRes, mRes] = await Promise.all([
         fetch("/api/admin/stats"),
         fetch("/api/admin/payments"),
         fetch("/api/admin/users"),
+        fetch("/api/admin/payment-methods"),
       ]);
 
       const sData = await sRes.json();
       const pData = await pRes.json();
       const uData = await uRes.json();
+      const mData = await mRes.json();
 
       if (sData.success) setStats(sData.stats);
       if (pData.success) setPayments(pData.payments);
       if (uData.success) setUsers(uData.users);
+      if (mData.success) setMethods(mData.methods);
     } catch (err) {
       console.error("Admin fetch error:", err);
     } finally {
@@ -122,6 +127,19 @@ export default function AdminDashboardPage() {
               )}
             </button>
             <button
+              onClick={() => setActiveTab("methods")}
+              className={`pb-2 border-b-2 transition-all flex items-center gap-2 ${
+                activeTab === "methods"
+                  ? "border-cyan-400 text-cyan-300"
+                  : "border-transparent text-slate-400 hover:text-white"
+              }`}
+            >
+              <span>Payment Methods &amp; Wallets</span>
+              <span className="px-1.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 text-[10px]">
+                {methods.length}
+              </span>
+            </button>
+            <button
               onClick={() => setActiveTab("users")}
               className={`pb-2 border-b-2 transition-all flex items-center gap-2 ${
                 activeTab === "users"
@@ -149,7 +167,7 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Tab Content */}
-        {activeTab === "payments" ? (
+        {activeTab === "payments" && (
           <PaymentsTable
             payments={payments}
             loading={loading}
@@ -157,7 +175,16 @@ export default function AdminDashboardPage() {
             onReject={handleReject}
             onInspectImage={(img, id) => setInspectModal({ isOpen: true, img, id })}
           />
-        ) : (
+        )}
+
+        {activeTab === "methods" && (
+          <PaymentMethodsManager
+            methods={methods}
+            onRefresh={fetchData}
+          />
+        )}
+
+        {activeTab === "users" && (
           <UsersTable users={users} loading={loading} />
         )}
 

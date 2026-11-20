@@ -1,10 +1,11 @@
 import fs from "fs";
 import path from "path";
-import { PaymentSubmission, UserProfile, AdminStats } from "./types";
+import { PaymentSubmission, UserProfile, AdminStats, PaymentMethodConfig } from "./types";
 
 const DATA_DIR = path.join(process.cwd(), "data");
 const PAYMENTS_FILE = path.join(DATA_DIR, "payments.json");
 const USERS_FILE = path.join(DATA_DIR, "users.json");
+const METHODS_FILE = path.join(DATA_DIR, "payment-methods.json");
 
 function ensureDir() {
   if (!fs.existsSync(DATA_DIR)) {
@@ -54,6 +55,56 @@ export function writeUsers(users: UserProfile[]) {
   }
 }
 
+export function readPaymentMethods(): PaymentMethodConfig[] {
+  try {
+    ensureDir();
+    if (!fs.existsSync(METHODS_FILE)) return [];
+    const raw = fs.readFileSync(METHODS_FILE, "utf-8");
+    return JSON.parse(raw) as PaymentMethodConfig[];
+  } catch (err) {
+    console.error("Error reading payment methods:", err);
+    return [];
+  }
+}
+
+export function writePaymentMethods(methods: PaymentMethodConfig[]) {
+  try {
+    ensureDir();
+    fs.writeFileSync(METHODS_FILE, JSON.stringify(methods, null, 2), "utf-8");
+  } catch (err) {
+    console.error("Error writing payment methods:", err);
+  }
+}
+
+export function upsertPaymentMethod(data: PaymentMethodConfig): PaymentMethodConfig {
+  const list = readPaymentMethods();
+  const idx = list.findIndex((m) => m.id === data.id);
+  if (idx !== -1) {
+    list[idx] = { ...list[idx], ...data };
+  } else {
+    list.push(data);
+  }
+  writePaymentMethods(list);
+  return data;
+}
+
+export function deletePaymentMethod(id: string): boolean {
+  const list = readPaymentMethods();
+  const filtered = list.filter((m) => m.id !== id);
+  if (filtered.length === list.length) return false;
+  writePaymentMethods(filtered);
+  return true;
+}
+
+export function togglePaymentMethod(id: string): PaymentMethodConfig | null {
+  const list = readPaymentMethods();
+  const idx = list.findIndex((m) => m.id === id);
+  if (idx === -1) return null;
+  list[idx].isEnabled = !list[idx].isEnabled;
+  writePaymentMethods(list);
+  return list[idx];
+}
+
 export async function createPayment(
   data: Omit<PaymentSubmission, "id" | "status" | "createdAt" | "allocatedNode" | "sessionPasscode">
 ): Promise<PaymentSubmission> {
@@ -74,7 +125,6 @@ export async function createPayment(
   payments.unshift(newPayment);
   writePayments(payments);
 
-  // Also register/update user in users store
   const amountNum = parseFloat(data.amount.replace(/[^0-9.]/g, "")) || 0;
   upsertUser(data.userEmail, data.gamerTag, amountNum);
 

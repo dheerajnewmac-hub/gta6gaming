@@ -122,19 +122,28 @@ export function PaymentsTable({
                     </td>
                     <td className="py-3.5 px-4">
                       <span className="text-white font-bold block">{p.amount}</span>
-                      <span className="text-[10px] text-slate-400">{p.planName}</span>
+                      <span className="text-[10px] text-slate-400 block">{p.planName}</span>
+                      <span className="inline-block mt-0.5 px-1.5 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 text-[9px] font-mono">
+                        {p.paymentMethod || "USDT TRC-20"}
+                      </span>
                     </td>
                     <td className="py-3.5 px-4 max-w-[150px]">
                       {p.txid ? (
-                        <a
-                          href={`https://tronscan.org/#/transaction/${p.txid}`}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="text-cyan-400 hover:underline truncate block flex items-center gap-1"
-                        >
-                          <span className="truncate">{p.txid}</span>
-                          <ExternalLink className="w-3 h-3 shrink-0" />
-                        </a>
+                        p.txid.startsWith("T") || p.txid.length > 30 ? (
+                          <a
+                            href={`https://tronscan.org/#/transaction/${p.txid}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-cyan-400 hover:underline truncate block flex items-center gap-1"
+                          >
+                            <span className="truncate">{p.txid}</span>
+                            <ExternalLink className="w-3 h-3 shrink-0" />
+                          </a>
+                        ) : (
+                          <span className="text-slate-300 font-mono truncate block select-all" title={p.txid}>
+                            {p.txid}
+                          </span>
+                        )
                       ) : (
                         <span className="text-slate-500 italic">Not provided</span>
                       )}

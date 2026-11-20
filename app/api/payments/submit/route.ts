@@ -8,7 +8,8 @@ const paymentSchema = z.object({
   planName: z.string().min(1, "Plan name is required"),
   amount: z.string().min(1, "Amount is required"),
   hours: z.string().min(1, "Hours is required"),
-  walletAddress: z.string().min(10, "Invalid TRC20 address"),
+  walletAddress: z.string().min(2, "Invalid target address or ID"),
+  paymentMethod: z.string().optional(),
   txid: z.string().optional(),
   screenshotUrl: z.string().min(10, "Payment proof screenshot is required"),
 });

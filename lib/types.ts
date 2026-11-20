@@ -6,6 +6,7 @@ export interface PaymentSubmission {
   amount: string;
   hours: string;
   walletAddress: string;
+  paymentMethod?: string;
   txid?: string;
   screenshotUrl: string;
   status: "pending" | "approved" | "rejected";
@@ -33,4 +34,18 @@ export interface AdminStats {
   pendingCount: number;
   approvedCount: number;
   activeStreams: number;
+}
+
+export interface PaymentMethodConfig {
+  id: string;
+  name: string;
+  type: "crypto_address" | "binance_pay" | "card" | "custom";
+  accountValue: string;
+  networkName: string;
+  qrCodeUrl?: string;
+  instructions?: string;
+  badge?: string;
+  isEnabled: boolean;
+  isComingSoon: boolean;
+  sortOrder: number;
 }

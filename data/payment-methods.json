@@ -1,0 +1,38 @@
+[
+  {
+    "id": "trc20",
+    "name": "USDT (TRC-20)",
+    "type": "crypto_address",
+    "accountValue": "TFH1z3sC2MHPGZpw3KvTt9QegbJJCyD8ii",
+    "networkName": "Tron (TRC-20)",
+    "instructions": "Send exact USDT amount to this Tron TRC-20 address.",
+    "badge": "Instant 0% Fee",
+    "isEnabled": true,
+    "isComingSoon": false,
+    "sortOrder": 1
+  },
+  {
+    "id": "binance_pay",
+    "name": "Binance Pay",
+    "type": "binance_pay",
+    "accountValue": "829104812",
+    "networkName": "Binance Pay Direct (Zero Fees)",
+    "instructions": "Open Binance app > Pay > Send to Pay ID 829104812 with 0 fees.",
+    "badge": "Zero Fees",
+    "isEnabled": true,
+    "isComingSoon": false,
+    "sortOrder": 2
+  },
+  {
+    "id": "card",
+    "name": "Card / Apple Pay",
+    "type": "card",
+    "accountValue": "",
+    "networkName": "Visa, MasterCard, Apple Pay",
+    "instructions": "Visa, MasterCard & Apple Pay integration is currently undergoing compliance setup.",
+    "badge": "Coming Soon",
+    "isEnabled": true,
+    "isComingSoon": true,
+    "sortOrder": 3
+  }
+]

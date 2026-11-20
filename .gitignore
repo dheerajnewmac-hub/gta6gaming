@@ -38,4 +38,6 @@ next-env.d.ts
 
 # Root temp media
 /*.mp4
+/*.png
+/video_production/
 /public/test_thumb_new.jpg

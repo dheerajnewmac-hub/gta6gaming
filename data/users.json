@@ -28,5 +28,15 @@
     "totalOrders": 1,
     "totalSpent": 8.99,
     "status": "active"
+  },
+  {
+    "id": "usr_005354",
+    "email": "binance_gamer@test.com",
+    "gamerTag": "BinanceGamer",
+    "createdAt": "2026-11-20T01:43:25.354Z",
+    "lastActive": "2026-11-20T01:43:53.977Z",
+    "totalOrders": 2,
+    "totalSpent": 17.98,
+    "status": "active"
   }
 ]

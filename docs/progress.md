@@ -1,36 +1,34 @@
 # Project Progress
 
 ## Status
-- **Current Phase**: COMPLETED: Admin Panel & TRC20 Screenshot Verification Flow (Tested & Verified 100%)
-- **Server Running**: `http://localhost:3000` (Production Next.js Server Active) & Production `https://www.gta6gaming.store`
+- **Current Phase**: COMPLETED: Dynamic Payment Gateway & Wallet Management (Binance Pay, USDT TRC-20, Card)
+- **Live Domains**: `https://www.gta6gaming.store` & `https://gta6gaming-ashen.vercel.app`
+- **Admin Portal**: `https://www.gta6gaming.store/admin` (Protected by middleware)
+- **Active Admin Credentials**:
+  - **Email**: `myw8210@gmail.com`
+  - **Password**: `ddkk@9090`
 
 ## What Was Built & Verified
-1. **TRC-20 Wallet Configuration**:
-   - Operator's Tron address `TFH1z3sC2MHPGZpw3KvTt9QegbJJCyD8ii` configured as master wallet with 1-click copy & QR code.
-   - Cards & Apple Pay tab updated to "Coming Soon" with clear onboarding messaging.
-2. **Screenshot Proof & Submission Pipeline**:
-   - File upload supporting PNG, JPG, WEBP (up to 8MB) with instant local preview and removal.
-   - Optional TronScan TXID input field.
-   - User email capture and integration with `useAuth()`.
-3. **Real-Time Waitlist Screen**:
-   - Beautiful cyberpunk radar/pulse screen shown to users after payment submission.
-   - Shows order reference ID, reserved PS5 rig, and 1-5 min countdown.
-   - Automated polling (`/api/payments/status?id=...`) every 3 seconds.
-   - When approved by admin: Automatically unlocks PS5 rig and transitions to full stream mode.
-   - When rejected: Alerts user with operator's exact reason and allows resubmitting.
-4. **Master Admin Portal (`/admin` & `/admin/login`)**:
-   - Protected route via `middleware.ts`.
-   - Credentials:
-     - **Email**: `admin@vicecloud.gg`
-     - **Password**: `ViceCloud@Admin2026!`
-   - Live metrics: Total Registered Users, Total Revenue, Pending Verifications, Active Streams.
-   - Verification queue: Approve button (instant node unlock), Reject button (with reason prompt), Inspect Screenshot Lightbox modal.
-   - Registered Gamers directory: Inspect email, gamerTag, order counts, and spend.
-   - Auto-sync polling every 4 seconds.
+1. **Dynamic Payment Methods Manager (`/admin`)**:
+   - Added 3rd tab "Payment Methods & Wallets" in the master admin dashboard.
+   - Operator can add new payment methods, edit existing ones (Name, Type: Binance Pay / Crypto / Card / Custom, Pay ID / Address, Network, Badge, Instructions, QR Code image), toggle enable/disable with 1 click, or delete.
+   - Built with persistent store in `lib/payment-store.ts` (`data/payment-methods.json`) and protected admin API endpoints (`/api/admin/payment-methods`).
+2. **Dynamic User Checkout Integration**:
+   - Refactored `components/crypto-checkout-view.tsx` into modular sub-components: `CheckoutTabs`, `PaymentInstructionsCard`, and `ComingSoonCard` (<150 lines each).
+   - Fetches live enabled methods from `/api/payment-methods`.
+   - When Binance Pay is selected: displays the operator's Binance Pay ID / UID with 1-click Copy, QR code preview/scan, and zero-fee instructions.
+   - When USDT TRC-20 is selected: displays Tron wallet `TFH1z3sC2MHPGZpw3KvTt9QegbJJCyD8ii` with 1-click Copy.
+   - When Card is selected: displays compliance onboarding note.
+3. **Queue & Verification Flow**:
+   - Admin verification queue clearly tags the submission with the selected payment method (`Binance Pay` vs `USDT TRC-20`).
+   - Screenshot proof lightbox modal allows quick inspection of user payment receipt.
+   - 1-click Approve instantly unlocks dedicated PS5 blade node for user.
+4. **Mobile Polish & 24/7 Telegram Support**:
+   - Dedicated Telegram support button (`@vicecloudspport`) positioned at `bottom-24 right-3` on mobile to avoid overlapping with `LiveActivityToast` (at `bottom-3 left-3`).
+   - Universal photo upload with client-side canvas compression (`compressImage`) preventing 413 payload errors.
 5. **Testing & Reliability**:
-   - All 9 automated end-to-end tests passed with 100% success.
-   - TypeScript strict compliance with zero warnings.
+   - Automated end-to-end tests passing 100% across authentication, dynamic method update, checkout submission, queue inspection, and approval.
+   - Next.js production build (`npm run build`) completed with 0 errors.
 
 ## Next Up
-- Await operator review in the morning.
-- Deploy milestone to production when operator approves.
+- Deploy milestone to production via GitHub (`git push`).

@@ -193,3 +193,27 @@
   4. Integrated in `components/faq-section.tsx`: 24/7 Operator Helpdesk banner.
   5. Integrated in `components/footer.tsx`: Direct Telegram support link.
   6. Verified in production HTML at `https://www.gta6gaming.store`.
+
+
+## Decision 23: Mobile Layout Optimization for Support Button & Activity Toast
+- **Date**: 2026-11-20
+- **Context**: On narrow mobile screens, the full-width Live Gamer Activity toast and Floating Telegram Support pill collided in the bottom area.
+- **Implementations**:
+  1. Compacted Telegram Support button on mobile to a sleek, compact FAB pill (`Support` label only on mobile, full label on desktop).
+  2. Shifted Support button position on mobile to `bottom-24 right-3` (well above the bottom toast area).
+  3. Narrowed Live Gamer Activity toast to `max-w-[275px]` and docked to `bottom-3 left-3`.
+  4. Both elements now occupy separate, non-overlapping zones across all phone screen sizes.
+  5. Built and deployed live to `https://www.gta6gaming.store`.
+
+
+## Decision 24: Dynamic Payment Gateway Management & Binance Pay Integration
+- **Date**: 2026-11-20
+- **Context**: Operator has a personal Binance account and wants to accept payments via Binance Pay ID / UID or QR code without merchant API credentials, and requested a dynamic system in the Admin Panel to add, edit, toggle, or remove payment methods directly.
+- **Implementations**:
+  1. Updated Admin credentials to operator's requested email: `myw8210@gmail.com` and password: `ddkk@9090`.
+  2. Built `PaymentMethodConfig` model and persistent JSON storage (`lib/payment-store.ts`, `data/payment-methods.json`).
+  3. Built protected Admin API endpoints (`/api/admin/payment-methods`) with full CRUD and status toggles.
+  4. Built Admin UI (`components/admin/payment-methods-manager.tsx` and `components/admin/method-edit-modal.tsx`) with image upload for QR codes.
+  5. Refactored User Checkout (`components/crypto-checkout-view.tsx`, `components/checkout/checkout-tabs.tsx`, `components/checkout/payment-instructions-card.tsx`, `components/checkout/coming-soon-card.tsx`) to render active methods dynamically.
+  6. Enhanced Admin queue (`components/admin/payments-table.tsx`) to display payment method badges and customized transaction references.
+  7. Verified all 7 automated test suites with 100% success.
