@@ -181,3 +181,15 @@
   3. Added universal file type support: `accept="image/*,.png,.jpg,.jpeg,.webp,.heic,.heif,.bmp,.svg"`.
   4. Added graceful error parsing on HTTP responses to prevent raw JSON parse errors.
   5. Tested, built, and deployed live to `https://www.gta6gaming.store`.
+
+
+## Decision 22: 24/7 Telegram Live Support Integration (@vicecloudspport)
+- **Date**: 2026-11-20
+- **Context**: Operator requested direct user support via Telegram (`@vicecloudspport`) so any customer experiencing payment, rig allocation, or latency questions can immediately contact support.
+- **Implementations**:
+  1. Created `components/floating-support-pill.tsx`: Modern glowing floating Telegram action button in bottom-right corner with live online pulse and instant flyout link to `https://t.me/vicecloudspport`.
+  2. Integrated in `components/navbar.tsx`: Direct "Support" link in desktop header and mobile drawer.
+  3. Integrated in `components/waitlist-review-view.tsx`: Fast-track verification link during waitlist review and on rejection.
+  4. Integrated in `components/faq-section.tsx`: 24/7 Operator Helpdesk banner.
+  5. Integrated in `components/footer.tsx`: Direct Telegram support link.
+  6. Verified in production HTML at `https://www.gta6gaming.store`.

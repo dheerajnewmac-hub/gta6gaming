@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { CheckCircle2, X, Zap } from "lucide-react";
+import { CheckCircle2, X } from "lucide-react";
 
 interface Activity {
   name: string;
@@ -33,11 +33,11 @@ export function LiveActivityToast() {
     if (dismissed) return;
 
     // Show after initial 3.5s delay
-    const initialTimer = setTimeout(() => {
+    const initial = setTimeout(() => {
       setVisible(true);
     }, 3500);
 
-    return () => clearTimeout(initialTimer);
+    return () => clearTimeout(initial);
   }, [dismissed]);
 
   useEffect(() => {
@@ -64,33 +64,32 @@ export function LiveActivityToast() {
       aria-label="Live gamer activity notification"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
-      className={`fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-40 max-w-[340px] sm:max-w-[380px] w-full transition-all duration-500 transform ${
+      className={`fixed bottom-3 left-3 sm:bottom-6 sm:left-6 z-40 max-w-[275px] sm:max-w-[360px] transition-all duration-500 transform ${
         visible ? "translate-y-0 opacity-100 scale-100" : "translate-y-8 opacity-0 pointer-events-none scale-95"
       }`}
     >
-      <div className="relative rounded-2xl bg-[#090d26]/95 backdrop-blur-xl border border-cyan-500/40 p-3.5 sm:p-4 shadow-[0_10px_35px_rgba(0,0,0,0.8),0_0_20px_rgba(6,182,212,0.25)] flex items-start gap-3">
+      <div className="relative rounded-2xl bg-[#090d26]/95 backdrop-blur-xl border border-cyan-500/40 p-2.5 sm:p-4 shadow-[0_10px_35px_rgba(0,0,0,0.8),0_0_20px_rgba(6,182,212,0.25)] flex items-start gap-2.5 sm:gap-3">
         {/* Flag Avatar */}
-        <div className="w-10 h-10 rounded-xl bg-[#0e1438] border border-cyan-400/30 flex items-center justify-center text-xl shrink-0 shadow-inner">
+        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-[#0e1438] border border-cyan-400/30 flex items-center justify-center text-base sm:text-xl shrink-0 shadow-inner">
           {current.flag}
         </div>
 
         {/* Info */}
         <div className="flex-1 min-w-0 pr-4">
           <div className="flex items-center gap-1.5 mb-0.5">
-            <span className="text-xs font-bold text-white truncate">{current.name}</span>
-            <span className="text-[10px] text-gray-400 font-mono">({current.location})</span>
-            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+            <span className="text-[11px] sm:text-xs font-bold text-white truncate">{current.name}</span>
+            <span className="text-[9px] sm:text-[10px] text-gray-400 font-mono truncate">({current.location})</span>
+            <CheckCircle2 className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-emerald-400 shrink-0" />
           </div>
 
-          <p className="text-xs text-gray-200 font-medium leading-tight">
+          <p className="text-[11px] sm:text-xs text-gray-200 font-medium leading-tight truncate">
             Rented <span className="text-cyan-300 font-bold">{current.plan}</span>
           </p>
 
-          <div className="flex items-center gap-2 mt-1.5 text-[10px] font-mono text-gray-400">
+          <div className="flex items-center gap-2 mt-1 text-[9px] sm:text-[10px] font-mono text-gray-400">
             <span className="text-emerald-400 font-bold">{current.price}</span>
             <span>•</span>
-            <span className="text-gray-500">Rig {current.node}</span>
-            <span>•</span>
+            <span className="text-gray-500 truncate hidden sm:inline">Rig {current.node}</span>
             <span className="text-cyan-400/80">{current.time}</span>
           </div>
         </div>
@@ -99,7 +98,7 @@ export function LiveActivityToast() {
         <button
           onClick={() => setDismissed(true)}
           aria-label="Dismiss notification"
-          className="absolute top-2.5 right-2.5 text-gray-500 hover:text-white transition-colors p-1"
+          className="absolute top-2 right-2 text-gray-500 hover:text-white transition-colors p-1"
         >
           <X className="w-3.5 h-3.5" />
         </button>
