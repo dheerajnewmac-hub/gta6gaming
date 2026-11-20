@@ -1,0 +1,32 @@
+[
+  {
+    "id": "usr_651208",
+    "email": "gamer_pro@vicecloud.gg",
+    "gamerTag": "ProGamer99",
+    "createdAt": "2026-11-19T20:04:11.208Z",
+    "lastActive": "2026-11-19T20:04:11.208Z",
+    "totalOrders": 1,
+    "totalSpent": 8.99,
+    "status": "active"
+  },
+  {
+    "id": "usr_651303",
+    "email": "unverified@test.com",
+    "gamerTag": "UnverifiedGamer",
+    "createdAt": "2026-11-19T20:04:11.303Z",
+    "lastActive": "2026-11-19T20:04:11.303Z",
+    "totalOrders": 1,
+    "totalSpent": 1.99,
+    "status": "active"
+  },
+  {
+    "id": "usr_538226",
+    "email": "admin@vicecloud.gg",
+    "gamerTag": "Gamer_admin",
+    "createdAt": "2026-11-20T00:45:38.226Z",
+    "lastActive": "2026-11-20T00:45:38.226Z",
+    "totalOrders": 1,
+    "totalSpent": 8.99,
+    "status": "active"
+  }
+]

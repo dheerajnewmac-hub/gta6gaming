@@ -132,3 +132,41 @@
   1. Built `components/service-pipeline-cards.tsx`: 3-pillar cyberpunk glass cards detailing Data Center PS5 fleet, Sub-30ms WebRTC UDP pipeline, and In-browser low-end PC immersion.
   2. Built `components/player-journey-roadmap.tsx`: 4-step onboarding timeline (Pick Pass ➔ Zero-KYC Pay ➔ Node Unlock in 10s ➔ Launch 60FPS Stream) with an interactive "Traditional $600 Console vs ViceCloud Instant Browser" toggle.
   3. Composed in `components/how-service-works.tsx` and placed prominently on `app/page.tsx`.
+
+
+## Decision 18: Premium Tone & High-End Copy Overhaul
+- **Date**: 2026-11-20
+- **Context**: Operator identified that previous text in multiple sections felt generic and lacked the prestigious, high-tech polish expected of modern cloud gaming services (e.g. GeForce NOW, PlayStation Portal).
+- **Implementations**:
+  1. Transformed `components/service-pipeline-cards.tsx`: Replaced informal phrasing with high-end console blade terminology (`Dedicated Console Blades`, `Instant Response Protocol`, `Instant Cloud Immersion`).
+  2. Transformed `components/player-journey-roadmap.tsx`: Elevated the 4-step user journey (`Select Access Window`, `Instant Activation`, `Dedicated Blade Handoff`, `Launch 4K Stream`) and refined the hardware comparison cards.
+  3. Transformed `components/global-server-map.tsx`: Replaced raw data-center room codes with prestigious Tier-4 Direct-Fiber edge cluster definitions and clean uptime indicators.
+  4. Transformed `components/pricing-plans.tsx`: Upgraded pass branding to `Quick Session Pass`, `Vice City Campaign` (Featured), and `Weekend Immersion`.
+  5. Refined `components/compatibility-section.tsx` and `components/hero-neon-desk.tsx`.
+  6. Verified zero errors on local development server (`http://localhost:3000`).
+
+
+## Decision 19: Reversion of Experimental Neon Mockup UI
+- **Date**: 2026-11-20
+- **Context**: Operator reviewed the experimental mockup redesign (`ViceCloud Neon Cloud Gaming Homepage.png`) on `http://localhost:3000` and decided to cancel the plan and discard the new layout.
+- **Implementations**:
+  1. Safely reverted `app/page.tsx` back to the existing high-end premium layout via git.
+  2. Cleaned up untracked experimental components from `components/` and `public/new_ui/`.
+  3. Verified clean Next.js production build (`npm run build`) with zero errors.
+  4. Confirmed local dev server is serving the approved premium UI at `http://localhost:3000`.
+
+
+## Decision 20: Admin Panel, TRC20 Verification Flow & Waitlist Queue
+- **Date**: 2026-11-20
+- **Context**: Operator requested an end-to-end admin panel to inspect all registered gamer data, review submitted payment screenshots, and approve/reject orders. In parallel, updated TRC-20 address to operator's wallet, marked card/Apple Pay payments as "Coming Soon", and added a real-time waitlist screen for users during review.
+- **Implementations**:
+  1. Configured Master TRC20 Wallet: `TFH1z3sC2MHPGZpw3KvTt9QegbJJCyD8ii`.
+  2. Implemented Card & Apple Pay tab with "Coming Soon" onboarding status.
+  3. Built Screenshot & TXID upload in `components/crypto-checkout-view.tsx` with instant file reader preview.
+  4. Built real-time Waitlist review screen in `components/waitlist-review-view.tsx` polling `/api/payments/status?id=...` every 3s.
+  5. Built Master Admin Portal at `/admin` and `/admin/login` protected by middleware with credentials:
+     - Email: `admin@vicecloud.gg`
+     - Password: `ViceCloud@Admin2026!`
+  6. Implemented Admin Verification Queue (`components/admin/payments-table.tsx`) with 1-click Approve, Reject with reason, and full screenshot inspection modal (`components/admin/screenshot-modal.tsx`).
+  7. Implemented Gamer Accounts Directory (`components/admin/users-table.tsx`) displaying email, gamerTag, order counts, and total spend.
+  8. Verified 9/9 automated end-to-end tests passing with zero errors.

@@ -118,8 +118,8 @@ export function HeroNeonDesk({ onOpenPlans, onOpenHowItWorks }: HeroNeonDeskProp
               <p className="mt-3.5 text-sm sm:text-base italic text-purple-200 font-semibold drop-shadow-md">
                 Experience the next-gen adventure, remotely!
               </p>
-              <p className="mt-2 text-xs sm:text-sm text-gray-200 max-w-lg sm:mx-auto font-normal leading-relaxed drop-shadow-md">
-                With our powerful PS5 fleet, play GTA VI and more from anywhere on your low-end PC. No expensive console. Just pure gaming.
+              <p className="mt-2 text-xs sm:text-sm text-slate-200 max-w-lg sm:mx-auto font-normal leading-relaxed drop-shadow-md">
+                Stream uncompressed 4K HDR at 60FPS directly to your current laptop or desktop. Zero downloads, zero hardware limits. Pure next-generation performance.
               </p>
 
               {/* Action Buttons */}

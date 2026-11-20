@@ -80,7 +80,7 @@ export function HowToPlayGuide() {
                   Launch In Google Chrome, Edge, or Safari
                 </h3>
                 <p className="text-sm text-gray-300 leading-relaxed">
-                  No 150GB game install. You stream hardware-accelerated video directly from our 1,000 custom PS5 cloud blades via low-latency WebRTC.
+                  No 150GB game install. Stream studio-grade 4K 60FPS video directly from dedicated hardware console blades via low-latency WebRTC.
                 </p>
                 <ul className="space-y-2 text-xs text-gray-300">
                   <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" /> Open ViceCloud in any standard web browser</li>
