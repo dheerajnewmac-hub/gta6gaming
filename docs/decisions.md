@@ -96,8 +96,15 @@
      - Displays the gamer's allocated PS5 Blade Node (`PS5-RIG-0xxx`), Session Passcode (`VICE-8842-PS5X`), and 1-click Fullscreen GTA VI stream launcher.
 
 
-## Decision 14: Production Deployment on Vercel with GitHub Synchronization
-- **Date**: 2026-11-19
+## Decision 15: Installation of HyperFrames, Whisper, yt-dlp, and FFmpeg Skills & Video Pipeline Pause
+- **Date**: 2026-11-21
+- **Context**: User paused current video production to ensure the authentic style and `example.mp4` footage are used, and requested installation of four key video/media generation skills:
+  1. `https://github.com/heygen-com/hyperframes.git` (HeyGen HyperFrames HTML-to-video production monorepo & CLI v0.9.72)
+  2. `https://github.com/openai/whisper.git` (OpenAI Whisper & faster-whisper speech transcription & word timestamps)
+  3. `https://github.com/yt-dlp/yt-dlp.git` (yt-dlp media downloader & audio extractor)
+  4. `https://github.com/FFmpeg/FFmpeg.git` (FFmpeg advanced video/audio compositing skill)
+- **Outcome**: All four repositories cloned, Python/CLI tools verified, and registered as active skills in `C:\Users\User\.gemini\config\skills\`. Video production paused awaiting user guidance.
+
 - **Context**: Operator deployed the ViceCloud GTA 6 platform from GitHub to Vercel for global CDN acceleration and custom domain linking (`gta6gaming.store`).
 - **Implementations**:
   1. Synchronized local repo with GitHub remote `dheerajnewmac-hub/gta6gaming` on branches `main` and `master`.
@@ -244,3 +251,34 @@
   6. **How It Works**: 3-step numbered timeline paired with the Vice City neon sports car.
   7. **Play on Any Device & Bottom CTA**: 6-device compatibility pill bar and crown CTA card.
   8. **Zero-Error Localhost Verification**: Production build passed with 0 errors; verified on `http://localhost:3000` with live screenshots and side-by-side comparison.
+
+
+## Decision 27: Full Installation of video-shotcraft Skill Suite
+- **Date**: 2026-11-20
+- **Context**: Operator requested the full installation of the `video-shotcraft` skills from `https://github.com/Vincentwei1021/video-shotcraft.git`.
+- **Implementations**:
+  1. Cloned the complete repository and installed it into `C:\Users\User\.gemini\config\skills\video-shotcraft`.
+  2. Registered `SKILL.md` defining the 6-stage video-shotcraft workflow, 124 shot recipes, sound design rules, and Remotion rendering pipeline.
+  3. Pre-installed all npm dependencies (`@remotion/cli`, `remotion`, `react`, `react-dom`) in `template/` so the template is instantly runnable.
+  4. Preserved Jianying / CapCut draft automation scripts (`jianying-export/`) for Windows and Mac, shot polish tools, and Freesound sourcing scripts.
+  5. Verified file integrity and cleaned up temporary clone artifacts.
+
+
+## Decision 28: High-Converting Pure Traffic Video Ad (Zero Price Mention, 33.7s 9:16 Vertical)
+- **Date**: 2026-11-21
+- **Context**: Operator specifically instructed to omit all pricing mentions from the video ad, pivoting the entire creative focus to pure curiosity and driving maximum visitor traffic to `gta6gaming.store`.
+- **Implementations**:
+  1. **Marketing Angle**: Eliminated all price cards and coffee comparisons. Focused on pattern-interrupt hook (stopping console/PC expense), secret browser streaming mechanism, zero downloads, instant 60 FPS, multi-device compatibility (old laptop, Mac, phone, any controller), server scarcity, and hard traffic CTA.
+  2. **Audio Engineering**: Synthesized clean high-energy narration (`en-US-ChristopherNeural` at +20% cadence, 33.69s) with dynamic Phonk backing track and auto-ducking.
+  3. **Visual Compositing**: 5-part vertical 1080x1920 layout featuring \$500 console & \$2,000 PC cancellation, 60FPS stream with telemetry HUD, live website scroll, hardware/controller compatibility card, and 3D relief server map with ≥1.2s stationary domain hold (`gta6gaming.store`).
+  4. **Subtitles**: Synced word-by-word kinetic captions (`faster-whisper`) with Neon Yellow & Green keyword pop.
+  5. **Export & Delivery**: Rendered to `video_production/gta6gaming_store_traffic_ad.mp4`, copied to Desktop (`C:\Users\User\Desktop\gta6gaming_traffic_ad.mp4`), and launched local browser player (`video_production/preview.html`).
+
+
+## Decision 15: Google AI Studio Full-Stack Production Integration & Payment Gateway Setup
+- **Date**: 2026-11-21
+- **Context**: Operator generated and refined a full production cloud gaming design on Google AI Studio, downloaded the project, and requested its full deployment to `gta6gaming.store` with specific payment adjustments (Binance Pay with UID `1231019201` + QR code, USDT TRC-20, Card & Apple Pay Coming Soon, Promo code removed).
+- **Implementations**:
+  1. Ported all React components (`components/studio/`) and assets (`public/assets/images/`) into Next.js App Router (`app/page.tsx`).
+  2. Updated `components/studio/CheckoutDrawer.tsx` to remove promo codes, mark Card/Apple Pay as "Coming Soon", and activate Binance Pay (UID: `1231019201` + `/binance_qr.png`) and USDT TRC-20 (`TFH1z3sC2MHPGZpw3KvTt9QegbJJCyD8ii`).
+  3. Recompiled with 0 errors and verified on localhost with Chrome DevTools MCP.

@@ -1,99 +1,70 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useAuth } from "@/context/auth-context";
-import { NeonNavbar } from "@/components/neon/neon-navbar";
-import { NeonHero } from "@/components/neon/neon-hero";
-import { NeonWhySection } from "@/components/neon/neon-why-section";
-import { NeonPlans, PlanOption } from "@/components/neon/neon-plans";
-import { NeonHowItWorks } from "@/components/neon/neon-how-it-works";
-import { NeonDevicesBar } from "@/components/neon/neon-devices-bar";
-import { NeonFooter } from "@/components/neon/neon-footer";
-import { SessionModal } from "@/components/session-modal";
-import { LiveActivityToast } from "@/components/live-activity-toast";
-import { FloatingSupportPill } from "@/components/floating-support-pill";
+import React, { useState } from 'react';
+import { LiveFleetBar } from '@/components/studio/LiveFleetBar';
+import { Navbar } from '@/components/studio/Navbar';
+import { HeroSection } from '@/components/studio/HeroSection';
+import { WalkthroughSection } from '@/components/studio/WalkthroughSection';
+import {
+  PricingSection,
+  type SelectedCheckoutPass,
+} from '@/components/studio/PricingSection';
+import { NetworkAndCompatibilitySection } from '@/components/studio/NetworkAndCompatibilitySection';
+import { FaqAndFooter } from '@/components/studio/FaqAndFooter';
+import { CheckoutDrawer } from '@/components/studio/CheckoutDrawer';
+import { LivePurchasePopup } from '@/components/studio/LivePurchasePopup';
 
 export default function HomePage() {
-  const router = useRouter();
-  const { user, logout } = useAuth();
-  const [modalOpen, setModalOpen] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState<{
-    name: string;
-    price: string;
-    hours: string;
-  } | null>(null);
+  const [selectedClusterId, setSelectedClusterId] = useState<string>('us-east');
+  const [activeCheckoutPass, setActiveCheckoutPass] =
+    useState<SelectedCheckoutPass | null>(null);
 
-  useEffect(() => {
-    try {
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get("checkout") === "true") {
-        const stored = sessionStorage.getItem("vicecloud_pending_plan");
-        if (stored) {
-          const parsed = JSON.parse(stored);
-          setSelectedPlan(parsed);
-          setModalOpen(true);
-          sessionStorage.removeItem("vicecloud_pending_plan");
-        }
-      }
-    } catch {
-      // Ignore
+  const scrollToSection = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
     }
-  }, []);
-
-  const handleScrollToPlans = () => {
-    const el = document.getElementById("plans");
-    if (el) el.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const handleSelectPlan = (plan: PlanOption) => {
-    setSelectedPlan(plan);
-    setModalOpen(true);
   };
 
   return (
-    <main className="min-h-screen bg-[#070414] text-slate-100 flex flex-col selection:bg-pink-500 selection:text-white font-sans overflow-x-hidden">
-      
-      {/* 1. Real PC Navbar */}
-      <NeonNavbar
-        onOpenPlans={handleScrollToPlans}
-        onOpenLogin={() => router.push("/login")}
-        isLoggedIn={!!user}
-        gamerTag={user?.gamerTag}
-        onSignOut={logout}
+    <div className="min-h-screen bg-[#0B0416] text-white selection:bg-[#ff2ea6] selection:text-white font-sans overflow-x-hidden">
+      <LiveFleetBar />
+
+      <Navbar
+        selectedPassLabel={activeCheckoutPass ? activeCheckoutPass.name : null}
+        onPrimaryAction={() => scrollToSection('plans')}
       />
 
-      {/* 2. Real PC Hero Section */}
-      <NeonHero onStartPlaying={handleScrollToPlans} />
+      <main>
+        <HeroSection
+          onExplorePlans={() => scrollToSection('plans')}
+          onRunDiagnosticJump={() => scrollToSection('clusters')}
+        />
 
-      {/* 3. Real PC Why ViceCloud Section */}
-      <NeonWhySection />
+        <WalkthroughSection onExplorePlans={() => scrollToSection('plans')} />
 
-      {/* 4. Real PC Flexible Rental Plans */}
-      <NeonPlans onSelectPlan={handleSelectPlan} />
+        <PricingSection
+          onSelectPass={setActiveCheckoutPass}
+          onViewClusters={() => scrollToSection('clusters')}
+        />
 
-      {/* 5. Real PC How It Works */}
-      <NeonHowItWorks />
+        <NetworkAndCompatibilitySection
+          selectedClusterId={selectedClusterId}
+          onSelectCluster={setSelectedClusterId}
+          onExplorePlans={() => scrollToSection('plans')}
+        />
 
-      {/* 6. Real PC Play on Any Device & Bottom CTA */}
-      <NeonDevicesBar onOpenPlans={handleScrollToPlans} />
+        <FaqAndFooter />
+      </main>
 
-      {/* 7. Footer */}
-      <NeonFooter />
+      <LivePurchasePopup paused={Boolean(activeCheckoutPass)} />
 
-      {/* Checkout / Session Launcher Modal with Binance Pay & TRC-20 */}
-      <SessionModal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-        selectedPlan={selectedPlan}
+      <CheckoutDrawer
+        pass={activeCheckoutPass}
+        selectedClusterId={selectedClusterId}
+        onSelectCluster={setSelectedClusterId}
+        onClose={() => setActiveCheckoutPass(null)}
       />
-
-      {/* Live Activity Ticker */}
-      <LiveActivityToast />
-
-      {/* 24/7 Telegram Operator Support Pill */}
-      <FloatingSupportPill />
-
-    </main>
+    </div>
   );
 }

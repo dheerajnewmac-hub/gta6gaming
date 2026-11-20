@@ -60,3 +60,479 @@ body {
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
+
+
+/* --- GOOGLE AI STUDIO VICECLOUD THEME STYLES --- */
+
+
+@layer base {
+  html {
+    background-color: #0b0416;
+    color: #ffffff;
+    font-family: var(--font-sans);
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    overflow-x: hidden;
+    letter-spacing: 0.005em;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+    letter-spacing: -0.025em;
+  }
+
+  button:not(:disabled),
+  a[href] {
+    cursor: pointer;
+  }
+
+  *:focus-visible {
+    outline: 2px solid #ff2ea6;
+    outline-offset: 2px;
+  }
+}
+
+/* Signature ViceCloud Hot-Magenta Neon CTA with Neon Blink-Blink & Shimmer */
+@keyframes vice-neon-blink {
+  0%,
+  100% {
+    opacity: 0.22;
+    transform: scale(1);
+  }
+  28% {
+    opacity: 0.78;
+    transform: scale(1.015);
+  }
+  44% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  62% {
+    opacity: 0.92;
+    transform: scale(1.02);
+  }
+  80% {
+    opacity: 0.38;
+    transform: scale(1);
+  }
+}
+
+@keyframes vice-btn-sheen {
+  0%,
+  55% {
+    transform: translate3d(-150%, 0, 0) skewX(-22deg);
+    opacity: 0;
+  }
+  64% {
+    opacity: 0.55;
+  }
+  88% {
+    transform: translate3d(260%, 0, 0) skewX(-22deg);
+    opacity: 0.45;
+  }
+  100% {
+    transform: translate3d(260%, 0, 0) skewX(-22deg);
+    opacity: 0;
+  }
+}
+
+@keyframes vice-outline-blink {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  35% {
+    opacity: 0.95;
+  }
+  52% {
+    opacity: 0.35;
+  }
+  70% {
+    opacity: 1;
+  }
+}
+
+.vice-neon-btn {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background-image: linear-gradient(95deg, #ff2ea6 0%, #ff47bd 52%, #e62297 100%);
+  color: #ffffff;
+  box-shadow: 0 0 18px rgba(255, 46, 166, 0.45);
+  transition: filter 160ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 160ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.vice-neon-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 210, 240, 0.48) 0%,
+    rgba(255, 46, 166, 0.22) 60%,
+    transparent 100%
+  );
+  pointer-events: none;
+  animation: vice-neon-blink 2.4s ease-in-out infinite;
+  will-change: opacity, transform;
+}
+
+.vice-neon-btn::after {
+  content: "";
+  position: absolute;
+  top: -20%;
+  left: 0;
+  width: 42%;
+  height: 140%;
+  z-index: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.48) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  pointer-events: none;
+  animation: vice-btn-sheen 3.2s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.vice-neon-btn > * {
+  position: relative;
+  z-index: 1;
+}
+
+.vice-neon-btn:hover:not(:disabled) {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.vice-neon-btn:active:not(:disabled) {
+  transform: scale(0.975);
+}
+
+/* Secondary Glass Neon Buttons with Blink-Blink Border Aura */
+.vice-outline-btn {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition: border-color 160ms cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 160ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 160ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.vice-outline-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1.5px solid rgba(255, 69, 181, 0.78);
+  background: linear-gradient(
+    95deg,
+    rgba(255, 46, 166, 0.14) 0%,
+    rgba(168, 85, 247, 0.08) 50%,
+    rgba(255, 46, 166, 0.14) 100%
+  );
+  pointer-events: none;
+  animation: vice-outline-blink 2.6s ease-in-out infinite;
+  will-change: opacity;
+}
+
+.vice-outline-btn > * {
+  position: relative;
+  z-index: 1;
+}
+
+.vice-outline-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.vice-outline-btn:active:not(:disabled) {
+  transform: scale(0.975);
+}
+
+/* First-Time Buyer Discount Spotlight Banner & Animated Deal Tag (transform & opacity only) */
+@keyframes vice-offer-pulse {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.72;
+    transform: scale(1.015);
+  }
+}
+
+@keyframes vice-offer-sheen {
+  0%,
+  52% {
+    transform: translate3d(-140%, 0, 0) skewX(-24deg);
+    opacity: 0;
+  }
+  62% {
+    opacity: 0.38;
+  }
+  90% {
+    transform: translate3d(280%, 0, 0) skewX(-24deg);
+    opacity: 0.28;
+  }
+  100% {
+    transform: translate3d(280%, 0, 0) skewX(-24deg);
+    opacity: 0;
+  }
+}
+
+@keyframes vice-tag-pop {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  32% {
+    transform: scale(1.055);
+  }
+  52% {
+    transform: scale(1);
+  }
+  72% {
+    transform: scale(1.04);
+  }
+}
+
+.vice-offer-banner {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: linear-gradient(
+    95deg,
+    rgba(35, 11, 58, 0.94) 0%,
+    rgba(62, 14, 72, 0.92) 52%,
+    rgba(35, 11, 58, 0.94) 100%
+  );
+  border: 1px solid rgba(255, 184, 77, 0.52);
+  box-shadow: 0 0 22px rgba(255, 46, 166, 0.24);
+}
+
+.vice-offer-banner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    rgba(255, 184, 77, 0.24) 0%,
+    rgba(255, 46, 166, 0.2) 48%,
+    transparent 82%
+  );
+  pointer-events: none;
+  animation: vice-offer-pulse 2.6s ease-in-out infinite;
+  will-change: opacity, transform;
+}
+
+.vice-offer-banner::after {
+  content: "";
+  position: absolute;
+  top: -25%;
+  left: 0;
+  width: 34%;
+  height: 150%;
+  z-index: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 226, 138, 0) 0%,
+    rgba(255, 226, 138, 0.42) 50%,
+    rgba(255, 226, 138, 0) 100%
+  );
+  pointer-events: none;
+  animation: vice-offer-sheen 3.6s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.vice-offer-banner > * {
+  position: relative;
+  z-index: 1;
+}
+
+.vice-discount-tag {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background-image: linear-gradient(95deg, #ffd166 0%, #ffb84d 55%, #ff8c42 100%);
+  color: #0b0416;
+  box-shadow: 0 0 14px rgba(255, 184, 77, 0.45);
+  animation: vice-tag-pop 2.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+.vice-discount-tag::after {
+  content: "";
+  position: absolute;
+  top: -20%;
+  left: 0;
+  width: 45%;
+  height: 140%;
+  z-index: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.7) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  pointer-events: none;
+  animation: vice-btn-sheen 2.8s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.vice-discount-tag > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Frosted Midnight-Violet Neon-Bordered Panels (matches reference UI) */
+.vice-glass-card {
+  background: linear-gradient(
+    165deg,
+    rgba(22, 9, 40, 0.88) 0%,
+    rgba(13, 5, 26, 0.9) 100%
+  );
+  border: 1px solid rgba(255, 46, 166, 0.34);
+  box-shadow: 0 0 16px rgba(255, 46, 166, 0.12);
+}
+
+.vice-glass-card-featured {
+  background: linear-gradient(
+    165deg,
+    rgba(32, 12, 56, 0.9) 0%,
+    rgba(16, 6, 32, 0.92) 100%
+  );
+  border: 1.5px solid rgba(255, 46, 166, 0.85);
+  box-shadow: 0 0 24px rgba(255, 46, 166, 0.28);
+}
+
+.vice-text-gradient {
+  background-image: linear-gradient(95deg, #ff38b0 0%, #ff5cc4 50%, #c06cff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.vice-horizon-line {
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 46, 166, 0) 0%,
+    rgba(255, 46, 166, 0.75) 35%,
+    rgba(168, 85, 247, 0.7) 65%,
+    rgba(255, 46, 166, 0) 100%
+  );
+}
+
+/* Custom Range Input styled with ViceCloud Neon Magenta Palette */
+input[type="range"].vice-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #ff2ea6 0%, #a855f7 65%, #ff8952 100%);
+  outline: none;
+}
+
+input[type="range"].vice-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ff2ea6;
+  border: 3px solid #ffffff;
+  box-shadow: 0 0 14px rgba(255, 46, 166, 0.75);
+  cursor: pointer;
+  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+input[type="range"].vice-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.12);
+}
+
+input[type="range"].vice-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ff2ea6;
+  border: 3px solid #ffffff;
+  box-shadow: 0 0 14px rgba(255, 46, 166, 0.75);
+  cursor: pointer;
+  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* GPU-composited GTA VI Hero cinematic animations (transform & opacity only) */
+@keyframes gta6-ken-burns {
+  0% {
+    transform: scale(1.02) translate3d(0%, 0%, 0);
+  }
+  50% {
+    transform: scale(1.07) translate3d(-1%, -0.8%, 0);
+  }
+  100% {
+    transform: scale(1.03) translate3d(0.7%, -0.4%, 0);
+  }
+}
+
+@keyframes gta6-sunset-sweep {
+  0% {
+    opacity: 0.28;
+    transform: translate3d(-5%, 0%, 0) scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translate3d(4%, -2%, 0) scale(1.04);
+  }
+  100% {
+    opacity: 0.3;
+    transform: translate3d(-2%, 1%, 0) scale(1.01);
+  }
+}
+
+.animate-gta6-ken-burns {
+  animation: gta6-ken-burns 16s ease-in-out infinite alternate;
+}
+
+.animate-gta6-sunset-sweep {
+  animation: gta6-sunset-sweep 11s ease-in-out infinite alternate;
+}
+
+@keyframes journey-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.animate-journey-progress {
+  transform-origin: left center;
+  animation: journey-progress 5500ms linear forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

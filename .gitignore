@@ -39,5 +39,12 @@ next-env.d.ts
 # Root temp media
 /*.mp4
 /*.png
+/*.jpg
 /video_production/
+/reference videos/
+/reference_analysis/
+/public/animation_frames/
+/public/example_frames/
 /public/test_thumb_new.jpg
+/public/*.mp4
+*.py
