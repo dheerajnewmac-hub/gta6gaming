@@ -217,3 +217,30 @@
   5. Refactored User Checkout (`components/crypto-checkout-view.tsx`, `components/checkout/checkout-tabs.tsx`, `components/checkout/payment-instructions-card.tsx`, `components/checkout/coming-soon-card.tsx`) to render active methods dynamically.
   6. Enhanced Admin queue (`components/admin/payments-table.tsx`) to display payment method badges and customized transaction references.
   7. Verified all 7 automated test suites with 100% success.
+
+
+## Decision 25: High-Converting Instagram Reel Video Production (33.6s, 1080x1920 9:16 Vertical)
+- **Date**: 2026-11-20
+- **Context**: Operator requested a 30-35 second high-conversion video for Instagram Reels / social media marketing to promote `gta6gaming.store` with an irresistible hook, direct response script, and live visual proof.
+- **Implementations**:
+  1. **Direct-Response Script**: Hook (0-4.5s) debunking expensive $500 PS5 / $2,000 PC costs -> Reveal (4.5-10.5s) real browser stream -> Demo (10.5-18.0s) zero downloads & controller support -> Price Anchor (18.0-25.5s) $1.99 Solo Trial pass vs $5.50 coffee -> Hard CTA (25.5-33.6s) 93% server capacity alert & `gta6gaming.store` link in bio.
+  2. **Audio Engineering**: Generated punchy American commercial male narration (`en-US-ChristopherNeural` at +20% cadence, 33.62s) mixed with sidechain-ducked dark phonk gaming beats.
+  3. **Visual Compositing**: 
+     - Captured 4K mobile retina screenshots of `gta6gaming.store` via Playwright.
+     - Assembled 5 high-impact vertical 1080x1920 scenes featuring PS5/PC comparisons, live GTA 6 Vice City 60FPS animation with cybernetic HUD telemetry, smooth website UI scroll, glowing pricing comparison card, and 3D relief global datacenter animation.
+  4. **Kinetic Typography**: Word-level subtitle timestamps extracted via `faster-whisper` and burned with bold Arial Black uppercase font, deep black outlines, and neon yellow/green keyword pop.
+  5. **Export & Delivery**: Rendered master video `video_production/gta6gaming_store_reel.mp4` and copied to `public/gta6gaming_store_reel.mp4` (7.37 MB, H.264/AAC, 30 FPS).
+
+
+## Decision 26: Pixel-Perfect Recreation of Uploaded Reference Mockup (`ViceCloud_ Neon GTA VI Cloud Gaming.png`)
+- **Date**: 2026-11-20
+- **Context**: Operator uploaded a full-page reference design (`ViceCloud_ Neon GTA VI Cloud Gaming.png`) and explicitly requested an exact 1:1 clone built on localhost with identical layout, typography, artwork, and neon styling before deploying.
+- **Implementations**:
+  1. **Asset Slicing**: Extracted high-res character art (Lucia, Jason, GTA VI logo, sports car), scene thumbnails (Starter sunset street, Pro helicopter, Ultimate beach skyline), and sports car graphics with glowing `VICE CITY` emblem into `public/neon_ui/`.
+  2. **Navbar**: Floating pill navigation with `Home`, `How It Works`, `Plans`, `Compatibility`, `FAQ`, `Support`, `● Online` green pulse, and `View Plans →` button.
+  3. **Hero**: Headline `Play GTA VI on Your PC` with italic neon magenta gradient on `GTA VI`, subhead, `Start Playing Now →` and `Watch Trailer` buttons, flush hero artwork, and 4-pill spec bar.
+  4. **Why ViceCloud**: Left-aligned copy with `Learn More →` and 2x2 grid of 4 glowing glass cards with horizontal magenta neon light divider.
+  5. **Flexible Rental Plans**: 3 pricing cards (Starter $4.99, Pro $9.99 highlighted with glowing pink border, Ultimate $14.99) wired directly to the checkout modal.
+  6. **How It Works**: 3-step numbered timeline paired with the Vice City neon sports car.
+  7. **Play on Any Device & Bottom CTA**: 6-device compatibility pill bar and crown CTA card.
+  8. **Zero-Error Localhost Verification**: Production build passed with 0 errors; verified on `http://localhost:3000` with live screenshots and side-by-side comparison.

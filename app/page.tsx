@@ -1,22 +1,23 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Navbar } from "@/components/navbar";
-import { HeroNeonDesk } from "@/components/hero-neon-desk";
-import { HowServiceWorks } from "@/components/how-service-works";
-import { HowToPlayGuide } from "@/components/how-to-play-guide";
-import { PricingPlans } from "@/components/pricing-plans";
-import { GlobalServerMap } from "@/components/global-server-map";
-import { InternationalTrustBar } from "@/components/international-trust-bar";
-import { CompatibilitySection } from "@/components/compatibility-section";
-import { FAQSection } from "@/components/faq-section";
-import { BottomRegionNotice } from "@/components/bottom-region-notice";
-import { Footer } from "@/components/footer";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/auth-context";
+import { NeonNavbar } from "@/components/neon/neon-navbar";
+import { NeonHero } from "@/components/neon/neon-hero";
+import { NeonWhySection } from "@/components/neon/neon-why-section";
+import { NeonPlans, PlanOption } from "@/components/neon/neon-plans";
+import { NeonHowItWorks } from "@/components/neon/neon-how-it-works";
+import { NeonDevicesBar } from "@/components/neon/neon-devices-bar";
+import { NeonFaq } from "@/components/neon/neon-faq";
+import { NeonFooter } from "@/components/neon/neon-footer";
 import { SessionModal } from "@/components/session-modal";
 import { LiveActivityToast } from "@/components/live-activity-toast";
 import { FloatingSupportPill } from "@/components/floating-support-pill";
 
 export default function HomePage() {
+  const router = useRouter();
+  const { user, logout } = useAuth();
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<{
     name: string;
@@ -41,70 +42,50 @@ export default function HomePage() {
     }
   }, []);
 
-  const handleOpenPlans = () => {
+  const handleScrollToPlans = () => {
     const el = document.getElementById("plans");
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    }
+    if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
-  const handleOpenHowItWorks = () => {
-    const el = document.getElementById("how-to-play");
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    } else {
-      const fallback = document.getElementById("how-it-works");
-      if (fallback) fallback.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  const handleSelectPlan = (plan: { name: string; price: string; hours: string }) => {
+  const handleSelectPlan = (plan: PlanOption) => {
     setSelectedPlan(plan);
     setModalOpen(true);
   };
 
   return (
-    <main className="min-h-screen bg-[#060714] text-slate-100 flex flex-col selection:bg-purple-500 selection:text-white">
-      {/* Top Floating Cyber Navigation */}
-      <Navbar
-        onOpenPlans={handleOpenPlans}
-        onOpenHowItWorks={handleOpenHowItWorks}
+    <main className="min-h-screen bg-[#070414] text-slate-100 flex flex-col selection:bg-pink-500 selection:text-white font-sans">
+      
+      {/* 1. Exact Navbar */}
+      <NeonNavbar
+        onOpenPlans={handleScrollToPlans}
+        onOpenLogin={() => router.push("/login")}
+        isLoggedIn={!!user}
+        gamerTag={user?.gamerTag}
+        onSignOut={logout}
       />
 
-      {/* Hero Section with Looping HD Animation Video */}
-      <HeroNeonDesk
-        onOpenPlans={handleOpenPlans}
-        onOpenHowItWorks={handleOpenHowItWorks}
-      />
+      {/* 2. Exact Hero Section */}
+      <NeonHero onStartPlaying={handleScrollToPlans} />
 
-      {/* Smart Cloud Architecture & How Service Works */}
-      <HowServiceWorks onSelectPlan={handleOpenPlans} />
+      {/* 3. Exact Why ViceCloud Section */}
+      <NeonWhySection />
 
-      {/* Complete A to Z "How to Play" Interactive Guide */}
-      <HowToPlayGuide />
+      {/* 4. Exact Flexible Rental Plans (Starter $4.99, Pro $9.99, Ultimate $14.99) */}
+      <NeonPlans onSelectPlan={handleSelectPlan} />
 
-      {/* Pricing Section: Solo Pass, Starter Pack (Most Popular), Weekend Pack + "Your Game. Our Power." */}
-      <PricingPlans onSelectPlan={handleSelectPlan} />
+      {/* 5. Exact How It Works Section */}
+      <NeonHowItWorks />
 
-      {/* Worldwide PS5 Cloud Clusters & Latency Map */}
-      <GlobalServerMap />
+      {/* 6. Exact Play on Any Device & Bottom CTA */}
+      <NeonDevicesBar onOpenPlans={handleScrollToPlans} />
 
-      {/* Global Payments, Guarantee & Security Trust Bar */}
-      <InternationalTrustBar />
+      {/* 7. FAQ Section */}
+      <NeonFaq />
 
-      {/* Hardware & Regional Compatibility Section */}
-      <CompatibilitySection />
+      {/* 8. Footer */}
+      <NeonFooter />
 
-      {/* Frequently Asked Questions */}
-      <FAQSection />
-
-      {/* Bottom Regional Restriction Notice Banner (India not supported notice) */}
-      <BottomRegionNotice />
-
-      {/* Global Footer */}
-      <Footer />
-
-      {/* Checkout / Session Launcher Modal */}
+      {/* Checkout / Session Launcher Modal with Binance Pay & TRC-20 */}
       <SessionModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
@@ -116,6 +97,7 @@ export default function HomePage() {
 
       {/* 24/7 Telegram Operator Support Pill */}
       <FloatingSupportPill />
+
     </main>
   );
 }
