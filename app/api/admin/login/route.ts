@@ -18,8 +18,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const expectedEmail = process.env.ADMIN_EMAIL || "admin@vicecloud.gg";
-    const expectedPassword = process.env.ADMIN_PASSWORD || "ViceCloud@Admin2026!";
+    const expectedEmail = process.env.ADMIN_EMAIL || "myw8210@gmail.com";
+    const expectedPassword = process.env.ADMIN_PASSWORD || "ddkk@9090";
 
     if (
       validated.data.email.toLowerCase() === expectedEmail.toLowerCase() &&

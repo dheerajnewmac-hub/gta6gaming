@@ -170,3 +170,14 @@
   6. Implemented Admin Verification Queue (`components/admin/payments-table.tsx`) with 1-click Approve, Reject with reason, and full screenshot inspection modal (`components/admin/screenshot-modal.tsx`).
   7. Implemented Gamer Accounts Directory (`components/admin/users-table.tsx`) displaying email, gamerTag, order counts, and total spend.
   8. Verified 9/9 automated end-to-end tests passing with zero errors.
+
+
+## Decision 21: Client-Side Canvas Image Compression & Universal Photo Format Support
+- **Date**: 2026-11-20
+- **Context**: Users uploading high-resolution mobile photos (3MB-10MB+) encountered HTTP 413 `Request Entity Too Large` caused by raw base64 exceeding server payload thresholds.
+- **Implementations**:
+  1. Built `lib/image-compress.ts`: Automatic HTML5 canvas compression that downscales max dimension to 1280px and applies JPEG 0.82 optimization.
+  2. Reduces 5MB-15MB phone camera photos to ~150KB-250KB in under 50ms while keeping transaction details razor sharp.
+  3. Added universal file type support: `accept="image/*,.png,.jpg,.jpeg,.webp,.heic,.heif,.bmp,.svg"`.
+  4. Added graceful error parsing on HTTP responses to prevent raw JSON parse errors.
+  5. Tested, built, and deployed live to `https://www.gta6gaming.store`.
