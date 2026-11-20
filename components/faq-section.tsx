@@ -82,6 +82,27 @@ export function FAQSection() {
           })}
         </div>
 
+        {/* 24/7 Telegram Support Banner */}
+        <div className="mt-10 p-6 rounded-3xl bg-gradient-to-r from-sky-950/40 via-[#0a1233] to-indigo-950/40 border border-sky-500/30 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left shadow-[0_0_35px_rgba(14,165,233,0.15)]">
+          <div className="space-y-1">
+            <span className="inline-block px-2.5 py-0.5 rounded-full bg-sky-500/20 text-sky-300 font-mono text-[10px] font-bold uppercase tracking-wider">
+              24/7 Telegram Helpdesk
+            </span>
+            <h4 className="text-base font-extrabold text-white">Have Questions or Need Help?</h4>
+            <p className="text-xs text-slate-300">
+              Our operator team is available 24/7 on Telegram for instant setup, custom hour plans, and rig diagnostics.
+            </p>
+          </div>
+          <a
+            href="https://t.me/vicecloudspport"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-6 py-3 rounded-full bg-gradient-to-r from-[#0088cc] to-[#00a2f5] hover:brightness-110 text-white font-extrabold text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(0,136,204,0.4)] transition-all flex items-center gap-2 whitespace-nowrap active:scale-95 shrink-0"
+          >
+            <span>Chat on Telegram (@vicecloudspport) &rarr;</span>
+          </a>
+        </div>
+
       </div>
     </section>
   );

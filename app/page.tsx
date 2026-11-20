@@ -14,6 +14,7 @@ import { BottomRegionNotice } from "@/components/bottom-region-notice";
 import { Footer } from "@/components/footer";
 import { SessionModal } from "@/components/session-modal";
 import { LiveActivityToast } from "@/components/live-activity-toast";
+import { FloatingSupportPill } from "@/components/floating-support-pill";
 
 export default function HomePage() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -112,6 +113,9 @@ export default function HomePage() {
 
       {/* Live International Gamer Activity Ticker */}
       <LiveActivityToast />
+
+      {/* 24/7 Telegram Operator Support Pill */}
+      <FloatingSupportPill />
     </main>
   );
 }

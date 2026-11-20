@@ -70,6 +70,15 @@ export function Navbar({ onOpenPlans, onOpenHowItWorks }: NavbarProps) {
           >
             FAQ
           </a>
+
+          <a
+            href="https://t.me/vicecloudspport"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sky-400 hover:text-sky-300 font-bold transition-colors flex items-center gap-1"
+          >
+            Support
+          </a>
         </nav>
 
         {/* Right Buttons: Sign In / User Badge + View Plans -> */}
@@ -160,6 +169,15 @@ export function Navbar({ onOpenPlans, onOpenHowItWorks }: NavbarProps) {
             className="block text-gray-300 hover:text-white py-1"
           >
             FAQ
+          </a>
+          <a
+            href="https://t.me/vicecloudspport"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block text-sky-400 font-bold hover:text-sky-300 py-1"
+          >
+            24/7 Telegram Support (@vicecloudspport)
           </a>
           {isLoggedIn ? (
             <div className="pt-2 border-t border-white/10 flex items-center justify-between">

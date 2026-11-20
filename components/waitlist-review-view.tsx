@@ -103,6 +103,17 @@ export function WaitlistReviewView({
             <ShieldCheck className="w-4 h-4 text-emerald-400" />
             <span>Encrypted WebRTC handoff activates automatically upon approval</span>
           </div>
+
+          <div className="pt-1">
+            <a
+              href="https://t.me/vicecloudspport"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-sky-500/10 hover:bg-sky-500/20 text-sky-300 border border-sky-500/30 font-bold text-xs transition-all w-full"
+            >
+              <span>Need Fast Verification? Telegram Operator: @vicecloudspport &rarr;</span>
+            </a>
+          </div>
         </div>
       )}
 
@@ -126,6 +137,15 @@ export function WaitlistReviewView({
             <ArrowLeft className="w-4 h-4" />
             <span>Re-upload Screenshot or Re-check TXID</span>
           </button>
+
+          <a
+            href="https://t.me/vicecloudspport"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-1.5 text-xs text-sky-400 hover:text-sky-300 font-bold transition-colors pt-1"
+          >
+            <span>Questions? Contact Operator on Telegram: @vicecloudspport &rarr;</span>
+          </a>
         </div>
       )}
     </div>
