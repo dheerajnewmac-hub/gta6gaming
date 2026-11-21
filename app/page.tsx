@@ -13,6 +13,7 @@ import { NetworkAndCompatibilitySection } from '@/components/studio/NetworkAndCo
 import { FaqAndFooter } from '@/components/studio/FaqAndFooter';
 import { CheckoutDrawer } from '@/components/studio/CheckoutDrawer';
 import { LivePurchasePopup } from '@/components/studio/LivePurchasePopup';
+import { FloatingSupportPill } from '@/components/floating-support-pill';
 
 export default function HomePage() {
   const [selectedClusterId, setSelectedClusterId] = useState<string>('us-east');
@@ -65,6 +66,9 @@ export default function HomePage() {
         onSelectCluster={setSelectedClusterId}
         onClose={() => setActiveCheckoutPass(null)}
       />
+
+      {/* 24/7 Telegram Support Pill */}
+      <FloatingSupportPill />
     </div>
   );
 }
