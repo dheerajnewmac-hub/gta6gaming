@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import Link from 'next/link';
+import { Menu, X, User, LogOut } from 'lucide-react';
+import { useAuth } from '@/context/auth-context';
 import { BrandLogo } from './BrandLogo';
 
 interface NavbarProps {
@@ -19,6 +21,7 @@ const NAV_LINKS = [
 
 export function Navbar({ selectedPassLabel, onPrimaryAction }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user, logout } = useAuth();
 
   return (
     <header className="sticky top-0 z-40 border-b border-[#FF2EA6]/22 bg-[#0B0416]/94">
@@ -54,8 +57,33 @@ export function Navbar({ selectedPassLabel, onPrimaryAction }: NavbarProps) {
           ))}
         </nav>
 
-        {/* Zone 3: Single Hot-Pink Neon Primary Action + Mobile Trigger */}
+        {/* Zone 3: Hot-Pink Neon Primary Action + Auth Status + Mobile Trigger */}
         <div className="flex items-center gap-3 shrink-0">
+          {user ? (
+            <div className="hidden sm:flex items-center gap-2">
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[#1B0B33] border border-[#FF2EA6]/40 text-xs font-semibold text-white">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="max-w-[120px] truncate">{user.gamerTag}</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => logout()}
+                title="Sign Out"
+                className="flex items-center justify-center h-8 w-8 rounded-md bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
+              >
+                <LogOut className="h-3.5 w-3.5" />
+              </button>
+            </div>
+          ) : (
+            <Link
+              href="/login"
+              className="hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold text-[#E8DDF5] hover:text-white px-3 py-1.5 rounded-md border border-white/10 hover:border-white/30 transition-colors"
+            >
+              <User className="h-3.5 w-3.5" />
+              <span>Sign In</span>
+            </Link>
+          )}
+
           <button
             type="button"
             onClick={onPrimaryAction}
@@ -80,6 +108,35 @@ export function Navbar({ selectedPassLabel, onPrimaryAction }: NavbarProps) {
       {mobileMenuOpen && (
         <div className="border-t border-[#FF2EA6]/20 bg-[#0B0416] px-6 py-4 md:hidden">
           <nav aria-label="Mobile navigation" className="flex flex-col gap-1">
+            {user ? (
+              <div className="flex items-center justify-between p-3 rounded-md bg-[#1B0B33] border border-[#FF2EA6]/30 mb-2">
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="text-xs font-semibold text-white">{user.gamerTag}</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    logout();
+                    setMobileMenuOpen(false);
+                  }}
+                  className="text-xs text-red-400 hover:text-red-300 font-medium flex items-center gap-1"
+                >
+                  <LogOut className="h-3.5 w-3.5" />
+                  <span>Sign Out</span>
+                </button>
+              </div>
+            ) : (
+              <Link
+                href="/login"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center justify-center gap-2 rounded-md border border-white/20 p-2.5 text-sm font-semibold text-white hover:bg-white/10 transition-colors mb-2"
+              >
+                <User className="h-4 w-4" />
+                <span>Sign In / Create Account</span>
+              </Link>
+            )}
+
             {NAV_LINKS.map((link) => (
               <a
                 key={link.href}

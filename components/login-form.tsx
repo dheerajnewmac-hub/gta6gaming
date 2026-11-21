@@ -20,6 +20,16 @@ export function LoginForm() {
 
   useEffect(() => {
     try {
+      if (typeof window !== "undefined") {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("mode") === "signup") {
+          setIsSignUp(true);
+        }
+        const planParam = params.get("plan");
+        if (planParam) {
+          setPendingPlanName(decodeURIComponent(planParam));
+        }
+      }
       const stored = sessionStorage.getItem("vicecloud_pending_plan");
       if (stored) {
         const parsed = JSON.parse(stored);
@@ -95,10 +105,11 @@ export function LoginForm() {
   return (
     <div className="w-full">
       {pendingPlanName && (
-        <div className="mb-4 p-3 rounded-xl bg-cyan-950/60 border border-cyan-500/40 text-cyan-300 text-xs flex items-center gap-2 shadow-[0_0_15px_rgba(6,182,212,0.25)]">
-          <Sparkles className="w-4 h-4 text-cyan-400 shrink-0" />
+        <div className="mb-4 p-3 rounded-xl bg-gradient-to-r from-pink-950/70 to-purple-950/70 border border-[#FF2EA6]/40 text-pink-200 text-xs flex items-center gap-2.5 shadow-[0_0_20px_rgba(255,46,166,0.25)]">
+          <Sparkles className="w-4 h-4 text-[#FF2EA6] shrink-0" />
           <span>
-            Sign in to activate your selected <strong>{pendingPlanName}</strong>
+            {isSignUp ? "Create your Gamer Account" : "Sign in"} to activate your reserved pass:{" "}
+            <strong className="text-white underline decoration-[#FF2EA6]">{pendingPlanName}</strong>
           </span>
         </div>
       )}

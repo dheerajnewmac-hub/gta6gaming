@@ -40,16 +40,16 @@ export default function LoginPage() {
           {/* Brand Header */}
           <div className="text-center mb-6">
             <Link href="/" className="inline-flex items-center gap-2 mb-3 group">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center shadow-[0_0_15px_rgba(6,182,212,0.4)]">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#FF2EA6] to-purple-600 flex items-center justify-center shadow-[0_0_15px_rgba(255,46,166,0.4)]">
                 <Gamepad2 className="w-5 h-5 text-white" />
               </div>
               <span className="font-black text-lg tracking-wider text-white">
-                VICE<span className="text-cyan-400">CLOUD</span>
+                VICE<span className="text-[#FF2EA6]">CLOUD</span>
               </span>
             </Link>
-            <h1 className="text-2xl font-black text-white tracking-tight">Gamer Portal Sign In</h1>
+            <h1 className="text-2xl font-black text-white tracking-tight">Gamer Portal</h1>
             <p className="text-xs text-gray-400 mt-1">
-              Connect to your allocated PlayStation 5 rig &amp; encrypted cloud saves
+              Create an account or sign in to activate your allocated PS5 cloud gaming rig
             </p>
           </div>
 

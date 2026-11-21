@@ -1,16 +1,24 @@
 # Project Progress
 
 ## Status
-- **Current Phase**: COMPLETED & VERIFIED: Google AI Studio Production Website Integration & Live Deployment
+- **Current Phase**: COMPLETED & VERIFIED: Mandatory Gamer Authentication Gate (Sign Up / Sign In) Before Checkout
 - **Server Running**: `http://localhost:3000` (Production Next.js Server Active & Verified with Zero Errors)
 - **Live Domains**: `https://www.gta6gaming.store` & `https://gta6gaming-ashen.vercel.app`
-- **Admin Portal**: `https://www.gta6gaming.store/admin` (Protected by middleware)
+- **Admin Portal**: `https://www.gta6gaming.store/admin` (Protected by middleware & session cookie)
 - **Active Admin Credentials**:
   - **Email**: `myw8210@gmail.com`
   - **Password**: `ddkk@9090`
 
 ## What Was Built & Verified
-1. **Google AI Studio UI Integration**:
+1. **Mandatory Gamer Authentication Gate (Sign Up Before Buy)**:
+   - **Click-to-Buy Interception**: Any visitor clicking "Select Pass" or "Deploy Custom Pass" while unauthenticated is automatically routed to `/login?mode=signup&plan=<PlanName>`.
+   - **Session Storage Continuity**: The user's chosen pass is cached in `sessionStorage` (`vicecloud_pending_plan`).
+   - **Gamer Portal Priority Tab**: Displays "Create Account" tab by default with a high-visibility callout: *"Create your Gamer Account to activate your reserved pass: [Plan Name]"*.
+   - **Seamless Post-Auth Checkout**: Upon sign up / sign in, the user is redirected to `/?checkout=true`, the pass is restored, and the Checkout Drawer opens immediately.
+   - **Auto-Populated Credentials**: The user's authenticated email and GamerTag are pre-filled with an active verification badge.
+   - **Dynamic Navbar**: Displays the authenticated gamer badge (`● Gamer_xxx`) and Sign Out button when logged in, or Sign In / Create Account when logged out.
+
+2. **Google AI Studio UI Integration**:
    - Integrated full-suite ViceCloud cloud gaming frontend from extracted Google AI Studio package.
    - **Top Live Fleet Telemetry Bar**: Live PS5 player count (591 / 1,000 active, 409 blades open).
    - **Floating Navbar**: Brand logo, Navigation anchors, and View Plans CTA.

@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useEffect, type FormEvent } from 'react';
-import { X, Check, Copy, Lock, CreditCard, ShieldCheck, QrCode, AlertCircle } from 'lucide-react';
+import { X, Check, Copy, Lock, CreditCard, ShieldCheck, QrCode, AlertCircle, UserCheck } from 'lucide-react';
 import { CLOUD_CLUSTERS } from '@/lib/studio/storeData';
+import { useAuth } from '@/context/auth-context';
 import type { SelectedCheckoutPass } from './PricingSection';
 import {
   generateBladeAssignment,
@@ -36,6 +37,7 @@ export function CheckoutDrawer({
   onSelectCluster,
   onClose,
 }: CheckoutDrawerProps) {
+  const { user } = useAuth();
   const [email, setEmail] = useState('');
   const [gamerTag, setGamerTag] = useState('');
   const [txHash, setTxHash] = useState('');
@@ -48,6 +50,13 @@ export function CheckoutDrawer({
 
   const BINANCE_PAY_ID = '1231019201';
   const USDT_TRC20_ADDRESS = 'TFH1z3sC2MHPGZpw3KvTt9QegbJJCyD8ii';
+
+  useEffect(() => {
+    if (user) {
+      if (user.email) setEmail(user.email);
+      if (user.gamerTag) setGamerTag(user.gamerTag);
+    }
+  }, [user, pass?.id]);
 
   useEffect(() => {
     setErrors({});
@@ -313,6 +322,14 @@ export function CheckoutDrawer({
 
               {/* Gamer Account Inputs */}
               <div className="space-y-4">
+                {user && (
+                  <div className="flex items-center gap-2 p-2.5 rounded-lg bg-[#1B0B33] border border-emerald-500/40 text-emerald-300 text-xs">
+                    <UserCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+                    <span>
+                      Authenticated as <strong>{user.gamerTag}</strong> ({user.email})
+                    </span>
+                  </div>
+                )}
                 <div>
                   <label
                     htmlFor="checkout-email"

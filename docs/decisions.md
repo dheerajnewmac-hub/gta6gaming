@@ -96,8 +96,16 @@
      - Displays the gamer's allocated PS5 Blade Node (`PS5-RIG-0xxx`), Session Passcode (`VICE-8842-PS5X`), and 1-click Fullscreen GTA VI stream launcher.
 
 
-## Decision 15: Installation of HyperFrames, Whisper, yt-dlp, and FFmpeg Skills & Video Pipeline Pause
+## Decision 16: Creation of Reference-Style Motion Graphic Ad Video for gta6gaming.store
 - **Date**: 2026-11-21
+- **Context**: User provided reference video examples (`reference videos/`) featuring an editorial motion design style (soft light studio background, comparison cards, calendar card, progress bars, and kinetic active-word neon lime highlight captions).
+- **Decisions**:
+  1. Abandoned all previous generic animation loops in favor of custom high-res editorial motion cards matching the reference aesthetic.
+  2. Maintained zero-price and zero-website-on-screen rules to maximize curiosity and push pure traffic to the bio link.
+  3. Generated English insider narration (`en-US-BrianNeural`) at 34.1s duration.
+  4. Extracted Whisper word-level timestamps to drive real-time neon lime capsule highlights on every spoken word.
+  5. Delivered output directly to User Desktop and web preview player.
+
 - **Context**: User paused current video production to ensure the authentic style and `example.mp4` footage are used, and requested installation of four key video/media generation skills:
   1. `https://github.com/heygen-com/hyperframes.git` (HeyGen HyperFrames HTML-to-video production monorepo & CLI v0.9.72)
   2. `https://github.com/openai/whisper.git` (OpenAI Whisper & faster-whisper speech transcription & word timestamps)
@@ -270,9 +278,30 @@
 - **Implementations**:
   1. **Marketing Angle**: Eliminated all price cards and coffee comparisons. Focused on pattern-interrupt hook (stopping console/PC expense), secret browser streaming mechanism, zero downloads, instant 60 FPS, multi-device compatibility (old laptop, Mac, phone, any controller), server scarcity, and hard traffic CTA.
   2. **Audio Engineering**: Synthesized clean high-energy narration (`en-US-ChristopherNeural` at +20% cadence, 33.69s) with dynamic Phonk backing track and auto-ducking.
-  3. **Visual Compositing**: 5-part vertical 1080x1920 layout featuring \$500 console & \$2,000 PC cancellation, 60FPS stream with telemetry HUD, live website scroll, hardware/controller compatibility card, and 3D relief server map with ≥1.2s stationary domain hold (`gta6gaming.store`).
+  3. **Visual Compositing**: 5-part vertical 1080x1920 layout featuring $500 console & $2,000 PC cancellation, 60FPS stream with telemetry HUD, live website scroll, hardware/controller compatibility card, and 3D relief server map with ≥1.2s stationary domain hold (`gta6gaming.store`).
   4. **Subtitles**: Synced word-by-word kinetic captions (`faster-whisper`) with Neon Yellow & Green keyword pop.
   5. **Export & Delivery**: Rendered to `video_production/gta6gaming_store_traffic_ad.mp4`, copied to Desktop (`C:\Users\User\Desktop\gta6gaming_traffic_ad.mp4`), and launched local browser player (`video_production/preview.html`).
+
+## Decision 29: Mandatory Gamer Authentication Gate (Sign Up / Sign In) Before Checkout
+- **Date**: 2026-11-21
+- **Context**: Operator required that when users click on any plan or custom rig deployment, they must not jump directly to the payment drawer. Instead, account creation (Sign Up) must be strictly mandatory first. Once authenticated, the selected plan is automatically restored in the checkout drawer with their credentials pre-filled.
+- **Implementations**:
+  1. **Auth Gate Interception (`app/page.tsx`)**:
+     - `handleSelectPass` checks `user` state via `useAuth()`.
+     - If unauthenticated, caches the plan object into `sessionStorage` (`vicecloud_pending_plan`) and immediately redirects to `/login?mode=signup&plan=<PlanName>`.
+  2. **Gamer Portal Priority Tab (`components/login-form.tsx`)**:
+     - Reads URL search params (`mode=signup`); defaults active tab to "Create Account".
+     - Displays pending plan banner: *"Create your Gamer Account to activate your reserved pass: [Plan Name]"*.
+     - Redirects back to `/?checkout=true` upon successful registration or login.
+  3. **Checkout Drawer Continuity (`components/studio/CheckoutDrawer.tsx`)**:
+     - Detects `?checkout=true`, restores the cached plan from `sessionStorage`, and launches the Checkout Drawer.
+     - Auto-populates `email` and `gamerTag` from the authenticated user context.
+     - Displays verified gamer status badge: `Authenticated as Gamer_xxx (email@domain.com)`.
+  4. **Dynamic Navbar Auth State (`components/studio/Navbar.tsx`)**:
+     - Shows "Sign In / Create Account" link when logged out.
+     - Shows pulsing green gamer tag badge and Sign Out button when authenticated.
+  5. **Verification**:
+     - Verified end-to-end via Chrome DevTools MCP on `http://localhost:3000`: unauthenticated clicks route to `/login`, registration returns to home, and drawer opens with pre-filled details.
 
 
 ## Decision 15: Google AI Studio Full-Stack Production Integration & Payment Gateway Setup
