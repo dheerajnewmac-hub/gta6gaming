@@ -7,11 +7,11 @@ const paymentSchema = z.object({
   gamerTag: z.string().min(1, "GamerTag is required"),
   planName: z.string().min(1, "Plan name is required"),
   amount: z.string().min(1, "Amount is required"),
-  hours: z.string().min(1, "Hours is required"),
-  walletAddress: z.string().min(2, "Invalid target address or ID"),
-  paymentMethod: z.string().optional(),
-  txid: z.string().optional(),
-  screenshotUrl: z.string().min(10, "Payment proof screenshot is required"),
+  hours: z.string().optional().default("Standard"),
+  walletAddress: z.string().optional().default("1231019201"),
+  paymentMethod: z.string().optional().default("Binance Pay"),
+  txid: z.string().optional().default(""),
+  screenshotUrl: z.string().optional().nullable().default(""),
 });
 
 export async function POST(req: NextRequest) {
@@ -26,7 +26,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const newPayment = await createPayment(validated.data);
+    const newPayment = await createPayment({
+      ...validated.data,
+      screenshotUrl: validated.data.screenshotUrl || "",
+    });
 
     return NextResponse.json({
       success: true,

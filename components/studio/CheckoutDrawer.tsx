@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, type FormEvent } from 'react';
-import { X, Check, Copy, Lock, CreditCard, ShieldCheck, QrCode, AlertCircle, UserCheck } from 'lucide-react';
+import { X, Check, Copy, Lock, CreditCard, ShieldCheck, QrCode, AlertCircle, UserCheck, Upload, Trash2, Loader2 } from 'lucide-react';
 import { CLOUD_CLUSTERS } from '@/lib/studio/storeData';
 import { useAuth } from '@/context/auth-context';
 import type { SelectedCheckoutPass } from './PricingSection';
@@ -9,6 +9,9 @@ import {
   generateBladeAssignment,
   validateCheckoutForm,
 } from '@/lib/studio/pricing';
+import { PaymentPendingView } from './PaymentPendingView';
+import { PaymentApprovedView } from './PaymentApprovedView';
+import { PaymentRejectedView } from './PaymentRejectedView';
 
 interface CheckoutDrawerProps {
   pass: SelectedCheckoutPass | null;
@@ -18,18 +21,6 @@ interface CheckoutDrawerProps {
 }
 
 export type PaymentMethod = 'binance-pay' | 'trc20' | 'card' | 'apple-pay';
-
-interface ConfirmedReceipt {
-  orderId: string;
-  bladeId: string;
-  sessionUrl: string;
-  clusterName: string;
-  email: string;
-  gamerTag: string;
-  paidAmount: number;
-  paymentMethod: PaymentMethod;
-  txHash?: string;
-}
 
 export function CheckoutDrawer({
   pass,
@@ -42,9 +33,15 @@ export function CheckoutDrawer({
   const [gamerTag, setGamerTag] = useState('');
   const [txHash, setTxHash] = useState('');
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('binance-pay');
+  const [attachScreenshot, setAttachScreenshot] = useState(false);
+  const [screenshotBase64, setScreenshotBase64] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionError, setSubmissionError] = useState<string | null>(null);
+  const [pendingPaymentId, setPendingPaymentId] = useState<string | null>(null);
+  const [paymentStatus, setPaymentStatus] = useState<'idle' | 'pending' | 'approved' | 'rejected'>('idle');
+  const [approvalData, setApprovalData] = useState<{ allocatedNode: string; sessionPasscode: string } | null>(null);
+  const [rejectionReason, setRejectionReason] = useState<string | null>(null);
   const [errors, setErrors] = useState<{ email?: string; gamerTag?: string; txHash?: string }>({});
-  const [receipt, setReceipt] = useState<ConfirmedReceipt | null>(null);
-  const [copiedUrl, setCopiedUrl] = useState(false);
   const [copiedPayId, setCopiedPayId] = useState(false);
   const [copiedAddress, setCopiedAddress] = useState(false);
 
@@ -59,9 +56,51 @@ export function CheckoutDrawer({
   }, [user, pass?.id]);
 
   useEffect(() => {
+    try {
+      const saved = sessionStorage.getItem('vicecloud_active_pending_payment');
+      if (saved) {
+        setPendingPaymentId(saved);
+        setPaymentStatus('pending');
+      }
+    } catch {
+      // Ignore
+    }
+  }, []);
+
+  // Live status polling every 3 seconds while pending
+  useEffect(() => {
+    if (!pendingPaymentId || paymentStatus !== 'pending') return;
+
+    const pollStatus = async () => {
+      try {
+        const res = await fetch(`/api/payments/status?id=${encodeURIComponent(pendingPaymentId)}`);
+        const data = await res.json();
+        if (data.success && data.payment) {
+          if (data.payment.status === 'approved') {
+            setPaymentStatus('approved');
+            setApprovalData({
+              allocatedNode: data.payment.allocatedNode || 'PS5-RIG-0842',
+              sessionPasscode: data.payment.sessionPasscode || 'VICE-9921-PS5X',
+            });
+            try { sessionStorage.removeItem('vicecloud_active_pending_payment'); } catch {}
+          } else if (data.payment.status === 'rejected') {
+            setPaymentStatus('rejected');
+            setRejectionReason(data.payment.rejectionReason || 'Transaction proof could not be verified.');
+            try { sessionStorage.removeItem('vicecloud_active_pending_payment'); } catch {}
+          }
+        }
+      } catch {
+        // Ignore network hiccups during background poll
+      }
+    };
+
+    const interval = setInterval(pollStatus, 3000);
+    return () => clearInterval(interval);
+  }, [pendingPaymentId, paymentStatus]);
+
+  useEffect(() => {
     setErrors({});
-    setReceipt(null);
-    setCopiedUrl(false);
+    setSubmissionError(null);
     setTxHash('');
   }, [pass?.id]);
 
@@ -83,7 +122,23 @@ export function CheckoutDrawer({
 
   const finalTotal = pass.price;
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleScreenshotChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      alert("Screenshot must be under 5MB");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setScreenshotBase64(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     if (paymentMethod === 'card' || paymentMethod === 'apple-pay') {
@@ -97,26 +152,45 @@ export function CheckoutDrawer({
     }
 
     setErrors({});
-    const assignment = generateBladeAssignment(activeCluster.code, gamerTag.trim());
-    setReceipt({
-      ...assignment,
-      clusterName: activeCluster.name,
-      email: email.trim(),
-      gamerTag: gamerTag.trim(),
-      paidAmount: finalTotal,
-      paymentMethod,
-      txHash: txHash.trim() || undefined,
-    });
-  };
+    setIsSubmitting(true);
+    setSubmissionError(null);
 
-  const handleCopySession = async () => {
-    if (!receipt) return;
     try {
-      await navigator.clipboard.writeText(receipt.sessionUrl);
-      setCopiedUrl(true);
-      window.setTimeout(() => setCopiedUrl(false), 2000);
+      const res = await fetch('/api/payments/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userEmail: email.trim(),
+          gamerTag: gamerTag.trim(),
+          planName: pass.name,
+          amount: `$${finalTotal.toFixed(2)}`,
+          hours: pass.summary,
+          walletAddress: paymentMethod === 'binance-pay' ? BINANCE_PAY_ID : USDT_TRC20_ADDRESS,
+          paymentMethod: paymentMethod === 'binance-pay' ? 'Binance Pay' : 'USDT TRC-20',
+          txid: txHash.trim(),
+          screenshotUrl: screenshotBase64 || '',
+        }),
+      });
+
+      const data = await res.json();
+      if (!data.success) {
+        setSubmissionError(data.error || 'Failed to submit payment proof');
+        setIsSubmitting(false);
+        return;
+      }
+
+      const payId = data.payment.id;
+      setPendingPaymentId(payId);
+      setPaymentStatus('pending');
+      try {
+        sessionStorage.setItem('vicecloud_active_pending_payment', payId);
+      } catch {
+        // ignore
+      }
     } catch {
-      setCopiedUrl(true);
+      setSubmissionError('Network error submitting payment proof. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -158,13 +232,25 @@ export function CheckoutDrawer({
         <div className="flex items-center justify-between gap-4 border-b border-[#FF2EA6]/20 px-6 py-5">
           <div>
             <p className="text-xs font-bold text-[#FF45B5]">
-              {receipt ? 'Blade Reserved' : 'Instant Blade Allocation'}
+              {paymentStatus === 'pending'
+                ? 'Order Submitted'
+                : paymentStatus === 'approved'
+                ? 'Hardware Ready'
+                : paymentStatus === 'rejected'
+                ? 'Verification Alert'
+                : 'Instant Blade Allocation'}
             </p>
             <h2
               id="checkout-drawer-title"
               className="mt-0.5 font-display text-2xl font-extrabold text-white"
             >
-              {receipt ? `Order ${receipt.orderId} Confirmed` : pass.name}
+              {paymentStatus === 'pending'
+                ? 'Verification in Progress'
+                : paymentStatus === 'approved'
+                ? 'Blade Activated'
+                : paymentStatus === 'rejected'
+                ? 'Payment Declined'
+                : pass.name}
             </h2>
           </div>
 
@@ -180,95 +266,33 @@ export function CheckoutDrawer({
 
         {/* Body */}
         <div className="flex-1 overflow-y-auto px-6 py-6">
-          {receipt ? (
-            <div data-testid="order-confirmation" className="space-y-6">
-              <div className="rounded-xl border border-[#2CE6D2]/45 bg-[#17092B] p-5">
-                <div className="flex items-center gap-2.5 text-[#2CE6D2]">
-                  <ShieldCheck className="h-5 w-5" aria-hidden="true" />
-                  <span className="font-semibold">
-                    Dedicated PS5 Blade Provisioned &amp; Ready
-                  </span>
-                </div>
-                <p className="mt-2 text-sm text-[#D8C6EC]">
-                  Session credentials sent to{' '}
-                  <strong className="text-white">{receipt.email}</strong>. Your isolated
-                  sandbox profile{' '}
-                  <strong className="font-mono text-white">{receipt.gamerTag}</strong> is
-                  pre-loaded with GTA VI.
-                </p>
-              </div>
-
-              <dl className="divide-y divide-[#FF2EA6]/15 rounded-xl border border-[#FF2EA6]/25 bg-[#0B0416] px-5 text-sm">
-                <div className="flex items-center justify-between py-3.5">
-                  <dt className="text-[#CBB8DF]">Order Reference</dt>
-                  <dd className="font-mono font-semibold text-white tabular-nums">
-                    {receipt.orderId}
-                  </dd>
-                </div>
-                <div className="flex items-center justify-between py-3.5">
-                  <dt className="text-[#CBB8DF]">Assigned Console Blade</dt>
-                  <dd className="font-mono font-semibold text-[#FF45B5] tabular-nums">
-                    {receipt.bladeId}
-                  </dd>
-                </div>
-                <div className="flex items-center justify-between py-3.5">
-                  <dt className="text-[#CBB8DF]">Cluster Region</dt>
-                  <dd className="font-medium text-white">{receipt.clusterName}</dd>
-                </div>
-                <div className="flex items-center justify-between py-3.5">
-                  <dt className="text-[#CBB8DF]">Pass Tier</dt>
-                  <dd className="font-medium text-white">{pass.name}</dd>
-                </div>
-                <div className="flex items-center justify-between py-3.5">
-                  <dt className="text-[#CBB8DF]">Payment Method</dt>
-                  <dd className="font-mono font-semibold text-[#2CE6D2] uppercase">
-                    {receipt.paymentMethod === 'binance-pay' ? 'Binance Pay' : 'USDT TRC-20'}
-                  </dd>
-                </div>
-                <div className="flex items-center justify-between py-3.5">
-                  <dt className="text-[#CBB8DF]">Amount Paid</dt>
-                  <dd className="font-mono font-bold text-[#FF5CC4] tabular-nums">
-                    ${receipt.paidAmount.toFixed(2)} USD
-                  </dd>
-                </div>
-              </dl>
-
-              <div className="rounded-xl border border-[#FF2EA6]/25 bg-[#0B0416] p-4">
-                <p className="text-xs font-medium text-[#CBB8DF]">
-                  Private WebRTC Stream Launch URL
-                </p>
-                <div className="mt-2 flex items-center justify-between gap-2">
-                  <code className="truncate font-mono text-xs text-[#2CE6D2]">
-                    {receipt.sessionUrl}
-                  </code>
-                  <button
-                    type="button"
-                    onClick={handleCopySession}
-                    className="vice-outline-btn inline-flex min-h-[34px] shrink-0 items-center gap-1.5 rounded-md border border-[#FF2EA6]/35 px-3 py-1 text-xs font-semibold text-white hover:border-[#FF2EA6]"
-                  >
-                    {copiedUrl ? (
-                      <>
-                        <Check className="h-3.5 w-3.5 text-[#2CE6D2]" aria-hidden="true" />
-                        <span>Copied</span>
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="h-3.5 w-3.5" aria-hidden="true" />
-                        <span>Copy URL</span>
-                      </>
-                    )}
-                  </button>
-                </div>
-              </div>
-
-              <button
-                type="button"
-                onClick={onClose}
-                className="vice-neon-btn flex min-h-[48px] w-full items-center justify-center rounded-lg px-6 py-3 text-sm font-bold"
-              >
-                Return to ViceCloud Storefront
-              </button>
-            </div>
+          {paymentStatus === 'pending' && pendingPaymentId ? (
+            <PaymentPendingView
+              orderId={pendingPaymentId}
+              planName={pass.name}
+              amount={`$${finalTotal.toFixed(2)}`}
+              paymentMethod={paymentMethod === 'binance-pay' ? 'Binance Pay' : 'USDT TRC-20'}
+              txHash={txHash}
+              onClose={onClose}
+            />
+          ) : paymentStatus === 'approved' && approvalData ? (
+            <PaymentApprovedView
+              orderId={pendingPaymentId || 'VC-PAY-CONFIRMED'}
+              allocatedNode={approvalData.allocatedNode}
+              sessionPasscode={approvalData.sessionPasscode}
+              planName={pass.name}
+              onClose={onClose}
+            />
+          ) : paymentStatus === 'rejected' ? (
+            <PaymentRejectedView
+              orderId={pendingPaymentId || 'VC-PAY-REF'}
+              rejectionReason={rejectionReason || undefined}
+              onRetry={() => {
+                setPaymentStatus('idle');
+                setPendingPaymentId(null);
+              }}
+              onClose={onClose}
+            />
           ) : (
             <form onSubmit={handleSubmit} noValidate className="space-y-5">
               {/* Pass Summary Box */}
@@ -569,6 +593,97 @@ export function CheckoutDrawer({
                 </div>
               )}
 
+              {/* Payment Proof Fields (TxID & Optional Screenshot) */}
+              {(paymentMethod === 'binance-pay' || paymentMethod === 'trc20') && (
+                <div className="space-y-3 rounded-xl border border-white/10 bg-[#0B0416] p-4">
+                  <div>
+                    <label
+                      htmlFor="checkout-txhash"
+                      className="block text-xs font-semibold text-white"
+                    >
+                      {paymentMethod === 'binance-pay'
+                        ? 'Binance Order ID / TxID (Optional)'
+                        : 'Blockchain TxHash / Transaction ID (Optional)'}
+                    </label>
+                    <input
+                      id="checkout-txhash"
+                      type="text"
+                      value={txHash}
+                      onChange={(e) => setTxHash(e.target.value)}
+                      placeholder={paymentMethod === 'binance-pay' ? 'e.g. 293847109283' : 'e.g. 7f8a9b...'}
+                      className="mt-1.5 min-h-[40px] w-full rounded-lg border border-[#FF2EA6]/30 bg-[#150926] px-3.5 text-xs text-white placeholder:text-[#9D87B8] focus:border-[#FF2EA6] outline-none"
+                    />
+                  </div>
+
+                  {/* Screenshot Toggle & Upload */}
+                  <div className="pt-2 border-t border-white/10">
+                    <div className="flex items-center justify-between">
+                      <label htmlFor="attach-ss-checkbox" className="flex items-center gap-2 cursor-pointer select-none text-xs font-semibold text-[#E8DDF5]">
+                        <input
+                          id="attach-ss-checkbox"
+                          type="checkbox"
+                          checked={attachScreenshot}
+                          onChange={(e) => {
+                            setAttachScreenshot(e.target.checked);
+                            if (!e.target.checked) setScreenshotBase64(null);
+                          }}
+                          className="h-4 w-4 rounded border-[#FF2EA6]/40 bg-[#0B0416] text-[#FF2EA6] focus:ring-[#FF2EA6]"
+                        />
+                        <span>Attach Payment Screenshot (Optional proof)</span>
+                      </label>
+                    </div>
+
+                    {attachScreenshot && (
+                      <div className="mt-3">
+                        {screenshotBase64 ? (
+                          <div className="relative rounded-lg border border-[#2CE6D2]/40 bg-black/40 p-2 flex items-center justify-between gap-3">
+                            <div className="flex items-center gap-2.5 overflow-hidden">
+                              <img
+                                src={screenshotBase64}
+                                alt="Payment Proof Preview"
+                                className="h-12 w-12 object-cover rounded border border-white/20 shrink-0"
+                              />
+                              <div className="overflow-hidden">
+                                <p className="text-xs font-bold text-[#2CE6D2] truncate">Screenshot Attached</p>
+                                <p className="text-[10px] text-gray-400">Ready to upload to admin panel</p>
+                              </div>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => setScreenshotBase64(null)}
+                              className="text-xs text-red-400 hover:text-red-300 p-1.5 hover:bg-white/10 rounded transition-colors"
+                              title="Remove Screenshot"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        ) : (
+                          <label className="flex flex-col items-center justify-center p-3.5 rounded-lg border border-dashed border-[#FF2EA6]/40 bg-[#150926]/50 hover:bg-[#150926] cursor-pointer transition-colors text-center">
+                            <Upload className="w-5 h-5 text-[#FF2EA6] mb-1" />
+                            <span className="text-xs font-semibold text-white">Click to Select Payment Screenshot</span>
+                            <span className="text-[10px] text-gray-400 mt-0.5">PNG, JPG, or JPEG up to 5MB</span>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={handleScreenshotChange}
+                              className="hidden"
+                            />
+                          </label>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Error banner if submission failed */}
+              {submissionError && (
+                <div className="p-3 rounded-lg bg-red-950/40 border border-red-500/40 text-red-300 text-xs flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
+                  <span>{submissionError}</span>
+                </div>
+              )}
+
               {/* Totals */}
               <div className="space-y-2 border-t border-[#FF2EA6]/20 pt-4 text-sm">
                 <div className="flex items-center justify-between text-[#CBB8DF]">
@@ -599,12 +714,22 @@ export function CheckoutDrawer({
               ) : (
                 <button
                   type="submit"
-                  className="vice-neon-btn flex min-h-[48px] w-full items-center justify-center gap-2 rounded-lg px-6 py-3 text-sm font-bold"
+                  disabled={isSubmitting}
+                  className="vice-neon-btn flex min-h-[48px] w-full items-center justify-center gap-2 rounded-lg px-6 py-3 text-sm font-bold disabled:opacity-60"
                 >
-                  <CreditCard className="h-4 w-4" aria-hidden="true" />
-                  <span>
-                    I Have Paid ${finalTotal.toFixed(2)} · Provision PS5 Blade
-                  </span>
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin text-white" />
+                      <span>Submitting to Blockchain Verification...</span>
+                    </>
+                  ) : (
+                    <>
+                      <CreditCard className="h-4 w-4" aria-hidden="true" />
+                      <span>
+                        I Have Paid ${finalTotal.toFixed(2)} · Submit for Verification
+                      </span>
+                    </>
+                  )}
                 </button>
               )}
 

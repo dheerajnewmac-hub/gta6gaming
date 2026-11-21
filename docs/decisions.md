@@ -311,3 +311,24 @@
   1. Ported all React components (`components/studio/`) and assets (`public/assets/images/`) into Next.js App Router (`app/page.tsx`).
   2. Updated `components/studio/CheckoutDrawer.tsx` to remove promo codes, mark Card/Apple Pay as "Coming Soon", and activate Binance Pay (UID: `1231019201` + `/binance_qr.png`) and USDT TRC-20 (`TFH1z3sC2MHPGZpw3KvTt9QegbJJCyD8ii`).
   3. Recompiled with 0 errors and verified on localhost with Chrome DevTools MCP.
+
+
+## Decision 30: Real-Time Payment Proof & Admin Verification Waiting Window
+- **Date**: 2026-11-21
+- **Context**: Operator requested that upon completing payment, users can optionally attach a payment screenshot (toggleable checkbox). Instead of instant fake activation, the user enters a live Waiting Window ("Awaiting Admin Confirmation"). The user's screen polls in real-time until the operator reviews the payment in the Admin Panel and clicks Approve or Reject.
+- **Implementations**:
+  1. **Optional Screenshot Proof**: Added toggleable checkbox `[x] Attach Payment Screenshot (Optional proof)` and file input with client-side Base64 preview in `CheckoutDrawer.tsx`.
+  2. **Waiting Screen (`PaymentPendingView.tsx`)**: Displays Order ID, animated radar loader, pending badge, payment summary, advisory notice (1–5 min), and Telegram operator direct link.
+  3. **Live Status Polling**: Queries `/api/payments/status?id=...` every 3 seconds while pending; persists active order ID in `sessionStorage` so refreshing preserves the waiting state.
+  4. **Approval Flow (`PaymentApprovedView.tsx`)**: When admin approves in `/admin`, the screen immediately transitions to Confirmed state with allocated PS5 node, passcode, and launch button.
+  5. **Rejection Flow (`PaymentRejectedView.tsx`)**: When admin rejects with reason, displays the operator note, "Re-Submit Proof" button, and appeal CTA.
+  6. **Admin Panel Table Update (`PaymentsTable.tsx`)**: Safely handles optional screenshots, providing an inspect modal if attached or "None attached" indicator.
+
+  2. **Strictly No Website URL or UI Footage on screen**: To maximize TikTok/Reels organic reach without algorithm penalty; CTA drives traffic exclusively through `>> TAP LINK IN BIO <<`.
+  3. **Duration**: 34.1 seconds (optimal short-form window).
+  4. **Audio**: Brian insider voiceover, sub-bass bed, and 21 synchronized SFX cues (bass drop, whooshes, dings, impact thuds, laser charge).
+- **Implementations**:
+  1. Rendered dynamic visual frames with spring-eased card entrances, shaking 3-second hook alert, 0% to 100% progress bar animation, and device cards.
+  2. Muxed 21 precise SFX triggers onto the voice master with soft peak limiting.
+  3. Burned kinetic ASS subtitles featuring active-word neon lime pill highlights.
+  4. Exported final ad to `video_production/gta6gaming_final_retention_ad.mp4`, Desktop, and `public/`.

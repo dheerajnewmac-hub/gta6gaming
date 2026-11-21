@@ -8,7 +8,7 @@ export interface PaymentSubmission {
   walletAddress: string;
   paymentMethod?: string;
   txid?: string;
-  screenshotUrl: string;
+  screenshotUrl?: string | null;
   status: "pending" | "approved" | "rejected";
   allocatedNode: string;
   sessionPasscode: string;

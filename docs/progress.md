@@ -1,7 +1,7 @@
 # Project Progress
 
 ## Status
-- **Current Phase**: COMPLETED & VERIFIED: Mandatory Gamer Authentication Gate (Sign Up / Sign In) Before Checkout
+- **Current Phase**: COMPLETED & VERIFIED: Real-Time Payment Proof Verification (Optional Screenshot Upload, TxID, Live Waiting Window, Admin Approval/Rejection Polling)
 - **Server Running**: `http://localhost:3000` (Production Next.js Server Active & Verified with Zero Errors)
 - **Live Domains**: `https://www.gta6gaming.store` & `https://gta6gaming-ashen.vercel.app`
 - **Admin Portal**: `https://www.gta6gaming.store/admin` (Protected by middleware & session cookie)
@@ -10,7 +10,19 @@
   - **Password**: `ddkk@9090`
 
 ## What Was Built & Verified
-1. **Mandatory Gamer Authentication Gate (Sign Up Before Buy)**:
+1. **Real-Time Payment Proof & Live Waiting Window**:
+   - **Optional Proof Screenshot**: Added tick/untick checkbox `[x] Attach Payment Screenshot (Optional proof)` with drag-and-drop file upload, Base64 preview, and remove button.
+   - **Optional TxID Field**: Added Transaction Hash / Binance Order ID text input.
+   - **Live Waiting Window (`PaymentPendingView`)**:
+     - User sees animated pulsing radar and amber badge: `AWAITING ADMIN CONFIRMATION`.
+     - Displays Order ID (`VC-PAY-XXXXXX`), Plan Name, Total Due, Payment Method, and advisory notice: *"Verification usually takes 1–5 minutes. This window will automatically activate once confirmed."*
+     - Live Polling: Frontend queries `/api/payments/status?id=...` every 3 seconds.
+   - **Admin Approval / Rejection Handlers**:
+     - **Approved (`PaymentApprovedView`)**: Automatically triggers green badge `CONFIRMED · HARDWARE READY`, displays allocated blade node (`PS5-RIG-0xxx`), session passcode (`VICE-xxxx-PS5X`), and launch stream CTA.
+     - **Rejected (`PaymentRejectedView`)**: Displays operator rejection reason, button to re-submit proof, and 1-click Telegram support appeal.
+   - **Admin Table Verification (`PaymentsTable`)**: Handles optional screenshots gracefully (renders Inspect modal or "None attached"), with 1-click Approve and Reject actions.
+
+2. **Mandatory Gamer Authentication Gate (Sign Up Before Buy)**:
    - **Click-to-Buy Interception**: Any visitor clicking "Select Pass" or "Deploy Custom Pass" while unauthenticated is automatically routed to `/login?mode=signup&plan=<PlanName>`.
    - **Session Storage Continuity**: The user's chosen pass is cached in `sessionStorage` (`vicecloud_pending_plan`).
    - **Gamer Portal Priority Tab**: Displays "Create Account" tab by default with a high-visibility callout: *"Create your Gamer Account to activate your reserved pass: [Plan Name]"*.
@@ -52,3 +64,14 @@
    - Tested on `http://localhost:3000` via Chrome DevTools MCP.
    - Verified plan selection and checkout drawer interaction end-to-end.
    - Verified that both Binance Pay and USDT TRC-20 display their respective QR code, addresses, and copy buttons cleanly.
+
+
+## 4. Viral High-Retention Motion Ad Video (Completed)
+- **File Name**: `gta6gaming_final_retention_ad.mp4` (Desktop & `public/` & `video_production/`)
+- **Duration**: 34.10 seconds
+- **Format**: 1080x1920 (9:16 Vertical Instagram Reel / TikTok / YouTube Shorts)
+- **Audio & SFX**: Brian voiceover with 21 synchronized procedural sound effects (bass drops, whooshes, dings, impact thuds, laser charge).
+- **Visuals**: Modern editorial motion graphics (`#F7F8FC` aesthetic) with 0-3s high-alert hook, spring physics card animations, live progress bar charge (0% to 100%), and active-word lime highlight subtitles.
+- **Conversion Strategy**: Strictly follows zero-prices and zero-website-on-screen constraints, funneling 100% of organic traffic via `>> TAP LINK IN BIO <<`.
+
+- **Update (SFX Refinement)**: Replaced the harsh synthesized white-noise whoosh with studio-grade cinematic card swooshes (`sfx_card_slide.wav` and `sfx_transition_whip.wav` with 70% low-frequency warm body and -16dB subtle mixing). Words and cards now slide in with a silky, organic aerodynamic glide.
