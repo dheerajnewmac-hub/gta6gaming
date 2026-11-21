@@ -97,13 +97,13 @@ export function PaymentPendingView({
 
       {/* Telegram Operator Fast-Track */}
       <a
-        href={`https://t.me/vicecloudspport?text=${encodeURIComponent(`Hi Admin, I just submitted payment for ${planName} (${amount}). My Order ID is ${orderId}. Please approve my PS5 rig.`)}`}
+        href={`https://t.me/ViceCloudSupport?text=${encodeURIComponent(`Hi Admin, I just submitted payment for ${planName} (${amount}). My Order ID is ${orderId}. Please approve my PS5 rig.`)}`}
         target="_blank"
         rel="noopener noreferrer"
         className="flex items-center justify-center gap-2 w-full py-2.5 rounded-lg bg-[#229ED9]/15 border border-[#229ED9]/40 text-[#229ED9] text-xs font-bold hover:bg-[#229ED9]/25 transition-all"
       >
         <Send className="w-3.5 h-3.5" />
-        <span>Need Urgent Activation? Telegram Operator</span>
+        <span>Need Urgent Activation? Telegram @ViceCloudSupport</span>
       </a>
 
       <button

@@ -48,5 +48,15 @@
     "totalOrders": 2,
     "totalSpent": 19.98,
     "status": "active"
+  },
+  {
+    "id": "usr_571368",
+    "email": "local_test@vicecloud.io",
+    "gamerTag": "Gamer_local",
+    "createdAt": "2026-11-21T05:06:11.368Z",
+    "lastActive": "2026-11-21T05:06:11.368Z",
+    "totalOrders": 1,
+    "totalSpent": 4.99,
+    "status": "active"
   }
 ]

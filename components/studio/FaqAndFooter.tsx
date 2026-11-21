@@ -93,10 +93,10 @@ export function FaqAndFooter() {
           {/* Quick Support Icons (Matches Right Social/Help Icons in Reference Image 2 & 3) */}
           <div className="flex items-start gap-2.5 lg:col-span-2 lg:justify-end">
             <a
-              href="https://t.me/vicecloudspport"
+              href="https://t.me/ViceCloudSupport"
               target="_blank"
               rel="noreferrer"
-              aria-label="ViceCloud Telegram Support"
+              aria-label="ViceCloudSupport Telegram"
               className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-[#FF2EA6]/30 bg-[#140726] text-[#E8DDF5] transition-colors hover:border-[#FF2EA6] hover:text-[#FF45B5]"
             >
               <MessageCircle className="h-4 w-4" aria-hidden="true" />
@@ -136,12 +136,12 @@ export function FaqAndFooter() {
               FAQ &amp; Terms
             </a>
             <a
-              href="https://t.me/vicecloudspport"
+              href="https://t.me/ViceCloudSupport"
               target="_blank"
               rel="noreferrer"
               className="transition-colors hover:text-[#FF45B5]"
             >
-              Telegram Support (@vicecloudspport)
+              ViceCloudSupport (@ViceCloudSupport)
             </a>
           </div>
         </div>

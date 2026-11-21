@@ -324,6 +324,15 @@
   5. **Rejection Flow (`PaymentRejectedView.tsx`)**: When admin rejects with reason, displays the operator note, "Re-Submit Proof" button, and appeal CTA.
   6. **Admin Panel Table Update (`PaymentsTable.tsx`)**: Safely handles optional screenshots, providing an inspect modal if attached or "None attached" indicator.
 
+## Decision 31: Single Clean Support Pill ("ViceCloudSupport") & Logo Export
+- **Date**: 2026-11-21
+- **Context**: Operator requested to remove the cluttered 2nd hover popup over the support pill, streamline the floating Telegram widget to a single clean professional pill named "ViceCloudSupport", and export the official website logo into both project and desktop folders.
+- **Implementations**:
+  1. **Single Support Widget**: Removed redundant hover tooltip flyout from `components/floating-support-pill.tsx`. Rendered a single sleek Telegram button with cyan-blue gradient, green pulse beacon, and clean text: "ViceCloudSupport".
+  2. **Telegram Route Standardization**: Updated all telegram references across the app (floating pill, footer, payment drawers) to point to `https://t.me/ViceCloudSupport`.
+  3. **Logo Asset Export**: Exported high-res PNG and JPG logo files to `logos/` in the project root and `C:\Users\User\Desktop\ViceCloud_Logo\` on Desktop.
+
+
   2. **Strictly No Website URL or UI Footage on screen**: To maximize TikTok/Reels organic reach without algorithm penalty; CTA drives traffic exclusively through `>> TAP LINK IN BIO <<`.
   3. **Duration**: 34.1 seconds (optimal short-form window).
   4. **Audio**: Brian insider voiceover, sub-bass bed, and 21 synchronized SFX cues (bass drop, whooshes, dings, impact thuds, laser charge).
@@ -332,3 +341,13 @@
   2. Muxed 21 precise SFX triggers onto the voice master with soft peak limiting.
   3. Burned kinetic ASS subtitles featuring active-word neon lime pill highlights.
   4. Exported final ad to `video_production/gta6gaming_final_retention_ad.mp4`, Desktop, and `public/`.
+
+
+## Decision 17: GTA 6 Branding Injection & Soft Harmonic Download Sound Refinement
+- **Date**: 2026-11-21
+- **Context**: Operator approved plan to inject authentic GTA 6 visual identity (Lucia & Jason art, official GTA VI badges, Vice City neon aesthetics) so viewers immediately know the video is about GTA 6, and replace the harsh stuttering download sound effect on the 0% -> 100% bar with a soft, smooth effect.
+- **Implementations**:
+  1. Loaded official vertical artwork of Lucia & Jason (`hero_gta6_duo_vertical_1795194804194.jpg`), alpha cutouts (`hero_characters_alpha.png`), and DualSense controller photography.
+  2. Embedded GTA 6 art cards in Scene 1 (Smart Gamers), Scene 2 (Calendar cover), Scene 3 (Loophole header badge), Scene 4 (DualSense setup), and Scene 5 (CTA card).
+  3. Synthesized `soft_shimmer_charge.wav` (musical major triad warm sine sweep) and `soft_chime.wav` (crystal glass bell), replacing the harsh 40Hz square-wave laser buzz.
+  4. Re-rendered and re-muxed the ad with kinetic subtitles to Desktop and `public/`.

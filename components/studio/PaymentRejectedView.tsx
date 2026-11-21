@@ -55,13 +55,13 @@ export function PaymentRejectedView({
         </button>
 
         <a
-          href={`https://t.me/vicecloudspport?text=${encodeURIComponent(`Hi Admin, my payment for Order ${orderId} was rejected. Please review my transaction manually.`)}`}
+          href={`https://t.me/ViceCloudSupport?text=${encodeURIComponent(`Hi Admin, my payment for Order ${orderId} was rejected. Please review my transaction manually.`)}`}
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center justify-center gap-2 w-full py-2.5 rounded-lg bg-white/5 border border-white/10 text-xs font-bold text-[#229ED9] hover:bg-white/10 transition-all"
         >
           <Send className="w-3.5 h-3.5" />
-          <span>Appeal on 24/7 Telegram Support</span>
+          <span>Appeal on 24/7 ViceCloudSupport</span>
         </a>
       </div>
 

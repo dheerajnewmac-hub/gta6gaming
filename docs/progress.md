@@ -1,7 +1,7 @@
 # Project Progress
 
 ## Status
-- **Current Phase**: COMPLETED & VERIFIED: Real-Time Payment Proof Verification (Optional Screenshot Upload, TxID, Live Waiting Window, Admin Approval/Rejection Polling)
+- **Current Phase**: COMPLETED & VERIFIED: Single Clean Telegram Support Pill ("ViceCloudSupport") & Logo Exported to Project & Desktop Folders
 - **Server Running**: `http://localhost:3000` (Production Next.js Server Active & Verified with Zero Errors)
 - **Live Domains**: `https://www.gta6gaming.store` & `https://gta6gaming-ashen.vercel.app`
 - **Admin Portal**: `https://www.gta6gaming.store/admin` (Protected by middleware & session cookie)
@@ -10,7 +10,18 @@
   - **Password**: `ddkk@9090`
 
 ## What Was Built & Verified
-1. **Real-Time Payment Proof & Live Waiting Window**:
+1. **Single Clean Telegram Support System ("ViceCloudSupport")**:
+   - Completely eliminated the duplicate hover tooltip popup.
+   - Clean single floating pill rendered at bottom-right with Telegram icon, pulsing online indicator, and clean label: **"ViceCloudSupport"**.
+   - Points directly to official handle: `https://t.me/ViceCloudSupport`.
+   - Updated all footer, pending drawer, and rejection drawer labels from generic "Support" to `"ViceCloudSupport"`.
+
+2. **Official ViceCloud Logo Export**:
+   - Exported high-resolution official ViceCloud brand logo (in both PNG & JPG formats) to:
+     - Project folder: `logos/vicecloud_logo.png` & `logos/vicecloud_logo.jpg`
+     - Desktop folder: `C:\Users\User\Desktop\ViceCloud_Logo\vicecloud_logo.png` & `vicecloud_logo.jpg`
+
+3. **Real-Time Payment Proof & Live Waiting Window**:
    - **Optional Proof Screenshot**: Added tick/untick checkbox `[x] Attach Payment Screenshot (Optional proof)` with drag-and-drop file upload, Base64 preview, and remove button.
    - **Optional TxID Field**: Added Transaction Hash / Binance Order ID text input.
    - **Live Waiting Window (`PaymentPendingView`)**:
@@ -75,3 +86,10 @@
 - **Conversion Strategy**: Strictly follows zero-prices and zero-website-on-screen constraints, funneling 100% of organic traffic via `>> TAP LINK IN BIO <<`.
 
 - **Update (SFX Refinement)**: Replaced the harsh synthesized white-noise whoosh with studio-grade cinematic card swooshes (`sfx_card_slide.wav` and `sfx_transition_whip.wav` with 70% low-frequency warm body and -16dB subtle mixing). Words and cards now slide in with a silky, organic aerodynamic glide.
+
+- **Update (GTA 6 Authentic Visual Atmosphere & Soft Download Shimmer)**:
+  - Injected official GTA 6 artwork into the cards (Lucia & Jason Vice City artwork embedded directly into the Smart Gamers card, Calendar card, and CTA card).
+  - Added official "GRAND THEFT AUTO VI" badges and Vice City neon pink/cyan branding accents (`#FF2A85` / `#00F0FF`).
+  - Completely replaced the harsh 40Hz square-wave stuttering `laser_charge.wav` with a gentle, smooth harmonic ascending shimmer (`soft_shimmer_charge.wav`) and a soft crystal bell confirmation chime (`soft_chime.wav`) when reaching 100%.
+
+- **Dedicated Video Folder**: Created `gta6gaming video/` (both in the project root and on Desktop). All newly generated final ad videos are now stored directly in this folder (`gta6gaming video/gta6gaming_final_ad.mp4`).

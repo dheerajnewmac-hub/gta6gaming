@@ -1,5 +1,21 @@
 [
   {
+    "userEmail": "local_test@vicecloud.io",
+    "gamerTag": "Gamer_local",
+    "planName": "Quick Session Pass",
+    "amount": "$4.99",
+    "hours": "2 hours",
+    "walletAddress": "1231019201",
+    "paymentMethod": "Binance Pay",
+    "txid": "LOCAL_TX_123",
+    "screenshotUrl": "",
+    "id": "VC-PAY-571348",
+    "status": "pending",
+    "allocatedNode": "PS5-RIG-0652",
+    "sessionPasscode": "VICE-2229-PS5X",
+    "createdAt": "2026-11-21T05:06:11.348Z"
+  },
+  {
     "userEmail": "pro_tester@vicecloud.io",
     "gamerTag": "Gamer_pro_tester",
     "planName": "Weekend Immersion",
