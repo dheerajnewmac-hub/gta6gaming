@@ -93,3 +93,14 @@
   - Completely replaced the harsh 40Hz square-wave stuttering `laser_charge.wav` with a gentle, smooth harmonic ascending shimmer (`soft_shimmer_charge.wav`) and a soft crystal bell confirmation chime (`soft_chime.wav`) when reaching 100%.
 
 - **Dedicated Video Folder**: Created `gta6gaming video/` (both in the project root and on Desktop). All newly generated final ad videos are now stored directly in this folder (`gta6gaming video/gta6gaming_final_ad.mp4`).
+
+- **Update (True 60 FPS Studio Master & Balanced Audio)**:
+  - Upgraded video pipeline from 30 FPS to true **60 FPS** (`2,046 frames` rendered at 1080x1920).
+  - Reduced all 22 SFX cue gains by ~35% into the subtle broadcast pocket (-18dB to -22dB), allowing narrator voiceover to stand out clearly.
+  - Added continuous hover physics (`hover_offset`), live dynamic number counters ($0 -> $500+ and 120ms -> 12ms latency), and animated border glows.
+  - Output stored directly in `gta6gaming video/gta6gaming_final_ad.mp4` and Desktop mirror.
+
+- **Update (Compact Telegram Support Widget & Zero Overlap)**:
+  - Redesigned `FloatingSupportPill`: reduced dimensions to a sleek compact micro-pill (`px-3 py-1.5`, height ~34px, 11px font) pinned cleanly at `bottom-4 right-4` (`sm:bottom-5 sm:right-5`).
+  - Removed all secondary flyout cards/modals so only a clean, single, professional button is shown.
+  - Corrected Telegram handle link everywhere to `@ViceCloudSupport` (`https://t.me/ViceCloudSupport`).

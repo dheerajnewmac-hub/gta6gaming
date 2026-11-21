@@ -351,3 +351,21 @@
   2. Embedded GTA 6 art cards in Scene 1 (Smart Gamers), Scene 2 (Calendar cover), Scene 3 (Loophole header badge), Scene 4 (DualSense setup), and Scene 5 (CTA card).
   3. Synthesized `soft_shimmer_charge.wav` (musical major triad warm sine sweep) and `soft_chime.wav` (crystal glass bell), replacing the harsh 40Hz square-wave laser buzz.
   4. Re-rendered and re-muxed the ad with kinetic subtitles to Desktop and `public/`.
+
+
+## Decision 18: True 60 FPS Render Pipeline & Subtly Leveled Sound Design
+- **Date**: 2026-11-21
+- **Context**: Operator requested maximum professional studio quality, silky smooth high-framerate rendering (60 FPS), additional micro-animations (continuous hover, live number counters), and softer sound effect volumes so the voiceover shines cleanly.
+- **Implementations**:
+  1. Leveled all 22 SFX gains down by 35% in `video_production/mix_sfx_audio.py` for a polite, professional audio mix.
+  2. Upgraded `video_production/render_high_retention_video.py` to 60 FPS (`2046 frames` @ 1080x1920) with floating card physics, dynamic live counter ticks ($0 -> $500+, 120ms -> 12ms ping), and traveling edge glow animations.
+  3. Muxed final master ad at 60 FPS into `gta6gaming video/gta6gaming_final_ad.mp4`, Desktop, and `public/`.
+
+
+## Decision 19: Compact, Non-Overlapping Telegram Support System
+- **Date**: 2026-11-21
+- **Context**: Operator noted that previous popup designs had two overlapping items (a dialog flyout card overlapping a big support pill). Requested a single, compact, sleek support button placed cleanly on the side without cluttering or overlapping hero content.
+- **Implementations**:
+  1. Consolidated `FloatingSupportPill` into a single, compact, rounded micro-pill with a subtle online indicator dot and 11px typography.
+  2. Pinned cleanly to `bottom-4 right-4` (`sm:bottom-5 sm:right-5`) with no intrusive auto-popups or balloons.
+  3. Fixed Telegram link to `@ViceCloudSupport` (`https://t.me/ViceCloudSupport`) across the site.

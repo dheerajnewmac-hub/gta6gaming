@@ -227,7 +227,7 @@ export function ExactNeonPage() {
               </div>
               <div className="p-3 rounded-xl bg-white/5 border border-white/5">
                 <h4 className="font-bold text-purple-300 mb-1">Need help?</h4>
-                <p className="text-slate-300">Contact our 24/7 operator support on Telegram: <a href="https://t.me/vicecloudspport" target="_blank" rel="noreferrer" className="text-cyan-400 underline">@vicecloudspport</a>.</p>
+                <p className="text-slate-300">Contact our 24/7 operator support on Telegram: <a href="https://t.me/ViceCloudSupport" target="_blank" rel="noreferrer" className="text-cyan-400 underline">@ViceCloudSupport</a>.</p>
               </div>
             </div>
           </div>

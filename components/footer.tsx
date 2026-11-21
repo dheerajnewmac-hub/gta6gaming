@@ -36,7 +36,7 @@ export function Footer() {
               <li><a href="#ping-test" className="hover:text-cyan-400 transition-colors">Latency Diagnostic</a></li>
               <li><a href="#pricing" className="hover:text-cyan-400 transition-colors">Rental Passes & Pricing</a></li>
               <li><a href="#controls" className="hover:text-cyan-400 transition-colors">Keyboard & Controller Mapper</a></li>
-              <li><a href="https://t.me/vicecloudspport" target="_blank" rel="noopener noreferrer" className="text-sky-400 font-bold hover:text-sky-300 transition-colors">Telegram Support: @vicecloudspport</a></li>
+              <li><a href="https://t.me/ViceCloudSupport" target="_blank" rel="noopener noreferrer" className="text-sky-400 font-bold hover:text-sky-300 transition-colors">Telegram Support: @ViceCloudSupport</a></li>
             </ul>
           </div>
 
